@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sea and Sardinia — The Long Afternoon</title>
+
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --text-strong: #2b3320;
+    --text-body:   #3a4430;
+    --text-muted:  #8a9572;
+    --text-sub:    #a8b59c;
+    --surface:     #fbf9f3;
+    --rule:        #ebe7db;
+    --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  figure { margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--text-body);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    font-feature-settings: "kern", "liga", "onum";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+
+  /* --- Site navigation --- */
+  .site-nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251, 249, 243, 0.85);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .site-nav-wrap.scrolled { border-bottom-color: var(--rule); }
+  .site-nav-wrap.scrolled .site-nav { padding-top: 1rem; padding-bottom: 0.85rem; }
+  .site-nav-wrap.scrolled .site-logo { font-size: 1.2rem; }
+  .site-nav-wrap .site-nav, .site-nav-wrap .site-logo {
+    transition: padding 0.2s, font-size 0.2s;
+  }
+  .site-nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .site-logo {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    color: var(--text-strong);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .site-nav-links {
+    display: flex; gap: 2.25rem;
+    list-style: none; margin: 0; padding: 0;
+    align-items: center;
+  }
+  .site-nav-links > li { position: relative; }
+  .site-nav-links a, .site-nav-links button {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0;
+    transition: color 0.15s;
+  }
+  .site-nav-links a:hover, .site-nav-links button:hover { color: var(--text-strong); }
+  .site-nav-links .has-dropdown > button::after {
+    content: ""; display: inline-block;
+    width: 0; height: 0;
+    margin-left: 0.4em;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 4px solid currentColor;
+    vertical-align: middle;
+    opacity: 0.55;
+  }
+  .nav-dropdown {
+    position: absolute;
+    top: 100%; right: -0.75rem;
+    margin-top: 0.5rem; padding: 0.6rem 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
+    min-width: 190px;
+    list-style: none;
+    opacity: 0; visibility: hidden; transform: translateY(-4px);
+    transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+    z-index: 50;
+  }
+  .has-dropdown:hover .nav-dropdown,
+  .has-dropdown:focus-within .nav-dropdown {
+    opacity: 1; visibility: visible; transform: translateY(0);
+  }
+  .nav-dropdown li { padding: 0; }
+  .nav-dropdown a {
+    display: block;
+    padding: 0.45rem 1.25rem;
+    letter-spacing: 1.5px;
+  }
+  .nav-toggle {
+    display: none;
+    background: none; border: none;
+    cursor: pointer; padding: 0.5rem;
+    color: var(--text-strong);
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px; height: 1.5px;
+    background: currentColor;
+    margin: 5px 0;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  @media (max-width: 720px) {
+    .nav-toggle { display: block; }
+    .site-nav-links {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      background: var(--surface);
+      border-bottom: 1px solid var(--rule);
+      padding: 0.5rem 1.5rem 1.5rem;
+      gap: 0.2rem;
+      z-index: 40;
+    }
+    .site-nav-links.open { display: flex; }
+    .site-nav-links a, .site-nav-links button {
+      padding: 0.75rem 0;
+      text-align: left;
+      width: 100%;
+    }
+    .nav-dropdown {
+      position: static;
+      margin: 0;
+      padding: 0 0 0.5rem 1rem;
+      border: none;
+      box-shadow: none;
+      opacity: 1; visibility: visible; transform: none;
+      background: transparent;
+      min-width: 0;
+    }
+    .nav-dropdown a { padding: 0.4rem 0; }
+  }
+
+  /* --- Masthead --- */
+  .masthead {
+    max-width: 760px;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+  }
+  .hero-title {
+    margin: 0 0 0.5em;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text-strong);
+  }
+  .hero-subtitle {
+    margin: 0 auto;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    line-height: 1.4;
+    color: var(--text-strong);
+    max-width: 42ch;
+  }
+  .hero-meta {
+    margin: 1.75rem auto 0;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* --- Hero image --- */
+  .hero {
+    margin: 0 0 3rem;
+  }
+  .hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* --- Epigraph --- */
+  .epigraph {
+    max-width: 620px;
+    margin: 0 auto 4rem;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-body);
+  }
+  .epigraph p {
+    margin: 0 0 0.9em;
+  }
+  .epigraph cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* --- Map --- */
+  .map-wrap {
+    max-width: 900px;
+    margin: 3rem auto 4rem;
+    padding: 0 1rem;
+  }
+  .map-wrap svg { display: block; width: 100%; height: auto; }
+
+  /* --- Coming soon placeholder --- */
+  .column { max-width: 760px; margin: 0 auto; }
+
+  /* --- Essay body --- */
+  .essay { margin-bottom: 4rem; }
+  .essay p {
+    margin: 0 0 1.15em;
+    color: var(--text-body);
+  }
+  .essay em { font-style: italic; }
+
+  /* True 3-line drop cap. */
+  .essay > p:first-child::first-letter {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--text-strong);
+    float: left;
+    font-size: 6em;
+    line-height: 0.82;
+    margin: 0.06em 0.09em -0.08em -0.02em;
+    padding: 0;
+  }
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .essay > p:first-child::first-letter {
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+      font-size: inherit;
+      line-height: inherit;
+      float: none;
+      margin: 0 0.08em 0 0;
+    }
+  }
+
+  /* --- Gallery header (above photos) --- */
+  .gallery-intro {
+    text-align: center;
+    margin: 5rem auto 2.5rem;
+    max-width: 760px;
+    padding: 0 1.5rem;
+  }
+  .gallery-intro h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1rem;
+    letter-spacing: 0.01em;
+  }
+  .gallery-intro .places {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* --- Practical notes (end-of-post section) --- */
+  .practical-notes {
+    max-width: 760px;
+    margin: 6rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .practical-notes h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1.5rem;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+  .practical-notes p {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin: 0;
+  }
+
+  /* --- Photo gallery: tight spacing --- */
+  .photos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 4rem;
+  }
+  .photo-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-portrait {
+    display: flex;
+    justify-content: center;
+  }
+  .photo-portrait img {
+    max-width: 65%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+
+  /* Fade-in on scroll. */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .photo-pair { grid-template-columns: 1fr; }
+    .photo-portrait img { max-width: 100%; }
+  }
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 12, 8, 0.92);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 92vw;
+    max-height: 78vh;
+    display: block;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    position: absolute;
+    background: none;
+    border: none;
+    color: #fbf9f3;
+    font-size: 2.4rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+    font-family: var(--serif);
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+    opacity: 1;
+  }
+  .lightbox-close { top: 1.5rem; right: 1.5rem; }
+  .lightbox-prev  { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-next  { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.6);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+  }
+  .lightbox-caption {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.92);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    text-align: center;
+    max-width: 80vw;
+  }
+  @media (max-width: 600px) {
+    .lightbox-prev  { left: 0.5rem; }
+    .lightbox-next  { right: 0.5rem; }
+    .lightbox-close { top: 0.75rem; right: 0.75rem; }
+  }
+
+  .coming-soon {
+    max-width: 640px;
+    margin: 6rem auto 0;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-sub);
+  }
+  .coming-soon::before,
+  .coming-soon::after {
+    content: "·";
+    display: inline-block;
+    margin: 0 1rem;
+    opacity: 0.5;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    letter-spacing: 0.5px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="site-nav-wrap">
+<nav class="site-nav" aria-label="Main">
+  <a href="../index.html" class="site-logo">The Long Afternoon</a>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="site-nav-links" id="primary-nav">
+    <li><a href="../index.html">Home</a></li>
+    <li class="has-dropdown">
+      <button type="button" aria-haspopup="true" aria-expanded="false">Places</button>
+      <ul class="nav-dropdown">
+        <li><a href="liguria.html">Liguria</a></li>
+        <li><a href="sicily.html">Sicily</a></li>
+        <li><a href="sardinia.html">Sardinia</a></li>
+        <li><a href="elba.html">Elba</a></li>
+        <li><a href="lucca.html">Lucca</a></li>
+        <li><a href="kefalonia.html">Kefalonia</a></li>
+      </ul>
+    </li>
+    <li><a href="../about.html">About</a></li>
+  </ul>
+</nav>
+</div>
+
+<div class="page">
+
+  <header class="masthead">
+    <h1 class="hero-title">Sea and Sardinia</h1>
+    <p class="hero-subtitle">Retracing D.H. Lawrence, a century later</p>
+  <p class="hero-meta">Santa Maria Navarrese and Cagliari, Sardinia · 24 June – 4 July 2023</p>
+  </header>
+
+  <figure class="hero">
+    <img src="../images/8__Cala_Goloritze_.jpg" alt="" data-caption="Cala Goloritzé" data-gallery>
+  </figure>
+
+  <blockquote class="epigraph">
+    <p>“It is not that the island is of any great size. It is that it lies outside: outside the circuit of civilization.”</p>
+    <cite>D.H. Lawrence · Sea and Sardinia</cite>
+  </blockquote>
+
+  <article class="column essay">
+    <p>The rental car counter at Cagliari airport has two parties ahead of us. We are the third. Ninety minutes later we are still the third. The staff work with an unhurried gravity, each customer a small republic to be negotiated. When our turn comes they tell us that a debit card will not do. The reservation, paid in full, is beside the point. We push back. Things become briefly Italian in tone — voices raised, hands in the air. Hanna and I, it should be said, are not incapable of this register ourselves. Eventually a car is released to us. It is mid-afternoon. Whatever plans we had for the beach belong to a different day.</p>
+
+    <p>At the end of the week, filling the tank before returning the car, the attendant tells us the card reader is down. We hand him a note and he fills the tank. We drive off, and a kilometre later the fuel gauge is still at empty. He had mimed the whole thing. I feel both foolish and oddly respectful — the performance had been good.</p>
+
+    <p>Italy is like this. Things do not quite work. The country resists efficiency in a way that is part of its character — inseparable, I think, from everything one loves about it. The food, the villages, a stroll across a piazza with a gelato at four in the afternoon. You learn to love it as it is.</p>
+
+    <p>We drive north from Cagliari toward the beaches at Villasimius and Punta Molentis. The road curls through mountains that feel older than the rest of Italy. On a slope so steep it seems to defy gravity, a few goats are grazing, calm as if none of this were remarkable to them. The beaches, when we reach them, are wide and wind-blown, the water colder than we expected.</p>
+
+    <p>We had booked a larger boat with a toilet and lunch included; what we find at the quay is a rubber speedboat with neither. We buy sandwiches and climb in. The wind picks up. Hannes, ten years old, holds on with both hands and does not quite look up. Later, closer to Cala Goloritzé, we drop anchor and put on masks. The water is so clear that the bottom ten metres down seems no farther than an arm’s length, and in it, two white rays pass beneath us without hurry. On the ride back, Hannes is at the front of the boat, no longer holding on, grinning into the wind.</p>
+
+    <p>We start the hike around nine, walking down. The trail descends Supramonte’s slope through holm oak forest; the canopy holds us in shade and the air higher up still carries a breeze. In a clearing, a wild boar bursts from one side of the trail and disappears into the brush on the other before we have quite registered it. After ninety minutes the trees thin, and Cala Goloritzé appears below — a white half-circle of stones, an impossible turquoise, a limestone needle rising from the cliff. We jump the waves, big enough to push us around. Afterwards we eat the sandwiches we bought at Su Porteddu, the campground above, sitting on a flat rock in the shade. Mortadella and mozzarella. The salt of the sea is still on our skin.</p>
+  </article>
+
+  <!-- Map as transition into the gallery. Data: © ISTAT (CC BY 3.0 IT) -->
+  <div class="map-wrap">
+    <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>Map of Sardinia</title>
+      <desc>Light olive map of Sardinia with seven cities labeled. Santa Maria Navarrese is highlighted.</desc>
+      <style>
+        .mtitle      { font-family: "Source Serif 4", Georgia, serif; font-size: 28px; font-weight: 400; fill: #4a5838; letter-spacing: 0.3px; }
+        .mtitle-sub  { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2.5px; }
+        .mstat-num   { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; font-weight: 400; fill: #4a5838; }
+        .mstat-label { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2px; }
+        .mcity-label { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 500; fill: #4a5838; }
+        .mcity-label-highlight { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 600; fill: #b85a38; }
+        .msea-label  { font-family: "Source Serif 4", Georgia, serif; font-size: 11px; font-style: italic; fill: #a8b59c; letter-spacing: 1px; }
+      </style>
+
+      <text x="40" y="60"  class="mtitle">Sardinia</text>
+      <text x="40" y="78"  class="mtitle-sub">WESTERN MEDITERRANEAN</text>
+
+      <text x="40" y="150" class="mstat-num">1.56M</text>
+      <text x="40" y="166" class="mstat-label">POPULATION</text>
+      <text x="40" y="215" class="mstat-num">Cagliari</text>
+      <text x="40" y="231" class="mstat-label">CAPITAL</text>
+      <text x="40" y="280" class="mstat-num">24,090 km²</text>
+      <text x="40" y="296" class="mstat-label">AREA</text>
+
+      <path d="M460.0 35.2L459.1 35.7L458.9 36.1L458.2 36.3L457.4 37.2L457.4 36.6L456.3 36.4L455.7 36.7L455.0 37.6L454.0 36.8L453.3 36.5L452.8 37.4L453.3 38.1L453.6 38.2L454.6 37.7L455.2 38.4L455.1 39.6L454.1 41.8L454.2 42.3L455.5 44.0L455.2 44.9L453.7 46.3L451.4 46.3L451.2 46.7L451.6 47.2L450.3 48.5L448.1 49.1L446.5 49.2L445.8 48.2L445.3 48.1L442.5 49.6L440.1 52.9L440.1 53.6L439.1 54.3L435.8 58.2L435.4 58.3L435.2 58.8L434.7 59.0L433.7 59.0L432.8 59.9L432.0 59.8L432.1 60.4L432.5 60.9L432.2 61.2L431.6 60.9L430.9 61.2L431.5 61.9L431.2 63.3L430.5 64.3L428.2 67.5L424.7 70.9L423.0 71.7L420.4 71.5L419.3 72.1L418.5 72.0L418.1 71.5L417.6 71.9L417.1 71.9L415.8 73.1L412.9 74.4L411.6 75.5L411.1 77.0L409.6 78.6L406.3 80.5L402.9 81.5L397.9 82.0L396.5 81.6L394.6 80.3L394.2 79.8L392.2 79.7L392.0 80.0L390.5 80.0L388.7 79.8L388.5 79.7L388.8 78.7L389.7 78.5L391.5 78.6L389.7 78.4L388.7 78.7L388.5 79.5L388.1 79.7L385.7 79.3L383.2 77.3L379.6 73.1L379.1 72.2L379.3 71.6L378.7 69.3L379.2 69.2L379.4 68.2L377.5 66.9L376.8 65.8L376.3 66.1L376.2 67.0L375.6 67.5L374.5 69.7L375.5 70.7L375.8 71.9L377.5 73.1L378.3 74.8L377.9 75.9L378.0 76.7L375.9 80.3L375.8 81.7L375.2 82.2L375.2 82.8L373.2 85.0L373.7 86.1L373.7 87.6L372.7 89.5L371.0 91.4L371.9 91.8L372.7 92.9L374.0 93.8L374.4 94.5L374.4 95.3L376.5 95.8L376.9 96.3L376.8 96.8L376.4 97.0L375.8 98.7L375.4 101.2L373.4 102.0L373.2 102.4L372.2 102.5L371.9 102.8L372.4 106.9L373.0 108.3L373.0 108.9L373.3 109.5L373.6 109.5L373.4 107.4L373.7 107.0L374.1 107.3L374.3 106.0L375.6 104.6L375.6 103.7L376.0 103.4L377.2 103.8L378.0 105.1L377.9 105.9L377.3 106.1L376.3 107.9L376.4 108.4L376.7 108.6L377.2 108.4L380.0 108.5L380.3 107.2L381.0 107.0L381.6 107.1L382.0 106.4L383.5 106.2L383.5 105.9L384.2 106.1L385.1 106.8L386.0 108.5L386.0 109.1L385.5 109.0L385.9 109.3L385.8 109.5L385.4 109.5L386.1 110.5L387.8 115.2L387.7 116.0L388.3 115.8L390.1 116.4L390.6 116.9L391.6 120.9L392.5 123.4L392.7 126.3L391.9 129.8L391.0 130.9L391.4 131.9L391.4 133.2L391.9 133.3L392.3 133.0L395.4 133.7L395.6 134.5L396.2 135.2L397.1 135.1L397.9 135.6L398.2 137.5L398.5 138.2L399.5 139.0L399.5 140.3L399.2 140.8L397.8 146.4L398.2 147.9L397.4 150.5L397.7 150.8L397.5 152.8L398.6 155.2L399.6 156.6L400.0 158.5L399.9 159.2L400.3 160.0L399.9 160.7L397.1 163.8L396.3 164.1L395.8 163.6L394.9 164.4L393.7 164.8L393.3 164.5L392.9 163.7L392.7 163.7L392.5 164.5L391.4 164.7L390.9 165.4L391.0 166.0L391.2 166.0L392.1 166.0L392.9 165.7L393.9 167.4L393.3 169.7L392.2 171.3L392.2 172.0L392.5 172.3L392.8 173.7L392.6 179.4L392.9 180.0L393.7 179.8L395.3 181.2L395.9 182.4L395.9 183.3L395.4 183.5L395.3 183.8L395.6 184.3L395.9 183.6L396.1 181.9L398.4 179.7L398.1 179.4L401.3 179.0L402.8 179.6L403.9 180.7L404.5 182.5L404.1 183.1L405.1 183.6L406.5 183.7L406.2 184.0L405.4 183.8L404.6 184.0L405.2 184.0L405.4 185.3L404.6 191.0L403.5 193.4L401.8 195.4L402.5 196.3L401.7 197.6L401.1 199.6L399.9 199.4L400.8 199.2L400.7 198.9L399.0 196.5L397.6 193.8L396.9 193.7L396.3 194.9L396.7 196.7L396.6 199.2L396.7 199.6L397.2 200.0L397.1 201.4L396.7 202.6L396.4 202.6L396.4 203.5L397.3 204.3L396.8 208.2L397.2 209.6L398.1 210.0L398.5 211.8L397.9 212.9L397.9 214.4L397.2 215.7L396.8 217.6L393.5 223.1L391.7 224.9L391.5 225.4L391.3 227.1L391.9 227.7L393.6 228.6L393.8 230.0L393.1 232.2L391.5 234.0L391.2 235.1L390.5 235.7L390.8 236.3L391.8 236.9L391.7 238.1L392.4 238.6L392.2 239.1L392.4 239.4L394.0 239.8L394.4 240.2L394.2 241.1L395.3 242.3L395.7 244.7L394.7 247.0L393.6 247.5L392.5 248.9L390.0 251.3L390.2 252.5L390.4 253.3L391.2 254.1L391.9 254.6L392.1 254.3L392.4 254.4L392.7 254.9L393.3 258.7L393.7 259.6L394.1 259.8L393.5 258.0L393.9 257.2L395.8 259.0L395.5 261.5L396.0 263.3L397.7 262.7L398.1 262.9L398.6 263.6L399.0 265.3L399.9 266.5L399.2 267.9L399.1 269.1L398.2 269.4L397.6 268.6L397.3 266.6L395.5 265.4L395.0 264.2L394.3 264.2L393.5 264.7L393.2 264.5L391.1 265.0L390.3 263.4L389.6 263.9L389.6 264.8L388.8 265.3L389.3 266.2L388.6 266.7L388.7 267.5L389.2 268.7L389.9 272.3L392.2 277.0L393.1 279.7L393.9 280.3L394.5 279.8L395.4 279.7L396.1 278.9L396.4 277.4L396.8 276.7L397.0 272.9L398.4 270.1L398.3 269.7L400.7 268.8L402.3 269.0L403.4 269.2L403.7 269.9L404.8 270.8L405.4 270.6L406.2 270.7L407.0 272.1L407.1 273.1L406.9 273.9L406.3 274.5L406.2 275.6L407.2 278.2L408.1 279.4L407.8 279.8L407.9 280.3L408.5 280.1L408.8 279.6L409.6 279.6L410.3 280.4L410.8 281.8L410.7 284.0L409.6 285.8L409.6 286.9L410.4 287.1L411.9 286.6L412.8 286.8L412.9 287.0L412.3 288.0L412.5 288.6L412.8 288.7L412.0 289.6L412.5 290.0L413.7 289.3L413.5 288.7L413.8 288.1L413.0 287.7L413.1 286.7L413.6 286.4L414.3 286.8L414.7 286.5L414.2 284.9L414.8 285.3L415.7 285.2L416.2 284.6L418.7 283.4L418.8 282.3L422.0 284.3L423.2 284.6L423.5 285.8L423.9 286.4L424.9 287.0L425.3 287.9L425.6 287.8L425.3 286.5L425.8 286.2L426.1 286.9L426.7 286.7L427.1 286.9L427.6 287.5L427.6 288.2L428.0 288.5L429.8 288.8L430.2 288.1L433.6 285.6L435.2 283.5L436.7 282.4L441.1 278.1L441.6 277.0L442.7 277.1L443.0 276.0L443.8 275.5L443.6 273.4L444.8 271.3L445.3 269.6L443.8 267.7L443.6 266.9L444.7 266.4L445.5 266.3L445.8 266.7L446.0 266.5L445.5 266.1L444.6 266.2L443.5 266.8L442.9 266.3L442.3 262.4L443.2 259.5L444.8 257.1L447.1 254.5L449.6 253.1L450.6 252.8L451.6 253.7L451.9 254.0L451.8 254.3L453.0 255.4L454.5 256.3L455.4 255.5L454.6 254.9L455.0 253.8L456.6 252.3L458.6 251.4L460.4 251.3L461.6 252.5L465.7 252.9L466.4 253.7L467.7 253.8L468.3 254.6L469.1 255.0L469.5 255.9L470.1 256.6L470.6 256.5L471.8 257.1L473.4 258.8L473.5 260.2L474.2 260.5L474.4 260.2L474.8 260.3L475.5 261.1L476.9 261.7L477.2 262.6L478.2 261.8L478.7 261.7L479.5 262.1L479.9 261.5L480.9 261.2L482.5 261.6L483.0 262.6L482.5 263.9L484.2 265.5L483.8 263.5L484.0 263.0L484.9 261.8L485.6 261.5L486.8 261.4L487.3 260.8L487.7 259.7L488.0 257.7L488.7 256.9L488.6 255.9L487.6 255.4L487.4 254.4L487.9 252.8L488.0 249.9L488.9 247.4L490.0 245.4L491.0 244.3L492.3 243.9L492.9 244.1L493.2 243.7L493.0 243.2L491.4 242.2L490.7 241.5L490.3 239.8L490.2 238.1L491.0 234.3L492.9 229.4L493.6 228.8L493.7 227.5L494.1 226.5L493.9 224.7L494.0 223.8L493.8 223.1L493.1 222.6L493.0 222.0L493.6 217.9L494.8 216.8L494.5 215.9L495.0 214.8L495.1 213.8L495.1 211.6L494.2 206.2L494.6 205.0L495.0 204.6L495.4 203.4L495.5 202.8L495.3 201.4L496.6 199.9L496.5 195.6L496.0 193.8L496.1 192.0L497.2 186.2L498.3 184.8L497.1 183.0L497.1 179.8L497.8 178.0L498.2 177.6L499.3 177.3L499.6 177.5L499.8 176.6L499.5 175.6L499.0 175.4L499.0 175.9L498.5 176.0L497.5 174.7L497.3 173.5L497.5 171.4L497.7 170.5L498.5 168.9L499.0 165.5L500.3 163.6L501.4 160.9L501.2 159.9L500.8 159.5L497.6 157.6L496.8 156.1L495.0 154.0L494.2 151.3L493.2 150.1L492.8 148.9L492.5 147.1L492.7 146.2L492.3 143.6L492.3 142.3L493.4 139.1L497.1 133.3L501.0 129.2L502.0 128.6L503.0 128.6L503.6 127.8L504.5 125.8L504.6 123.8L505.2 122.7L506.1 122.0L508.0 117.3L508.7 114.9L509.0 113.0L506.3 111.2L506.0 110.7L506.2 110.1L505.9 108.6L505.2 107.4L504.4 107.3L503.7 106.6L502.8 105.2L502.7 104.0L502.8 103.8L502.1 102.8L502.0 101.4L502.8 97.5L502.0 95.6L500.4 94.7L499.8 93.7L499.6 92.7L499.8 91.5L499.5 90.5L500.0 89.3L497.5 87.6L496.2 85.7L496.1 84.5L496.4 83.6L497.0 83.1L497.6 83.4L497.9 82.9L497.1 81.8L497.4 80.3L498.2 80.2L498.5 80.5L499.2 80.7L500.6 80.0L500.8 79.5L499.1 79.5L498.0 79.0L497.5 77.9L497.0 77.6L496.6 77.5L495.9 78.4L495.1 78.1L494.7 77.4L495.1 76.0L494.8 75.6L494.2 75.5L494.3 75.9L493.9 76.3L493.2 75.1L491.8 74.5L492.0 73.8L493.8 72.0L494.1 71.5L494.0 71.3L492.9 71.5L492.2 71.1L491.4 71.4L491.0 71.7L490.5 72.7L489.5 73.5L488.4 73.0L488.1 72.6L488.2 72.2L487.2 71.2L485.3 71.7L484.2 71.7L482.8 72.2L482.6 72.1L482.4 71.3L482.9 70.9L484.2 71.1L484.2 70.8L483.1 70.8L482.9 70.4L484.5 69.9L485.1 69.9L485.4 70.7L486.9 70.6L487.4 70.9L488.4 70.4L488.4 69.9L487.8 69.6L487.8 68.9L488.5 68.4L488.9 67.1L489.4 67.0L489.9 66.2L489.1 65.4L489.2 64.2L489.5 63.9L490.2 63.8L491.3 62.4L492.1 62.7L492.3 63.4L494.2 64.3L494.8 64.2L495.6 63.4L495.6 63.0L494.9 62.3L493.8 62.7L492.9 62.6L492.3 62.3L490.9 60.8L489.9 60.5L489.3 61.6L488.8 61.3L488.5 62.5L487.9 61.9L486.8 62.4L486.4 62.0L487.0 60.5L487.4 59.1L487.2 58.8L486.8 58.9L486.4 59.5L484.5 59.9L484.4 60.5L484.7 60.9L484.0 61.7L482.7 61.8L482.9 61.1L483.4 60.9L484.1 59.4L484.2 57.1L485.5 56.2L485.6 55.9L485.0 55.9L484.6 55.5L485.1 54.0L485.7 53.2L485.9 53.4L485.7 53.9L486.3 54.4L487.3 53.8L487.9 51.1L487.7 50.5L486.9 50.1L486.1 50.8L485.6 50.6L485.4 49.7L485.9 49.2L486.0 48.6L485.4 48.2L484.4 48.5L485.3 47.9L484.6 47.0L484.8 46.6L484.0 46.1L483.5 46.2L483.2 46.7L483.8 47.5L483.3 47.8L482.0 47.5L480.4 47.8L479.5 47.6L479.3 48.2L480.0 48.8L479.9 49.1L479.1 49.9L478.2 51.7L477.5 51.7L477.4 49.2L477.9 48.4L477.0 48.2L476.6 47.7L476.5 46.3L474.6 46.1L475.0 45.5L475.9 45.1L476.0 43.9L475.6 43.8L474.6 44.0L472.9 43.6L472.6 42.8L472.2 42.9L472.1 43.3L471.7 43.3L471.3 42.2L471.1 40.7L470.4 41.2L470.1 40.7L469.4 40.9L468.5 42.1L469.0 42.5L469.4 42.3L468.6 43.1L467.6 42.0L467.8 41.7L467.6 41.2L467.3 41.5L467.5 42.0L467.2 42.4L466.1 42.5L465.2 42.3L465.0 41.9L465.9 41.1L465.0 39.4L464.4 40.9L464.4 42.2L463.7 42.1L463.6 41.5L464.5 39.5L464.3 38.4L462.8 37.2L460.9 36.6L460.7 35.3L460.0 35.2Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M386.1 49.9L385.9 50.0L385.9 50.2L385.5 50.6L385.4 51.2L385.0 51.5L384.6 51.6L382.6 51.7L382.4 52.1L382.4 52.5L383.1 53.4L383.4 54.2L383.3 54.8L382.5 54.7L381.8 55.2L381.2 56.0L381.1 56.6L380.6 57.4L380.1 57.8L378.5 58.1L378.1 58.4L378.4 59.1L378.0 59.8L378.4 60.1L378.9 60.3L378.4 61.2L377.4 62.4L377.9 63.5L377.7 63.7L377.6 63.5L377.3 63.5L377.2 63.9L377.3 64.1L378.3 64.0L380.9 64.3L381.2 64.0L381.4 63.6L381.6 62.7L381.0 61.5L380.6 61.4L380.4 60.9L380.3 59.9L379.8 60.1L379.5 60.3L379.3 60.2L379.6 59.8L380.9 58.9L381.8 57.9L381.2 57.3L381.7 56.9L382.3 57.0L382.6 56.8L383.0 56.2L383.0 55.8L383.9 56.1L384.2 56.4L386.7 57.1L387.2 56.9L387.8 56.3L387.9 55.6L387.5 54.3L387.9 53.8L388.3 53.5L388.5 53.2L388.1 52.4L387.1 52.1L386.4 51.5L386.8 51.3L386.7 50.7L386.1 49.9Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M479.9 36.7L479.1 37.0L478.9 38.5L478.6 39.1L478.3 39.2L477.9 39.9L478.1 40.8L478.4 41.1L478.6 41.0L478.7 41.5L478.5 41.6L478.0 41.5L477.4 42.0L477.0 42.8L477.1 43.5L477.5 43.5L477.7 43.2L477.7 42.9L478.0 42.5L478.5 42.3L478.7 42.6L478.6 43.0L479.8 44.0L479.8 44.8L479.9 44.0L480.3 43.6L480.7 43.5L480.7 43.1L480.6 42.9L480.4 42.9L479.9 42.9L479.7 43.1L479.6 43.3L479.4 43.3L479.3 43.2L479.4 42.6L480.5 41.6L480.6 39.8L481.0 39.6L481.1 39.7L481.1 39.2L480.7 38.8L480.8 37.6L480.5 37.3L480.1 37.2L479.9 36.9L479.9 36.7Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M385.3 255.6L385.0 255.7L384.8 256.0L384.3 256.5L383.7 256.3L381.9 256.5L381.8 256.9L381.1 257.5L380.8 257.4L379.9 258.1L379.4 257.8L378.9 258.0L378.5 258.6L378.5 259.3L378.2 259.9L378.0 259.8L378.1 260.1L378.6 260.5L379.1 260.4L379.7 260.6L380.6 261.4L380.7 261.8L380.4 262.2L380.8 262.8L380.9 263.3L380.3 263.8L380.4 264.0L380.9 264.5L382.9 265.4L383.8 265.4L384.4 265.2L385.1 264.6L385.4 263.6L385.2 261.8L385.6 260.7L385.4 260.6L385.2 260.3L385.5 259.7L385.1 258.2L385.3 255.6Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M475.8 34.2L475.5 34.1L475.3 34.3L475.4 35.5L475.2 36.1L475.1 36.2L474.8 36.1L474.5 35.6L474.5 35.4L474.1 35.3L474.3 36.0L474.3 36.7L474.2 36.9L473.3 37.7L472.3 37.9L472.0 38.8L472.6 39.8L472.7 40.4L474.0 40.4L475.4 39.8L475.7 39.9L476.6 40.0L477.1 40.0L477.3 39.8L477.1 38.5L477.2 38.3L477.5 38.5L477.7 38.3L477.9 37.9L477.5 37.6L477.3 37.7L476.8 38.8L476.6 38.3L477.1 37.2L477.0 36.5L476.7 36.0L476.5 35.3L476.6 35.1L475.8 34.2Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M501.4 70.9L501.5 70.5L501.2 70.7L500.5 71.6L497.7 73.6L496.4 74.3L496.4 74.5L497.4 74.2L498.0 74.7L500.2 72.9L501.9 72.2L502.0 72.1L501.8 71.3L501.6 71.2L501.4 71.3L501.4 70.9Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M488.5 55.5L488.3 55.6L488.2 55.9L487.9 55.9L488.0 56.2L488.4 56.3L488.7 56.1L488.7 55.6L488.5 55.5Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M472.5 30.0L472.3 30.1L472.3 30.3L471.1 31.1L471.0 31.6L471.5 32.1L472.4 31.5L472.9 31.1L472.5 30.0Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M475.7 40.7L475.1 40.7L474.6 41.4L474.0 41.7L473.9 42.5L474.5 42.5L475.0 42.9L475.7 42.7L475.9 42.2L475.8 41.0L475.7 40.7Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M392.7 240.0L392.6 239.9L392.5 240.0L392.8 240.1L392.9 240.0L392.7 240.0Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M474.1 31.0L474.1 31.3L473.8 31.4L474.0 31.6L474.2 31.6L474.3 31.5L474.1 31.0Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+
+      <text x="620" y="295" class="msea-label" text-anchor="end">Tyrrhenian Sea</text>
+
+      <circle cx="451.5" cy="251.7" r="3.5" fill="#4a5838"/>
+      <text x="447" y="248" class="mcity-label" text-anchor="end">Cagliari</text>
+
+      <circle cx="405.7" cy="91.9" r="3" fill="#4a5838"/>
+      <text x="401" y="88" class="mcity-label" text-anchor="end">Sassari</text>
+
+      <circle cx="482.2" cy="70.9" r="3" fill="#4a5838"/>
+      <text x="487" y="67" class="mcity-label">Olbia</text>
+
+      <circle cx="385.7" cy="109.8" r="3" fill="#4a5838"/>
+      <text x="381" y="113" class="mcity-label" text-anchor="end">Alghero</text>
+
+      <circle cx="408.3" cy="179.6" r="3" fill="#4a5838"/>
+      <text x="403" y="183" class="mcity-label" text-anchor="end">Oristano</text>
+
+      <circle cx="498.1" cy="170.3" r="3.5" fill="#b85a38"/>
+      <text x="503" y="174" class="mcity-label-highlight">Santa Maria Navarrese</text>
+
+      <circle cx="498.4" cy="128.8" r="3" fill="#4a5838"/>
+      <text x="503" y="132" class="mcity-label">Orosei</text>
+    </svg>
+  </div>
+
+  <section class="gallery-intro">
+    <h2>Scenes from Sardinia</h2>
+    <p class="places">Punta Molentis · Maty Beach · Costa di Orosei · Cala Goloritzé</p>
+  </section>
+
+  <!-- Photo gallery -->
+  <div class="photos">
+    <figure class="photo-portrait">
+      <img src="../images/67__Cagliari.jpg" alt="" data-caption="Cagliari" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/71__Punta_Molentis_Beach.jpg" alt="" data-caption="Punta Molentis" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/45__Spiaggia_di_Porto_Giunco.jpg" alt="" data-caption="Spiaggia di Porto Giunco" data-gallery>
+    </figure>
+
+    <div class="photo-pair">
+      <figure><img src="../images/35__Maty_Beach.jpg" alt="" data-caption="Maty Beach" data-gallery></figure>
+      <figure><img src="../images/43__Spiaggia_di_Porto_Giunco.jpg" alt="" data-caption="Spiaggia di Porto Giunco" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/15__ba_ttur.jpg" alt="" data-caption="Cala Goloritzé from the boat" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/14__ba_ttur.jpg" alt="" data-caption="On the boat to Cala Goloritzé" data-gallery>
+    </figure>
+
+    <div class="photo-pair">
+      <figure><img src="../images/18__ba_ttur.jpg" alt="" data-caption="Cala Mariolu" data-gallery></figure>
+      <figure><img src="../images/23__ba_ttur.jpg" alt="" data-caption="Cala Mariolu" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/2__Cala_Goloritze_.jpg" alt="" data-caption="Cala Goloritzé" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/3__Cala_Goloritze_.jpg" alt="" data-caption="Cala Goloritzé" data-gallery>
+    </figure>
+
+    <figure class="photo-portrait">
+      <img src="../images/49__Su_Giudeu_Beach.jpg" alt="" data-caption="Lunch at Spiaggia Su Giudeu" data-gallery>
+    </figure>
+  </div>
+
+  <section class="practical-notes">
+    <h2>Practical notes</h2>
+    <p>We first stayed in Santa Maria Navarrese — a perfect base for exploring the Costa di Orosei, with its Blue Flag beaches. We then moved to Quartu Sant’Elena, just outside Cagliari; in hindsight we would have stayed in Villasimius. We reached Cala Goloritzé both by hiking and by boat. The boat day was long — eight hours, three beaches — and well worth it.</p>
+  </section>
+
+  <footer>
+    Map data © ISTAT (CC BY 3.0 IT)
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const nav = document.querySelector('.site-nav-wrap');
+  if (!nav) return;
+  const update = () => nav.classList.toggle('scrolled', window.scrollY > 10);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+})();
+(function(){
+  const toggle = document.querySelector('.nav-toggle');
+  const links  = document.getElementById('primary-nav');
+  if (!toggle || !links) return;
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+  <button class="lightbox-prev"  aria-label="Previous image">‹</button>
+  <img src="" alt="">
+  <button class="lightbox-next"  aria-label="Next image">›</button>
+  <button class="lightbox-close" aria-label="Close">✕</button>
+  <div class="lightbox-caption"></div>
+  <div class="lightbox-counter"></div>
+</div>
+
+<script>
+// Fade-in effect for gallery images
+(function(){
+  const galleryImages = document.querySelectorAll('.photos figure img');
+  galleryImages.forEach(img => img.classList.add('fade-in'));
+
+  if (!('IntersectionObserver' in window)) {
+    galleryImages.forEach(img => img.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -80px 0px',
+    threshold: 0.05
+  });
+
+  galleryImages.forEach(img => observer.observe(img));
+})();
+</script>
+
+<script>
+// Lightbox
+(function(){
+  const imgs = Array.from(document.querySelectorAll('img[data-gallery]'));
+  const lb      = document.getElementById('lightbox');
+  if (!lb) return;
+  const lbImg   = lb.querySelector('img');
+  const lbPrev  = lb.querySelector('.lightbox-prev');
+  const lbNext  = lb.querySelector('.lightbox-next');
+  const lbClose = lb.querySelector('.lightbox-close');
+  const lbCaption = lb.querySelector('.lightbox-caption');
+  const lbCount = lb.querySelector('.lightbox-counter');
+  let current = 0;
+
+  function show(i) {
+    current = (i + imgs.length) % imgs.length;
+    lbImg.src = imgs[current].src;
+    lbImg.alt = imgs[current].alt || '';
+    lbCaption.textContent = imgs[current].dataset.caption || '';
+    lbCount.textContent = (current + 1) + ' / ' + imgs.length;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  imgs.forEach((img, i) => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => show(i));
+  });
+  lbPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
+  lbNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
+  lbClose.addEventListener('click', (e) => { e.stopPropagation(); hide(); });
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) hide();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     hide();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+})();
+</script>
+
+</body>
+</html>

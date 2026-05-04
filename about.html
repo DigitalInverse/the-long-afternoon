@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — The Long Afternoon</title>
+
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --text-strong: #2b3320;
+    --text-body:   #3a4430;
+    --text-muted:  #8a9572;
+    --text-sub:    #a8b59c;
+    --surface:     #fbf9f3;
+    --rule:        #ebe7db;
+    --accent:      #b85a38;
+
+    --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  figure { margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--text-body);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    font-feature-settings: "kern", "liga", "onum";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* --- Site navigation --- */
+  .site-nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251, 249, 243, 0.85);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .site-nav-wrap.scrolled {
+    border-bottom-color: var(--rule);
+  }
+  .site-nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .site-nav-wrap.scrolled .site-nav {
+    padding-top: 1rem;
+    padding-bottom: 0.85rem;
+  }
+  .site-nav-wrap.scrolled .site-logo {
+    font-size: 1.2rem;
+  }
+  .site-nav, .site-logo {
+    transition: padding 0.2s, font-size 0.2s;
+  }
+  .site-logo {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    color: var(--text-strong);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .site-nav-links {
+    display: flex;
+    gap: 2.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+  }
+  .site-nav-links > li { position: relative; }
+  .site-nav-links a, .site-nav-links button {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0;
+    transition: color 0.15s;
+  }
+  .site-nav-links a:hover,
+  .site-nav-links button:hover {
+    color: var(--text-strong);
+  }
+  .site-nav-links .has-dropdown > button::after {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 0.4em;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 4px solid currentColor;
+    vertical-align: middle;
+    opacity: 0.55;
+  }
+  .nav-dropdown {
+    position: absolute;
+    top: 100%;
+    right: -0.75rem;
+    margin-top: 0.5rem;
+    padding: 0.6rem 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
+    min-width: 190px;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+    z-index: 50;
+  }
+  .has-dropdown:hover .nav-dropdown,
+  .has-dropdown:focus-within .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .nav-dropdown li { padding: 0; }
+  .nav-dropdown a {
+    display: block;
+    padding: 0.45rem 1.25rem;
+    letter-spacing: 1.5px;
+  }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text-strong);
+    margin: 4px 0;
+    border-radius: 2px;
+  }
+
+  /* --- About hero --- */
+  .about-hero {
+    position: relative;
+    width: 100%;
+    height: 65vh;
+    min-height: 420px;
+    max-height: 640px;
+    overflow: hidden;
+    margin-bottom: 6rem;
+  }
+  .about-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 75%;
+    display: block;
+  }
+
+  /* --- Intro text --- */
+  .about-intro {
+    max-width: 640px;
+    margin: 0 auto 6rem;
+    padding: 0 1.5rem;
+    text-align: center;
+  }
+  .about-intro .rule {
+    width: 40px;
+    height: 1px;
+    background: var(--text-sub);
+    margin: 0 auto 2rem;
+    opacity: 0.7;
+  }
+  .about-intro h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 2.25rem;
+    letter-spacing: 0.01em;
+    color: var(--text-strong);
+    margin: 0 0 1.5rem;
+    line-height: 1.2;
+  }
+  .about-intro p {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--text-body);
+    margin: 0;
+  }
+  .about-intro p + p {
+    margin-top: 1.1em;
+  }
+
+  /* --- Family trio --- */
+  .page { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 6rem; }
+
+  .family-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+  .family-header h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.75rem;
+    color: var(--text-strong);
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+
+  .family-trio {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem 3rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  @media (max-width: 720px) {
+    .family-trio {
+      grid-template-columns: 1fr;
+      gap: 3.5rem;
+      max-width: 420px;
+    }
+  }
+
+  .person {
+    text-align: center;
+  }
+  .person-image {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    background: var(--rule);
+    position: relative;
+  }
+  .person-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .person-image.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #efeadb;
+    color: var(--text-sub);
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+  }
+  .person-image.placeholder::before {
+    content: "Portrait";
+  }
+  .person-name {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.45rem;
+    color: var(--text-strong);
+    margin: 0 0 0.4rem;
+    letter-spacing: 0.005em;
+  }
+  .person-role {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 1rem;
+  }
+  .person-bio {
+    font-family: var(--serif);
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: var(--text-body);
+    margin: 0;
+    font-style: italic;
+    max-width: 30ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .person-bio.placeholder {
+    color: var(--text-sub);
+    font-style: normal;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+  }
+
+  /* --- Footer --- */
+  footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 2.5rem 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: var(--text-sub);
+    text-transform: uppercase;
+  }
+
+  /* --- Mobile nav --- */
+  @media (max-width: 720px) {
+    .nav-toggle { display: block; }
+    .site-nav-links {
+      position: absolute;
+      top: 100%;
+      right: 1.5rem;
+      margin-top: 0.5rem;
+      background: var(--surface);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
+      display: none;
+    }
+    .site-nav-links.open { display: flex; }
+    .nav-dropdown {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      box-shadow: none;
+      border: none;
+      padding: 0.25rem 0 0.25rem 1rem;
+      margin-top: 0.25rem;
+      background: transparent;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-nav-wrap">
+<nav class="site-nav" aria-label="Main">
+  <a href="index.html" class="site-logo">The Long Afternoon</a>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="site-nav-links" id="primary-nav">
+    <li><a href="index.html">Home</a></li>
+    <li class="has-dropdown">
+      <button type="button" aria-haspopup="true" aria-expanded="false">Places</button>
+      <ul class="nav-dropdown">
+        <li><a href="posts/liguria.html">Liguria</a></li>
+        <li><a href="posts/sicily.html">Sicily</a></li>
+        <li><a href="posts/sardinia.html">Sardinia</a></li>
+        <li><a href="posts/elba.html">Elba</a></li>
+        <li><a href="posts/lucca.html">Lucca</a></li>
+        <li><a href="posts/kefalonia.html">Kefalonia</a></li>
+      </ul>
+    </li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+</div>
+
+<section class="about-hero">
+  <img src="images/74__Lithovatis_Beach.jpg" alt="Reading Oliver Burkeman under a fig tree on the Ionian coast">
+</section>
+
+<section class="about-intro">
+  <div class="rule"></div>
+  <h1>About</h1>
+  <p>I’m Anders. I grew up in rural Småland and stayed in school longer than was strictly necessary. I have worked on microlithography in Stockholm, frozen my toes on Kibo, and done research in Los&nbsp;Angeles and Los&nbsp;Alamos.</p>
+  <p>I travel with Hanna and Hannes — a family of three who move slowly, write things down, and keep the photographs we meant to throw away.</p>
+  <p>This is where we gather what we see.</p>
+</section>
+
+<main class="page">
+  <header class="family-header">
+    <h2>The other two</h2>
+  </header>
+
+  <div class="family-trio">
+
+    <article class="person">
+      <figure class="person-image">
+        <img src="images/19__Terrasse.jpg" alt="Hanna in golden evening light">
+      </figure>
+      <h3 class="person-name">Hanna</h3>
+      <p class="person-bio">A sporty Gothenburger with a past in football and bandy. Has played berimbau in Bahia, tended bar in Barcelona, flipped burgers on Mallorca, rented skis in Andorra, taken a year off in Santiago, studied Italian in Terracina, and owned a house in Bollebygd.</p>
+    </article>
+
+    <article class="person">
+      <figure class="person-image">
+        <img src="images/12__Tellaro.jpg" alt="Hannes in profile">
+      </figure>
+      <h3 class="person-name">Hannes</h3>
+      <p class="person-bio">A born conversationalist. Energy in bursts. Trains capoeira, studies Portuguese.</p>
+    </article>
+
+  </div>
+</main>
+
+<footer>
+  The Long Afternoon · Written from Gothenburg
+</footer>
+
+<script>
+(function(){
+  const nav = document.querySelector('.site-nav-wrap');
+  if (!nav) return;
+  const update = () => nav.classList.toggle('scrolled', window.scrollY > 10);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+})();
+(function(){
+  const toggle = document.querySelector('.nav-toggle');
+  const links  = document.getElementById('primary-nav');
+  if (!toggle || !links) return;
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Napoleon’s Island — The Long Afternoon</title>
+
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --text-strong: #2b3320;
+    --text-body:   #3a4430;
+    --text-muted:  #8a9572;
+    --text-sub:    #a8b59c;
+    --surface:     #fbf9f3;
+    --rule:        #ebe7db;
+    --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  figure { margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--text-body);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    font-feature-settings: "kern", "liga", "onum";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+
+  /* --- Site navigation --- */
+  .site-nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251, 249, 243, 0.85);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .site-nav-wrap.scrolled { border-bottom-color: var(--rule); }
+  .site-nav-wrap.scrolled .site-nav { padding-top: 1rem; padding-bottom: 0.85rem; }
+  .site-nav-wrap.scrolled .site-logo { font-size: 1.2rem; }
+  .site-nav-wrap .site-nav, .site-nav-wrap .site-logo {
+    transition: padding 0.2s, font-size 0.2s;
+  }
+  .site-nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .site-logo {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    color: var(--text-strong);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .site-nav-links {
+    display: flex; gap: 2.25rem;
+    list-style: none; margin: 0; padding: 0;
+    align-items: center;
+  }
+  .site-nav-links > li { position: relative; }
+  .site-nav-links a, .site-nav-links button {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0;
+    transition: color 0.15s;
+  }
+  .site-nav-links a:hover, .site-nav-links button:hover { color: var(--text-strong); }
+  .site-nav-links .has-dropdown > button::after {
+    content: ""; display: inline-block;
+    width: 0; height: 0;
+    margin-left: 0.4em;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 4px solid currentColor;
+    vertical-align: middle;
+    opacity: 0.55;
+  }
+  .nav-dropdown {
+    position: absolute;
+    top: 100%; right: -0.75rem;
+    margin-top: 0.5rem; padding: 0.6rem 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
+    min-width: 190px;
+    list-style: none;
+    opacity: 0; visibility: hidden; transform: translateY(-4px);
+    transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+    z-index: 50;
+  }
+  .has-dropdown:hover .nav-dropdown,
+  .has-dropdown:focus-within .nav-dropdown {
+    opacity: 1; visibility: visible; transform: translateY(0);
+  }
+  .nav-dropdown li { padding: 0; }
+  .nav-dropdown a {
+    display: block;
+    padding: 0.45rem 1.25rem;
+    letter-spacing: 1.5px;
+  }
+  .nav-toggle {
+    display: none;
+    background: none; border: none;
+    cursor: pointer; padding: 0.5rem;
+    color: var(--text-strong);
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px; height: 1.5px;
+    background: currentColor;
+    margin: 5px 0;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  @media (max-width: 720px) {
+    .nav-toggle { display: block; }
+    .site-nav-links {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      background: var(--surface);
+      border-bottom: 1px solid var(--rule);
+      padding: 0.5rem 1.5rem 1.5rem;
+      gap: 0.2rem;
+      z-index: 40;
+    }
+    .site-nav-links.open { display: flex; }
+    .site-nav-links a, .site-nav-links button {
+      padding: 0.75rem 0;
+      text-align: left;
+      width: 100%;
+    }
+    .nav-dropdown {
+      position: static;
+      margin: 0;
+      padding: 0 0 0.5rem 1rem;
+      border: none;
+      box-shadow: none;
+      opacity: 1; visibility: visible; transform: none;
+      background: transparent;
+      min-width: 0;
+    }
+    .nav-dropdown a { padding: 0.4rem 0; }
+  }
+
+  /* --- Masthead --- */
+  .masthead {
+    max-width: 760px;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+  }
+  .hero-title {
+    margin: 0 0 0.5em;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text-strong);
+  }
+  .hero-subtitle {
+    margin: 0 auto;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    line-height: 1.4;
+    color: var(--text-strong);
+    max-width: 42ch;
+  }
+  .hero-meta {
+    margin: 1.75rem auto 0;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* --- Hero image --- */
+  .hero {
+    margin: 0 0 3rem;
+  }
+  .hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* --- Epigraph --- */
+  .epigraph {
+    max-width: 620px;
+    margin: 0 auto 4rem;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-body);
+  }
+  .epigraph p {
+    margin: 0 0 0.9em;
+  }
+  .epigraph cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* --- Map --- */
+  .map-wrap {
+    max-width: 900px;
+    margin: 3rem auto 4rem;
+    padding: 0 1rem;
+  }
+  .map-wrap svg { display: block; width: 100%; height: auto; }
+
+  /* --- Coming soon placeholder --- */
+  .column { max-width: 760px; margin: 0 auto; }
+
+  /* --- Essay body --- */
+  .essay { margin-bottom: 4rem; }
+  .essay p {
+    margin: 0 0 1.15em;
+    color: var(--text-body);
+  }
+  .essay em { font-style: italic; }
+
+  /* True 3-line drop cap. */
+  .essay > p:first-child::first-letter {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--text-strong);
+    float: left;
+    font-size: 6em;
+    line-height: 0.82;
+    margin: 0.06em 0.09em -0.08em -0.02em;
+    padding: 0;
+  }
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .essay > p:first-child::first-letter {
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+      font-size: inherit;
+      line-height: inherit;
+      float: none;
+      margin: 0 0.08em 0 0;
+    }
+  }
+
+  /* --- Essay figure captions (italic serif) --- */
+  .essay-figure figcaption {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    text-align: center;
+  }
+
+  /* --- Gallery header (above photos) --- */
+  .gallery-intro {
+    text-align: center;
+    margin: 5rem auto 2.5rem;
+    max-width: 760px;
+    padding: 0 1.5rem;
+  }
+  .gallery-intro h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1rem;
+    letter-spacing: 0.01em;
+  }
+  .gallery-intro .places {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* --- Practical notes (end-of-post section) --- */
+  .practical-notes {
+    max-width: 760px;
+    margin: 6rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .practical-notes h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1.5rem;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+  .practical-notes p {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin: 0;
+  }
+
+  /* --- Photo gallery: tight spacing --- */
+  .photos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 4rem;
+  }
+  .photo-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+  .photo-pair-portrait {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair-portrait img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+
+  /* Fade-in on scroll. */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .photo-pair { grid-template-columns: 1fr; }
+    .photo-pair-portrait { grid-template-columns: 1fr; }
+  }
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 12, 8, 0.92);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 92vw;
+    max-height: 78vh;
+    display: block;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    position: absolute;
+    background: none;
+    border: none;
+    color: #fbf9f3;
+    font-size: 2.4rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+    font-family: var(--serif);
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+    opacity: 1;
+  }
+  .lightbox-close { top: 1.5rem; right: 1.5rem; }
+  .lightbox-prev  { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-next  { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.6);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+  }
+  .lightbox-caption {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.92);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    text-align: center;
+    max-width: 80vw;
+  }
+  @media (max-width: 600px) {
+    .lightbox-prev  { left: 0.5rem; }
+    .lightbox-next  { right: 0.5rem; }
+    .lightbox-close { top: 0.75rem; right: 0.75rem; }
+  }
+
+  .coming-soon {
+    max-width: 640px;
+    margin: 6rem auto 0;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-sub);
+  }
+  .coming-soon::before,
+  .coming-soon::after {
+    content: "·";
+    display: inline-block;
+    margin: 0 1rem;
+    opacity: 0.5;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    letter-spacing: 0.5px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="site-nav-wrap">
+<nav class="site-nav" aria-label="Main">
+  <a href="../index.html" class="site-logo">The Long Afternoon</a>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="site-nav-links" id="primary-nav">
+    <li><a href="../index.html">Home</a></li>
+    <li class="has-dropdown">
+      <button type="button" aria-haspopup="true" aria-expanded="false">Places</button>
+      <ul class="nav-dropdown">
+        <li><a href="liguria.html">Liguria</a></li>
+        <li><a href="sicily.html">Sicily</a></li>
+        <li><a href="sardinia.html">Sardinia</a></li>
+        <li><a href="elba.html">Elba</a></li>
+        <li><a href="lucca.html">Lucca</a></li>
+        <li><a href="kefalonia.html">Kefalonia</a></li>
+      </ul>
+    </li>
+    <li><a href="../about.html">About</a></li>
+  </ul>
+</nav>
+</div>
+
+<div class="page">
+
+  <header class="masthead">
+    <h1 class="hero-title">Napoleon’s Island</h1>
+    <p class="hero-subtitle">Exile, as it turns out, has a beach</p>
+    <p class="hero-meta">Capoliveri, Elba · 4–16 July 2019</p>
+  </header>
+
+  <figure class="hero">
+    <img src="../images/75__Spiaggia_La_Sorgente.jpg" alt="" data-caption="Spiaggia La Sorgente" data-gallery>
+  </figure>
+
+  <blockquote class="epigraph">
+    <p>“For my part, I travel not to go anywhere, but to go. I travel for travel’s sake. The great affair is to move.”</p>
+    <cite>Robert Louis Stevenson · Travels with a Donkey in the Cévennes</cite>
+  </blockquote>
+
+  <!-- Essay -->
+  <article class="column essay">
+    <p>Rosaria, an Italian colleague, told me to take Hannes to Elba. She had been there many summers with her own two children; ours was three and a half, and that sounded right. We flew to Pisa, drove down to Piombino, and took the car ferry across. The crossing takes about an hour. Halfway through, the small green shape of the island settles on the horizon and stays there.</p>
+
+    <p>The house is hard to find. The lanes that lead to it have no signs and no numbers. We message Antonella on WhatsApp; she answers quickly, says she is at a place nearby, and asks us to follow her vespa from there. The first morning we mention the heat — we had booked a room without air conditioning, only ceiling fans, and the nights are unbearable. Without much fuss she upgrades us to the larger apartment upstairs: two bedrooms, two bathrooms, AC, no extra cost. The terrace looks out over vineyards toward Capoliveri on its hill. Carpenter bees move slowly between the flowers. Geckos cross the wall in small bursts.</p>
+
+    <p>Days follow a rhythm. After breakfast on the terrace we drive to a small parking lot above two beaches, Barabarca and Zuccale, and walk down to the water. Hannes, three and a half, has armbands and goggles. He puts his face in to look for fish, then lifts it, then puts it back in. Up and down, up and down. I doubt he ever sees one, but he keeps looking. On the way home we stop at the fruit stand and at the Coop for tomatoes, salami, and a few cheeses — parmigiano, pecorino, taleggio. We eat on the terrace. Then we head indoors for a siesta and go back down for another swim in the afternoon. It is easy, both in the water and out.</p>
+
+    <p>One day we walk up to Villa dei Mulini, the house where Napoleon lived in exile. It is fifteen minutes uphill in the sun, more a stroll than a hike. The villa is bigger than I expected, with a long garden and a view across the sea. It is, as exiles go, a generous arrangement. Twenty minutes on foot brings us down to Spiaggia delle Ghiaie, a stretch of small white pebbles on the edge of Portoferraio. We swim, then drive home for lunch.</p>
+
+    <p>One afternoon we drive along the west coast. The road climbs above the sea, and from a turn near Marciana the green slopes of Corsica rise on the horizon — Napoleon’s birthplace, seen from his first exile. The hills here are dense with maquis: rosemary, juniper, the dry warmth of Mediterranean herbs. Few of the cars on the road have foreign plates. We have driven the Great Ocean Road in Australia, but on this stretch of small Italian highway the sea is bluer and the mountains nearer. It is, perhaps, the kind of road that is better for being unfamous.</p>
+  </article>
+
+  <!-- Map as section transition. Data: © ISTAT (CC BY 3.0 IT) -->
+  <div class="map-wrap">
+    <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>Map of Elba</title>
+      <desc>Light olive map of the island of Elba with five towns labeled. Capoliveri is highlighted.</desc>
+      <style>
+        .mtitle      { font-family: "Source Serif 4", Georgia, serif; font-size: 28px; font-weight: 400; fill: #4a5838; letter-spacing: 0.3px; }
+        .mtitle-sub  { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2.5px; }
+        .mstat-num   { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; font-weight: 400; fill: #4a5838; }
+        .mstat-label { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2px; }
+        .mcity-label { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 500; fill: #4a5838; }
+        .mcity-label-highlight { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 600; fill: #b85a38; }
+        .msea-label  { font-family: "Source Serif 4", Georgia, serif; font-size: 11px; font-style: italic; fill: #a8b59c; letter-spacing: 1px; }
+      </style>
+
+      <text x="40" y="60"  class="mtitle">Elba</text>
+      <text x="40" y="78"  class="mtitle-sub">TUSCAN ARCHIPELAGO</text>
+
+      <text x="40" y="150" class="mstat-num">32,000</text>
+      <text x="40" y="166" class="mstat-label">POPULATION</text>
+      <text x="40" y="215" class="mstat-num">Portoferraio</text>
+      <text x="40" y="231" class="mstat-label">MAIN TOWN</text>
+      <text x="40" y="280" class="mstat-num">224 km²</text>
+      <text x="40" y="296" class="mstat-label">AREA</text>
+
+      <path d="M573.9 62.0L571.9 60.0L568.7 62.4L552.1 87.2L550.1 98.1L542.1 115.5L534.3 124.8L526.4 128.7L523.8 134.8L525.7 146.5L522.7 150.9L520.6 152.0L511.2 155.0L506.9 155.0L491.5 148.2L483.6 143.0L482.6 138.7L491.6 135.5L496.7 135.8L496.0 128.4L485.2 126.3L467.1 127.3L464.0 126.7L442.2 119.1L439.8 114.7L435.6 113.9L434.5 116.3L436.2 120.0L437.9 120.8L440.7 120.0L442.3 120.5L447.3 127.6L444.8 132.9L441.2 134.4L439.2 140.8L442.0 144.6L442.1 146.3L439.1 150.8L434.8 152.2L431.3 151.7L429.6 150.1L422.8 151.4L421.0 157.3L423.7 158.7L423.4 161.7L419.5 165.3L416.3 166.4L404.7 163.8L398.2 159.7L391.6 153.4L389.7 148.1L384.4 141.9L380.6 142.4L365.5 136.6L361.1 137.1L359.8 139.3L350.5 141.4L321.3 141.5L310.8 146.4L296.5 158.5L292.3 164.3L290.9 171.0L291.4 193.0L293.0 197.0L295.1 199.9L297.0 200.7L301.7 207.8L308.0 221.6L320.9 233.8L335.5 237.4L354.8 232.0L367.9 230.1L379.0 230.6L384.9 231.9L391.4 236.6L412.4 242.3L415.8 240.3L416.0 234.0L411.5 226.0L411.1 219.0L412.7 215.6L416.2 213.0L419.5 212.5L420.9 215.0L431.1 220.1L433.6 219.9L441.0 225.2L454.7 230.9L458.0 230.4L460.7 226.5L460.8 219.5L459.7 217.5L462.1 208.2L469.3 201.2L478.8 201.2L481.3 203.3L483.4 222.0L485.7 228.7L487.6 230.0L489.8 228.3L492.9 222.5L493.2 218.9L486.2 201.9L486.3 200.3L489.9 197.7L505.9 195.2L510.4 195.4L520.8 200.2L522.7 202.3L521.6 210.1L531.8 230.7L535.0 234.5L539.9 250.6L544.6 255.5L554.6 259.4L559.0 259.5L569.5 254.2L570.8 254.3L572.8 255.2L575.4 260.8L578.9 265.0L581.8 264.5L589.5 259.0L591.9 252.8L591.9 242.6L590.8 234.8L588.8 230.3L581.9 222.6L570.9 220.5L566.7 216.1L566.3 213.9L569.5 207.9L562.9 204.1L556.0 202.7L549.3 202.8L547.7 201.1L549.9 198.5L556.3 195.9L559.6 195.6L569.8 190.9L579.9 184.1L591.1 181.9L592.1 179.8L592.6 173.9L590.7 167.5L591.9 147.2L587.7 140.9L586.7 130.7L589.9 118.0L597.9 99.7L599.1 91.1L592.4 83.1L580.4 77.1L579.2 72.3L573.9 62.0Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+
+      <text x="620" y="290" class="msea-label" text-anchor="end">Tyrrhenian Sea</text>
+
+      <circle cx="496.7" cy="135.8" r="3.5" fill="#4a5838"/>
+      <text x="501" y="133" class="mcity-label">Portoferraio</text>
+
+      <circle cx="375.7" cy="141.4" r="3" fill="#4a5838"/>
+      <text x="371" y="138" class="mcity-label" text-anchor="end">Marciana Marina</text>
+
+      <circle cx="353.9" cy="173.0" r="3" fill="#4a5838"/>
+      <text x="349" y="177" class="mcity-label" text-anchor="end">Marciana</text>
+
+      <circle cx="556.4" cy="190.6" r="3" fill="#4a5838"/>
+      <text x="561" y="194" class="mcity-label">Porto Azzurro</text>
+
+      <circle cx="538.0" cy="221.7" r="3.5" fill="#b85a38"/>
+      <text x="543" y="225" class="mcity-label-highlight">Capoliveri</text>
+    </svg>
+  </div>
+
+  <section class="gallery-intro">
+    <h2>Scenes from Elba</h2>
+    <p class="places">Portoferraio · Capoliveri · Barabarca · Zuccale · Le Ghiaie · Cavoli · Porto Azzurro</p>
+  </section>
+
+  <!-- Photo gallery -->
+  <div class="photos">
+    <figure class="photo-full">
+      <img src="../images/elba_2__House.jpg" alt="" data-caption="Casale Le Pitte, Capoliveri" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/elba_56__Spiaggia_Barabarca.jpg" alt="" data-caption="Spiaggia di Barabarca" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/elba_52__Spiaggia_Zuccale.jpg" alt="" data-caption="Walking down to Zuccale" data-gallery>
+    </figure>
+
+    <div class="photo-pair-portrait">
+      <figure><img src="../images/elba_62__Snorkeling.jpg" alt="" data-caption="Looking for fish" data-gallery></figure>
+      <figure><img src="../images/elba_31__Villa_dei_Mulini.jpg" alt="" data-caption="Villa dei Mulini, Portoferraio" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/elba_53__Spiaggia_Zuccale.jpg" alt="" data-caption="Spiaggia di Zuccale" data-gallery>
+    </figure>
+
+    <div class="photo-pair">
+      <figure><img src="../images/elba_64__Spiaggia_Le_Ghiaie.jpg" alt="" data-caption="Spiaggia delle Ghiaie, Portoferraio" data-gallery></figure>
+      <figure><img src="../images/elba_65__Spiaggia_Le_Ghiaie.jpg" alt="" data-caption="Spiaggia delle Ghiaie, Portoferraio" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/elba_76__Spiaggia_di_Sansone.jpg" alt="" data-caption="Spiaggia di Sansone" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/elba_59__Spiaggia_di_Cavoli.jpg" alt="" data-caption="Spiaggia di Cavoli" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/elba_38__Porto_Azzurro.jpg" alt="" data-caption="Porto Azzurro" data-gallery>
+    </figure>
+
+    <div class="photo-pair">
+      <figure><img src="../images/elba_41b__Kontiki.jpg" alt="" data-caption="Lunch at Kontiki" data-gallery></figure>
+      <figure><img src="../images/elba_47__Gelato.jpg" alt="" data-caption="Gelato counter, Portoferraio" data-gallery></figure>
+    </div>
+  </div>
+
+  <section class="practical-notes">
+    <h2>Practical notes</h2>
+    <p>When packing for the beaches, the Coop in Capoliveri is a small pleasure: their nocellara olives have a faint liquorice note, and the chocolate biscotti travel well. In Portoferraio, the arancini at Gastronomia Ruggeri come out hot in the late morning; there is a <em>gelateria artigianale</em> a minute’s walk away.</p>
+  </section>
+
+  <footer>
+    Map data © ISTAT (CC BY 3.0 IT)
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo lightbox">
+    <button class="lightbox-close" aria-label="Close">×</button>
+    <button class="lightbox-prev" aria-label="Previous">‹</button>
+    <button class="lightbox-next" aria-label="Next">›</button>
+    <img alt="">
+    <div class="lightbox-caption"></div>
+    <div class="lightbox-counter"></div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const nav = document.querySelector('.site-nav-wrap');
+  if (!nav) return;
+  const update = () => nav.classList.toggle('scrolled', window.scrollY > 10);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+})();
+(function(){
+  const toggle = document.querySelector('.nav-toggle');
+  const links  = document.getElementById('primary-nav');
+  if (!toggle || !links) return;
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+<script>
+// Fade-in effect for gallery images
+(function(){
+  const galleryImages = document.querySelectorAll('.photos figure img');
+  galleryImages.forEach(img => img.classList.add('fade-in'));
+
+  if (!('IntersectionObserver' in window)) {
+    galleryImages.forEach(img => img.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -80px 0px',
+    threshold: 0.05
+  });
+
+  galleryImages.forEach(img => observer.observe(img));
+})();
+</script>
+
+<script>
+// Lightbox
+(function(){
+  const imgs = Array.from(document.querySelectorAll('img[data-gallery]'));
+  const lb      = document.getElementById('lightbox');
+  if (!lb) return;
+  const lbImg   = lb.querySelector('img');
+  const lbPrev  = lb.querySelector('.lightbox-prev');
+  const lbNext  = lb.querySelector('.lightbox-next');
+  const lbClose = lb.querySelector('.lightbox-close');
+  const lbCaption = lb.querySelector('.lightbox-caption');
+  const lbCount = lb.querySelector('.lightbox-counter');
+  let current = 0;
+
+  function show(i) {
+    current = (i + imgs.length) % imgs.length;
+    lbImg.src = imgs[current].src;
+    lbImg.alt = imgs[current].alt || '';
+    lbCaption.textContent = imgs[current].dataset.caption || '';
+    lbCount.textContent = (current + 1) + ' / ' + imgs.length;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  imgs.forEach((img, i) => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => show(i));
+  });
+  lbPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
+  lbNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
+  lbClose.addEventListener('click', (e) => { e.stopPropagation(); hide(); });
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) hide();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     hide();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+})();
+</script>
+
+</body>
+</html>

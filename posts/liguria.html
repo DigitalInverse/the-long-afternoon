@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Ten Days in Liguria Taught Me</title>
+
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --text-strong: #2b3320;
+    --text-body:   #3a4430;
+    --text-muted:  #8a9572;
+    --text-sub:    #a8b59c;
+    --surface:     #fbf9f3;
+    --rule:        #ebe7db;
+
+    --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  figure { margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--text-body);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    font-feature-settings: "kern", "liga", "onum";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page   { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+  .column { max-width: 760px;  margin: 0 auto; }
+
+  /* --- Site navigation --- */
+  .site-nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  /* Sticky wrapper: stays at top of viewport, subtle translucent background */
+  .site-nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251, 249, 243, 0.85);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  /* Once the page scrolls at all, fade in the subtle under-rule */
+  .site-nav-wrap.scrolled {
+    border-bottom-color: var(--rule);
+  }
+  .site-nav-wrap.scrolled .site-nav {
+    padding-top: 1rem;
+    padding-bottom: 0.85rem;
+  }
+  .site-nav-wrap.scrolled .site-logo {
+    font-size: 1.2rem;
+  }
+  .site-nav-wrap .site-nav,
+  .site-nav-wrap .site-logo {
+    transition: padding 0.2s, font-size 0.2s;
+  }
+  .site-logo {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    color: var(--text-strong);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .site-nav-links {
+    display: flex;
+    gap: 2.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+  }
+  .site-nav-links > li { position: relative; }
+  .site-nav-links a, .site-nav-links button {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0;
+    transition: color 0.15s;
+  }
+  .site-nav-links a:hover,
+  .site-nav-links button:hover {
+    color: var(--text-strong);
+  }
+  .site-nav-links .has-dropdown > button::after {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 0.4em;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 4px solid currentColor;
+    vertical-align: middle;
+    opacity: 0.55;
+  }
+  .nav-dropdown {
+    position: absolute;
+    top: 100%;
+    right: -0.75rem;
+    margin-top: 0.5rem;
+    padding: 0.6rem 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
+    min-width: 190px;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+    z-index: 50;
+  }
+  .has-dropdown:hover .nav-dropdown,
+  .has-dropdown:focus-within .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .nav-dropdown li { padding: 0; }
+  .nav-dropdown a {
+    display: block;
+    padding: 0.45rem 1.25rem;
+    letter-spacing: 1.5px;
+  }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: var(--text-strong);
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: currentColor;
+    margin: 5px 0;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  @media (max-width: 720px) {
+    .nav-toggle { display: block; }
+    .site-nav-links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      background: var(--surface);
+      border-bottom: 1px solid var(--rule);
+      padding: 0.5rem 1.5rem 1.5rem;
+      gap: 0.2rem;
+      z-index: 40;
+    }
+    .site-nav-links.open { display: flex; }
+    .site-nav-links a, .site-nav-links button {
+      padding: 0.75rem 0;
+      text-align: left;
+      width: 100%;
+    }
+    .nav-dropdown {
+      position: static;
+      margin: 0;
+      padding: 0 0 0.5rem 1rem;
+      border: none;
+      box-shadow: none;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      background: transparent;
+      min-width: 0;
+    }
+    .nav-dropdown a { padding: 0.4rem 0; }
+  }
+
+  /* --- Masthead (title above hero) --- */
+  .masthead {
+    max-width: 760px;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+  }
+  .hero-title {
+    margin: 0 0 0.5em;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text-strong);
+  }
+  .hero-subtitle {
+    margin: 0 auto;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    line-height: 1.4;
+    color: var(--text-strong);
+    max-width: 42ch;
+  }
+  .hero-meta {
+    margin: 1.75rem auto 0;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* --- Hero image --- */
+  .hero {
+    margin: 0 0 3rem;
+  }
+  .hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+
+  /* --- Epigraph (quote between hero and map) --- */
+  .epigraph {
+    max-width: 620px;
+    margin: 0 auto 4rem;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-body);
+  }
+  .epigraph p {
+    margin: 0 0 0.9em;
+  }
+  .epigraph cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* --- Map --- */
+  .map-wrap {
+    max-width: 760px;
+    margin: 0 auto 3rem;
+  }
+  .map-wrap svg { display: block; width: 100%; height: auto; }
+
+  /* --- Essay body --- */
+  .essay { margin-bottom: 4rem; }
+  .essay p {
+    margin: 0 0 1.15em;
+    color: var(--text-body);
+  }
+  .essay em { font-style: italic; }
+
+  /* True 3-line drop cap.
+     Body is 17px * 1.6 line-height ≈ 27.2px per line.
+     The cap's font-size needs to exceed 3 × line-height because a large
+     portion of the font's em-box is ascender/descender space rather than
+     visible cap-height — in practice ~6em gets the visible glyph to
+     span three lines. line-height is crushed to lift the top toward the
+     first-line baseline. */
+  .essay > p:first-child::first-letter {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--text-strong);
+    float: left;
+    font-size: 6em;
+    line-height: 0.82;
+    margin: 0.06em 0.09em -0.08em -0.02em;
+    padding: 0;
+  }
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .essay > p:first-child::first-letter {
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+      font-size: inherit;
+      line-height: inherit;
+      float: none;
+      margin: 0 0.08em 0 0;
+    }
+  }
+
+  .essay .dialogue {
+    margin: 1.4em 0;
+    padding-left: 1.1em;
+    border-left: 2px solid var(--rule);
+  }
+  .essay .dialogue p {
+    margin: 0.2em 0;
+    font-style: italic;
+  }
+  .essay .beat {
+    font-style: italic;
+    color: var(--text-strong);
+    margin: 1.5em 0;
+  }
+
+  /* --- Gallery header (above photos) --- */
+  .gallery-intro {
+    text-align: center;
+    margin: 5rem auto 2.5rem;
+    max-width: 760px;
+    padding: 0 1.5rem;
+  }
+  .gallery-intro h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1rem;
+    letter-spacing: 0.01em;
+  }
+  .gallery-intro .places {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* --- Practical notes (end-of-post section) --- */
+  .practical-notes {
+    max-width: 760px;
+    margin: 6rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .practical-notes h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1.5rem;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+  .practical-notes p {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin: 0;
+  }
+
+  /* --- Photo gallery: tight spacing --- */
+  .photos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .photo-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+  .photo-portrait {
+    display: flex;
+    justify-content: center;
+  }
+  .photo-portrait img {
+    max-width: 65%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+
+  /* Fade-in on scroll.
+     Images start invisible and slightly translated down,
+     then ease in when they intersect the viewport. */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    body { font-size: 18px; }
+    .page { padding: 2.5rem 1.1rem 4rem; }
+    .photo-pair { grid-template-columns: 1fr; }
+    .photo-portrait img { max-width: 100%; }
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    letter-spacing: 0.5px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* --- Lightbox --- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 24, 14, 0.94);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: zoom-out;
+    padding: 2rem;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    position: absolute;
+    color: #faf4e4;
+    background: rgba(0,0,0,0.3);
+    border: none;
+    font-family: var(--sans);
+    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+    background: rgba(0,0,0,0.6);
+  }
+  .lightbox-close { top: 1.5rem; right: 1.5rem; }
+  .lightbox-prev  { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-next  { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #a8b59c;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+  .lightbox-caption {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.92);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    text-align: center;
+    max-width: 80vw;
+  }
+  @media (max-width: 700px) {
+    .lightbox-prev  { left: 0.5rem; }
+    .lightbox-next  { right: 0.5rem; }
+    .lightbox-close { top: 0.75rem; right: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-nav-wrap">
+<nav class="site-nav" aria-label="Main">
+  <a href="../index.html" class="site-logo">The Long Afternoon</a>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="site-nav-links" id="primary-nav">
+    <li><a href="../index.html">Home</a></li>
+    <li class="has-dropdown">
+      <button type="button" aria-haspopup="true" aria-expanded="false">Places</button>
+      <ul class="nav-dropdown">
+        <li><a href="liguria.html">Liguria</a></li>
+        <li><a href="sicily.html">Sicily</a></li>
+        <li><a href="sardinia.html">Sardinia</a></li>
+        <li><a href="elba.html">Elba</a></li>
+        <li><a href="lucca.html">Lucca</a></li>
+        <li><a href="kefalonia.html">Kefalonia</a></li>
+      </ul>
+    </li>
+    <li><a href="../about.html">About</a></li>
+  </ul>
+</nav>
+</div>
+
+<div class="page">
+
+  <!-- Title + subtitle above the hero -->
+  <header class="masthead">
+    <h1 class="hero-title">La Dolce Vita</h1>
+    <p class="hero-subtitle">What ten days in Liguria taught me about the Italian good life</p>
+  <p class="hero-meta">Lerici and Sestri Levante, Liguria · 5–15 July 2024</p>
+  </header>
+
+  <!-- Hero image -->
+  <figure class="hero">
+    <img src="../images/46__Portofino.jpg" alt="" data-caption="Portofino" data-gallery>
+  </figure>
+
+  <!-- Epigraph -->
+  <blockquote class="epigraph">
+    <p>“Our actual happiness with, and in, a place must be a brief and apparently haphazard phenomenon: an interval in which we achieve receptivity to the world around us.”</p>
+    <cite>Alain de Botton · The Art of Travel</cite>
+  </blockquote>
+
+  <!-- Essay -->
+  <article class="column essay">
+    <p>We were parked illegally on a narrow cliffside road between Fiascherino and Tellaro, trying to decide whether the Italian good life was worth a parking ticket. The sea below us was impossibly blue, folding into the rocks in slow, patient waves. The air smelled of salt and sun-warmed stone. It was the kind of view that appears on postcards and persuades people to move countries.</p>
+    <p>And yet, inside our car, my wife and I were anxious.</p>
+    <div class="dialogue">
+      <p>“Can we park here?”</p>
+      <p>“There’s no sign.”</p>
+      <p>“Maybe that’s worse.”</p>
+    </div>
+    <p>It was our third day of ten, and already Italy was defeating our itinerary. I had thought I understood this country. I thought I understood the idea of <em>La Dolce Vita</em> — the sweet life. Leisure. Pleasure. Sunlight. Espresso. A kind of elegant indifference to urgency.</p>
+    <p>But in that moment, I was not living sweetly. I was calculating fines.</p>
+    <p>We had imagined Fiascherino as a simple idyll: swim, sun, perhaps a late lunch overlooking the water. We had not imagined parking as the central drama of the day. As we hesitated, two Italian women pulled up and parked in front of us — also at the side of the road. We stepped out and asked, in hesitant Italian, whether they knew the rules. They laughed. They were tourists too. They had no idea. For a moment the four of us stood there, united by uncertainty. We examined the absence of signs as though it might reveal legal wisdom.</p>
+    <p>Then one of them shrugged, smiled, and said, <em>“Well, let’s go to the beach and have fun.”</em></p>
+    <p>No further analysis. No collective risk assessment. Just a decision to let the day happen. And suddenly I understood something I hadn’t grasped on my previous trips to Italy. <em>La Dolce Vita</em> is not about aesthetic pleasure alone. It is not the cobblestones or the espresso cups or the curated beauty of coastal villages. It is a posture toward uncertainty. A willingness to trade minor control for major experience. The car might get a ticket. The day might contain inconvenience. The world might not cooperate with our itinerary.</p>
+    <p class="beat">But the sea was waiting.</p>
+    <p>We went to the beach. The water was warm and clear and indifferent to our deliberations. We swam, we dried ourselves on sun-baked rocks, we forgot about the car. When we returned hours later, there was no ticket. But that almost felt beside the point.</p>
+    <p>Liguria taught me that the good life is not the absence of small worries. It is the choice, sometimes, to set them down.</p>
+  </article>
+
+  <!-- Map as transition into the gallery. Data: © ISTAT (CC BY 3.0 IT) -->
+  <div class="map-wrap">
+    <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>Map of Liguria</title>
+      <desc>Light olive map of the Liguria region with six coastal cities labeled.</desc>
+      <style>
+        .mtitle      { font-family: "Source Serif 4", Georgia, serif; font-size: 28px; font-weight: 400; fill: #4a5838; letter-spacing: 0.3px; }
+        .mtitle-sub  { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2.5px; }
+        .mstat-num   { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; font-weight: 400; fill: #4a5838; }
+        .mstat-label { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2px; }
+        .mcity-label { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 500; fill: #4a5838; }
+        .mcity-label-highlight { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 600; fill: #b85a38; }
+        .msea-label  { font-family: "Source Serif 4", Georgia, serif; font-size: 11px; font-style: italic; fill: #a8b59c; letter-spacing: 1px; }
+      </style>
+
+      <text x="40" y="60"  class="mtitle">Liguria</text>
+      <text x="40" y="78"  class="mtitle-sub">NORTHWEST ITALY</text>
+
+      <text x="40" y="150" class="mstat-num">1.51M</text>
+      <text x="40" y="166" class="mstat-label">POPULATION</text>
+      <text x="40" y="215" class="mstat-num">Genoa</text>
+      <text x="40" y="231" class="mstat-label">CAPITAL</text>
+      <text x="40" y="280" class="mstat-num">5,416 km²</text>
+      <text x="40" y="296" class="mstat-label">AREA</text>
+
+      <path d="M470.0 60.0L468.1 60.5L467.7 60.9L467.7 62.9L465.6 66.6L461.3 68.6L461.6 69.8L464.8 72.7L465.3 74.2L465.1 76.8L465.6 78.1L466.1 82.0L467.7 84.7L467.0 86.3L462.7 88.6L461.6 88.3L459.0 85.1L458.4 85.2L458.1 86.4L455.9 86.4L453.4 85.8L452.1 86.2L451.4 88.7L452.5 90.4L451.7 91.5L449.1 92.1L447.6 93.3L447.0 95.0L447.6 100.2L445.9 101.0L445.7 102.5L444.9 102.8L442.9 102.6L442.4 102.0L442.9 100.8L443.2 98.4L442.5 94.5L441.3 93.3L440.9 93.5L440.6 93.2L440.7 92.0L439.7 89.9L438.5 88.7L437.1 85.1L435.1 82.1L433.8 81.6L429.5 81.9L428.6 83.0L426.2 81.4L421.7 82.2L420.5 81.9L419.3 80.9L417.0 84.1L415.3 84.7L415.0 86.8L417.4 89.8L416.1 91.5L415.1 91.4L414.0 92.2L413.3 93.0L413.6 93.8L413.0 94.7L411.9 94.9L411.6 94.4L410.9 94.9L410.9 96.8L411.3 98.1L408.4 99.4L407.3 99.4L406.6 99.0L406.0 97.4L404.8 97.2L401.4 98.0L395.9 97.7L394.7 96.5L394.8 96.1L394.1 95.1L392.1 96.5L391.2 97.9L390.6 100.8L389.4 99.5L387.2 99.6L385.8 97.5L385.2 97.4L383.1 98.5L382.5 99.7L382.2 102.2L380.6 105.4L378.5 106.0L378.0 107.0L375.9 108.2L374.9 106.0L374.2 103.5L372.0 102.9L369.5 102.6L368.6 101.0L367.0 99.4L364.5 99.4L362.3 98.7L361.3 97.8L359.7 95.0L358.5 93.6L356.7 95.4L354.1 96.7L352.5 100.8L353.5 102.3L353.6 103.5L352.9 104.3L350.7 105.3L349.3 105.1L349.3 107.8L351.3 110.0L351.6 111.4L351.4 112.4L353.6 115.9L351.5 118.6L350.9 122.0L348.9 123.0L347.7 124.0L346.6 123.4L345.1 124.1L343.7 126.2L342.4 126.1L341.4 126.6L341.1 129.1L340.2 129.5L340.4 130.7L341.5 133.2L340.9 135.1L339.2 138.4L338.5 138.8L337.6 138.2L334.6 138.4L334.4 139.4L334.8 142.8L333.9 145.5L331.0 144.2L330.5 143.0L329.7 142.5L328.9 143.0L327.2 145.7L327.6 148.4L329.2 148.3L329.7 148.6L331.9 151.7L331.5 153.2L330.6 154.3L327.6 156.4L330.5 159.4L330.0 160.7L328.2 162.7L327.9 164.7L329.3 166.5L332.6 168.8L332.3 172.0L333.1 173.3L330.4 176.4L329.2 180.2L328.2 181.1L324.5 181.6L322.0 179.0L319.2 178.5L317.8 179.2L314.9 181.5L313.9 182.5L313.8 183.6L317.8 185.3L319.3 186.8L318.7 187.2L318.9 188.4L319.7 189.0L319.0 190.3L318.0 190.7L315.6 189.3L312.5 188.1L311.4 188.9L311.1 189.8L310.4 190.4L307.9 191.1L306.6 190.8L305.1 189.0L301.7 189.3L300.6 189.9L298.7 190.1L297.5 188.1L295.8 187.4L292.6 186.6L291.2 186.7L287.2 186.0L282.0 183.1L279.5 182.1L278.7 182.0L276.3 183.1L273.5 185.0L272.0 186.7L271.2 190.5L273.7 195.0L277.3 194.7L277.9 194.9L274.5 196.6L273.0 199.4L272.1 200.2L270.6 200.0L270.2 200.3L268.9 202.3L268.8 203.8L267.3 204.9L264.7 206.4L262.8 206.9L262.3 207.4L262.2 209.9L263.5 214.4L260.1 220.0L258.6 220.5L256.4 222.5L254.1 223.9L251.9 223.8L250.1 224.2L247.1 226.1L246.5 226.9L247.4 228.7L245.5 233.3L246.0 236.0L245.6 237.3L244.1 238.1L241.9 238.3L238.1 240.5L236.1 242.5L234.9 245.4L234.9 247.1L235.5 249.0L236.9 250.3L238.6 258.5L240.7 263.2L244.8 264.1L245.2 262.6L247.0 261.4L248.0 261.2L250.8 261.6L253.8 262.6L263.9 265.0L268.3 259.9L270.4 259.4L274.6 260.6L276.9 258.1L281.3 256.3L282.5 255.1L283.5 255.1L285.4 254.3L287.2 254.6L289.3 255.8L290.0 255.8L291.0 255.0L291.7 253.5L292.9 252.7L299.3 251.0L302.3 251.3L304.9 249.4L309.0 248.8L311.7 247.7L312.6 245.7L319.7 243.2L320.8 242.1L321.1 241.4L322.8 240.3L324.6 239.8L328.4 239.3L329.2 238.8L330.4 237.3L329.8 236.6L330.0 235.9L331.6 233.9L335.6 231.4L338.2 230.7L339.0 229.5L339.6 227.1L340.4 226.0L341.9 225.2L344.8 224.9L345.6 224.3L345.5 223.3L343.6 220.8L343.3 220.1L343.3 217.9L343.9 215.7L346.4 211.5L348.6 210.0L348.8 209.0L351.2 206.3L354.1 204.2L354.4 203.1L354.0 198.5L354.8 194.0L355.9 191.0L357.9 187.5L361.1 183.9L360.7 183.8L361.2 182.3L365.8 178.9L370.4 177.4L377.3 174.4L378.3 173.4L379.9 172.9L382.4 172.8L385.8 170.4L386.2 168.8L385.3 167.2L385.2 163.5L386.4 161.6L388.9 160.0L391.7 155.2L391.3 153.1L391.1 154.0L389.7 153.9L389.1 152.5L389.3 151.2L390.9 148.5L393.1 146.5L397.6 144.3L399.0 142.1L398.9 141.9L397.5 142.9L396.7 143.9L397.0 142.6L399.3 139.7L404.8 137.9L407.0 135.8L409.0 135.2L410.4 134.2L410.4 133.8L410.0 134.4L409.7 133.6L410.7 132.6L414.6 131.7L417.8 130.1L419.1 129.4L421.9 126.0L423.2 125.3L427.9 124.6L429.5 123.4L429.2 122.9L429.3 122.2L430.3 121.1L433.1 119.6L435.4 119.2L438.6 116.8L441.4 117.0L443.3 117.6L444.1 118.4L447.3 119.0L447.4 117.9L444.1 116.9L448.6 117.6L453.9 117.7L454.1 118.1L455.6 118.4L455.8 118.8L454.3 119.5L451.6 118.9L451.4 119.6L459.4 121.8L461.7 121.5L467.0 123.4L467.2 122.1L465.9 121.2L466.3 120.0L467.2 119.9L468.6 120.7L468.1 121.5L469.2 124.0L476.0 125.3L477.9 124.8L480.3 126.0L491.6 128.0L496.0 129.3L502.9 132.0L505.6 134.6L505.8 137.3L504.7 140.1L505.3 141.8L511.2 143.8L515.9 146.1L514.8 143.8L515.7 139.6L515.2 138.8L515.3 138.1L515.6 137.6L517.2 137.1L518.4 136.1L517.9 135.3L517.9 134.8L518.8 134.8L520.6 136.4L523.7 137.5L528.6 140.2L530.1 140.6L532.1 142.0L533.0 143.2L535.0 143.5L542.0 147.9L544.5 150.8L544.5 152.1L543.5 152.5L545.0 153.1L545.8 154.7L546.3 156.7L546.7 156.7L548.0 155.1L548.7 154.9L551.0 156.3L552.8 159.7L554.2 159.3L557.5 160.8L558.8 159.2L560.1 159.6L561.3 160.6L562.3 163.4L566.4 166.6L570.6 167.6L571.8 169.2L573.3 170.5L573.1 172.3L574.1 173.0L574.8 172.4L576.8 174.7L579.4 175.0L580.0 176.1L579.3 177.1L579.4 178.1L583.9 183.5L584.2 183.6L584.7 182.9L585.3 181.4L586.1 181.0L587.3 180.9L590.4 182.2L593.2 184.6L596.4 186.9L597.5 187.2L598.8 188.4L601.1 193.2L603.5 193.4L604.3 194.0L604.5 195.0L606.6 195.7L606.7 196.5L611.5 199.5L613.8 200.3L616.3 202.9L619.1 200.0L618.5 198.4L617.3 199.3L616.7 197.3L615.9 196.6L614.4 193.0L613.0 191.1L614.5 192.4L615.7 191.1L615.3 191.2L615.2 190.6L616.8 189.0L618.7 189.4L619.0 189.0L619.8 189.7L621.5 192.9L623.2 194.0L623.8 195.2L625.5 195.6L627.2 195.1L628.4 195.5L628.9 196.9L628.5 198.3L629.2 198.2L631.1 199.5L637.7 205.5L640.0 205.9L641.4 203.5L642.7 202.5L644.6 202.6L646.7 203.9L648.9 199.3L653.4 196.0L655.1 193.0L654.8 191.7L650.9 187.7L647.1 186.8L646.7 186.9L644.2 189.1L642.5 192.9L640.9 191.5L641.0 191.0L642.6 190.0L642.8 187.7L642.5 186.6L641.5 186.2L640.8 185.3L639.9 182.1L640.4 181.0L639.8 179.5L640.1 177.3L639.3 176.0L638.1 175.5L635.6 176.1L632.8 176.0L630.9 175.3L628.4 176.0L626.9 176.8L626.1 176.1L626.1 175.8L631.9 169.5L632.8 169.3L631.6 168.6L629.7 168.6L628.8 167.5L628.7 166.3L626.8 166.2L626.0 166.7L622.9 169.6L622.3 171.9L621.6 172.9L620.6 169.7L622.4 164.5L623.3 163.0L621.3 162.1L620.3 160.7L620.8 159.5L620.8 156.6L619.6 152.5L618.2 152.1L614.1 149.4L612.8 149.3L612.0 149.6L608.2 146.3L605.6 144.9L605.1 144.4L604.4 141.9L603.3 140.5L599.1 138.6L597.2 132.7L596.5 131.2L595.7 130.7L592.5 130.7L592.1 131.5L591.8 131.5L590.6 131.0L590.0 129.5L588.6 122.8L587.2 120.3L585.3 120.1L584.1 119.5L581.0 117.3L579.4 115.4L577.7 115.0L577.0 115.7L575.5 116.5L574.1 115.0L571.6 114.1L571.0 114.3L570.3 116.6L569.8 116.8L568.7 117.1L566.8 116.6L560.9 117.6L559.1 119.1L559.3 119.7L558.6 120.8L557.7 120.0L557.5 118.0L555.7 117.7L552.6 119.2L552.0 118.3L552.1 116.3L553.2 114.2L554.2 113.7L555.2 111.8L555.8 109.6L557.2 106.6L556.9 104.3L557.9 104.2L559.1 104.9L560.7 104.5L561.4 103.8L561.4 99.3L562.2 97.5L562.8 93.4L561.9 91.3L560.1 89.8L560.9 87.5L560.5 86.8L557.1 85.2L556.1 85.2L554.4 86.0L554.1 83.9L553.4 83.8L553.0 84.3L551.1 84.0L548.9 82.6L548.8 80.7L549.2 79.1L548.7 78.4L546.5 77.5L546.1 79.5L545.3 80.2L544.0 79.6L543.2 81.0L543.0 82.4L542.6 82.7L539.9 80.9L538.4 81.0L537.0 82.1L535.3 81.5L533.9 79.9L530.7 77.3L529.5 75.6L527.4 75.7L527.0 77.6L526.2 78.3L524.9 78.3L522.5 77.5L520.6 77.6L520.6 77.0L522.3 75.0L521.5 73.8L520.4 72.9L517.1 73.3L513.6 74.3L513.9 77.3L513.5 78.7L512.6 79.2L510.3 79.4L505.3 83.3L502.9 83.3L500.3 81.9L499.1 81.7L498.4 81.1L497.1 79.0L497.5 75.9L496.4 74.3L495.5 74.3L494.2 73.7L492.4 71.9L489.9 72.4L488.1 74.1L486.8 69.1L484.9 66.4L483.9 63.5L482.8 62.4L481.6 61.9L480.5 62.0L479.8 62.6L476.1 63.0L475.4 62.6L474.8 61.0L473.8 60.1L470.0 60.0Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+
+      <text x="380" y="290" class="msea-label">Ligurian Sea</text>
+
+      <circle cx="280.7" cy="256.0" r="3" fill="#4a5838"/>
+      <text x="277" y="252" class="mcity-label" text-anchor="end">Sanremo</text>
+
+      <circle cx="321.8" cy="239.3" r="3" fill="#4a5838"/>
+      <text x="326" y="235" class="mcity-label">Imperia</text>
+
+      <circle cx="395.6" cy="143.9" r="3" fill="#4a5838"/>
+      <text x="392" y="139" class="mcity-label" text-anchor="end">Savona</text>
+
+      <circle cx="471.7" cy="121.7" r="3.5" fill="#4a5838"/>
+      <text x="476" y="117" class="mcity-label">Genoa</text>
+
+      <circle cx="514.3" cy="145.0" r="3.5" fill="#b85a38"/>
+      <text x="519" y="160" class="mcity-label-highlight">Portofino</text>
+
+      <circle cx="614.9" cy="190.7" r="3" fill="#4a5838"/>
+      <text x="611" y="187" class="mcity-label" text-anchor="end">La Spezia</text>
+    </svg>
+  </div>
+
+  <!-- Photo gallery -->
+  <section class="gallery-intro">
+    <h2>Scenes from Liguria</h2>
+    <p class="places">Portofino · Monterosso al Mare · Vernazza · Fiascherino · San Fruttuoso</p>
+  </section>
+
+  <div class="photos">
+    <div class="photo-pair">
+      <figure><img src="../images/43__Portofino.jpg" alt="" data-caption="Portofino" data-gallery></figure>
+      <figure><img src="../images/50__Portofino.jpg" alt="" data-caption="Portofino" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/55__Portofino.jpg" alt="" data-caption="Portofino" data-gallery>
+    </figure>
+
+    <div class="photo-pair">
+      <figure><img src="../images/24__Lerici.jpg" alt="" data-caption="Lerici" data-gallery></figure>
+      <figure><img src="../images/28__Lerici.jpg" alt="" data-caption="Lerici" data-gallery></figure>
+    </div>
+
+    <div class="photo-pair">
+      <figure><img src="../images/65__Monterosso_al_Mare.jpg" alt="" data-caption="Monterosso al Mare" data-gallery></figure>
+      <figure><img src="../images/70__Monterosso_al_Mare.jpg" alt="" data-caption="Monterosso al Mare" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/15__Fiascherino.jpg" alt="" data-caption="Fiascherino" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/76__Vernazza.jpg" alt="" data-caption="Vernazza" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/87__San_Fruttuoso.jpg" alt="" data-caption="San Fruttuoso" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/57__Santa_Margherita_Ligure.jpg" alt="" data-caption="Dinner at Kicks, Santa Margherita Ligure" data-gallery>
+    </figure>
+
+    <figure class="photo-portrait">
+      <img src="../images/10__Tellaro.jpg" alt="" data-caption="Tellaro" data-gallery>
+    </figure>
+  </div>
+
+  <section class="practical-notes">
+    <h2>Practical notes</h2>
+    <p>The hike to the abbey at San Fruttuoso takes about two hours along the coast; the water in the cove at the end is exceptionally clear, and worth the walk. Not eating pizza at Kicks in Santa Margherita Ligure is a small tragedy. For quicker meals, the focaccia or porchetta sandwiches at Casalini Punto Caldo in central Lerici are excellent. Parking in small coastal villages like Bogliasco and the Cinque Terre is nearly impossible; the train and bus are easier than a rental car.</p>
+  </section>
+
+  <footer>
+    Map data © ISTAT (CC BY 3.0 IT)
+  </footer>
+
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+  <button class="lightbox-prev"  aria-label="Previous image">‹</button>
+  <img src="" alt="">
+  <button class="lightbox-next"  aria-label="Next image">›</button>
+  <button class="lightbox-close" aria-label="Close">✕</button>
+  <div class="lightbox-caption"></div>
+  <div class="lightbox-counter"></div>
+</div>
+
+<script>
+// Add 'scrolled' class to nav when page is scrolled (for the subtle shrink + underline)
+(function(){
+  const nav = document.querySelector('.site-nav-wrap');
+  if (!nav) return;
+  const update = () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  };
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+})();
+</script>
+
+<script>
+// Mobile nav toggle
+(function(){
+  const toggle = document.querySelector('.nav-toggle');
+  const links  = document.getElementById('primary-nav');
+  if (!toggle || !links) return;
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+<script>
+// Fade-in effect for gallery images (skips hero, which is already visible)
+(function(){
+  const galleryImages = document.querySelectorAll('.photos figure img');
+  galleryImages.forEach(img => img.classList.add('fade-in'));
+
+  if (!('IntersectionObserver' in window)) {
+    // Older browsers: just show everything
+    galleryImages.forEach(img => img.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // only fade once
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -80px 0px', // trigger slightly before fully in view
+    threshold: 0.05
+  });
+
+  galleryImages.forEach(img => observer.observe(img));
+})();
+</script>
+
+<script>
+(function(){
+  // Build ordered list of gallery images (hero + rest) in DOM order
+  const imgs = Array.from(document.querySelectorAll('img[data-gallery]'));
+  const lb      = document.getElementById('lightbox');
+  const lbImg   = lb.querySelector('img');
+  const lbPrev  = lb.querySelector('.lightbox-prev');
+  const lbNext  = lb.querySelector('.lightbox-next');
+  const lbClose = lb.querySelector('.lightbox-close');
+  const lbCaption = lb.querySelector('.lightbox-caption');
+  const lbCount = lb.querySelector('.lightbox-counter');
+  let current = 0;
+
+  function show(i) {
+    current = (i + imgs.length) % imgs.length;
+    lbImg.src = imgs[current].src;
+    lbImg.alt = imgs[current].alt || '';
+    lbCaption.textContent = imgs[current].dataset.caption || '';
+    lbCount.textContent = (current + 1) + ' / ' + imgs.length;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  imgs.forEach((img, i) => {
+    img.addEventListener('click', () => show(i));
+  });
+  lbPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
+  lbNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
+  lbClose.addEventListener('click', (e) => { e.stopPropagation(); hide(); });
+  // Click on backdrop (but not the image itself) closes
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) hide();
+  });
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     hide();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+})();
+</script>
+
+</body>
+</html>

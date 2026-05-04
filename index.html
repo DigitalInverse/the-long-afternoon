@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Long Afternoon — Slow travel, carefully remembered</title>
+
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --text-strong: #2b3320;
+    --text-body:   #3a4430;
+    --text-muted:  #8a9572;
+    --text-sub:    #a8b59c;
+    --surface:     #fbf9f3;
+    --rule:        #ebe7db;
+    --accent:      #b85a38;
+
+    --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  figure { margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--text-body);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    font-feature-settings: "kern", "liga", "onum";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* --- Site navigation --- */
+  .site-nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251, 249, 243, 0.85);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .site-nav-wrap.scrolled {
+    border-bottom-color: var(--rule);
+  }
+  .site-nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .site-nav-wrap.scrolled .site-nav {
+    padding-top: 1rem;
+    padding-bottom: 0.85rem;
+  }
+  .site-nav-wrap.scrolled .site-logo {
+    font-size: 1.2rem;
+  }
+  .site-nav, .site-logo {
+    transition: padding 0.2s, font-size 0.2s;
+  }
+  .site-logo {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    color: var(--text-strong);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .site-nav-links {
+    display: flex;
+    gap: 2.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+  }
+  .site-nav-links > li { position: relative; }
+  .site-nav-links a, .site-nav-links button {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0;
+    transition: color 0.15s;
+  }
+  .site-nav-links a:hover,
+  .site-nav-links button:hover {
+    color: var(--text-strong);
+  }
+  .site-nav-links .has-dropdown > button::after {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 0.4em;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 4px solid currentColor;
+    vertical-align: middle;
+    opacity: 0.55;
+  }
+  .nav-dropdown {
+    position: absolute;
+    top: 100%;
+    right: -0.75rem;
+    margin-top: 0.5rem;
+    padding: 0.6rem 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
+    min-width: 190px;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+    z-index: 50;
+  }
+  .has-dropdown:hover .nav-dropdown,
+  .has-dropdown:focus-within .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .nav-dropdown li { padding: 0; }
+  .nav-dropdown a {
+    display: block;
+    padding: 0.45rem 1.25rem;
+    letter-spacing: 1.5px;
+  }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text-strong);
+    margin: 4px 0;
+    border-radius: 2px;
+  }
+
+  /* --- Hero --- */
+  .landing-hero {
+    position: relative;
+    width: 100%;
+    height: 75vh;
+    min-height: 480px;
+    max-height: 720px;
+    overflow: hidden;
+    margin-bottom: 5rem;
+  }
+  .landing-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .landing-hero-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 1.5rem 4.5rem;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(10,8,5,0.35) 100%);
+    text-align: center;
+  }
+  .landing-hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: 0.01em;
+    color: #fbf9f3;
+    margin: 0 0 0.5rem;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.35);
+    line-height: 1.05;
+  }
+  .landing-hero .tagline {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: #fbf9f3;
+    opacity: 0.88;
+    margin: 0;
+    text-shadow: 0 1px 12px rgba(0,0,0,0.4);
+  }
+
+  /* --- Intro --- */
+  .intro {
+    max-width: 640px;
+    margin: 0 auto 6rem;
+    padding: 0 1.5rem;
+    text-align: center;
+  }
+  .intro p {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--text-body);
+    margin: 0;
+  }
+  .intro p + p {
+    margin-top: 1.2em;
+  }
+  .intro .rule {
+    width: 40px;
+    height: 1px;
+    background: var(--text-sub);
+    margin: 0 auto 2rem;
+    opacity: 0.7;
+  }
+
+  /* --- Posts grid --- */
+  .page { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 6rem; }
+
+  .posts-header {
+    max-width: 760px;
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
+  .posts-header .section-label {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 0.5rem;
+  }
+  .posts-header h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--text-strong);
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3.5rem 3rem;
+  }
+  @media (max-width: 720px) {
+    .posts-grid { grid-template-columns: 1fr; gap: 3rem; }
+  }
+
+  .post-card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s;
+  }
+  .post-card:hover { transform: translateY(-3px); }
+  .post-card-image {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    background: var(--rule);
+  }
+  .post-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .post-card:hover .post-card-image img {
+    transform: scale(1.03);
+  }
+  .post-card-meta {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 0.55rem;
+  }
+  .post-card-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.65rem;
+    line-height: 1.25;
+    color: var(--text-strong);
+    margin: 0 0 0.6rem;
+    letter-spacing: 0.005em;
+  }
+  .post-card-excerpt {
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--text-body);
+    margin: 0;
+    font-style: italic;
+    max-width: 42ch;
+  }
+
+  /* --- Footer --- */
+  footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 2.5rem 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: var(--text-sub);
+    text-transform: uppercase;
+  }
+
+  /* --- Mobile nav --- */
+  @media (max-width: 720px) {
+    .nav-toggle { display: block; }
+    .site-nav-links {
+      position: absolute;
+      top: 100%;
+      right: 1.5rem;
+      margin-top: 0.5rem;
+      background: var(--surface);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
+      display: none;
+    }
+    .site-nav-links.open { display: flex; }
+    .nav-dropdown {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      box-shadow: none;
+      border: none;
+      padding: 0.25rem 0 0.25rem 1rem;
+      margin-top: 0.25rem;
+      background: transparent;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-nav-wrap">
+<nav class="site-nav" aria-label="Main">
+  <a href="index.html" class="site-logo">The Long Afternoon</a>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="site-nav-links" id="primary-nav">
+    <li><a href="index.html">Home</a></li>
+    <li class="has-dropdown">
+      <button type="button" aria-haspopup="true" aria-expanded="false">Places</button>
+      <ul class="nav-dropdown">
+        <li><a href="posts/liguria.html">Liguria</a></li>
+        <li><a href="posts/sicily.html">Sicily</a></li>
+        <li><a href="posts/sardinia.html">Sardinia</a></li>
+        <li><a href="posts/elba.html">Elba</a></li>
+        <li><a href="posts/lucca.html">Lucca</a></li>
+        <li><a href="posts/kefalonia.html">Kefalonia</a></li>
+      </ul>
+    </li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+</div>
+
+<section class="landing-hero">
+  <img src="images/27__Cat.jpg" alt="A cat dozing in afternoon light">
+  <div class="landing-hero-overlay">
+    <h1>The Long Afternoon</h1>
+    <p class="tagline">Slow travel, carefully remembered</p>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="rule"></div>
+  <p>A journal of places where the days are taken slowly — small harbours on the Mediterranean, villages on cliff edges, cities that reward walking.</p>
+  <p>No itineraries. Just what we saw, where we stayed, and what stayed with us.</p>
+</section>
+
+<main class="page">
+  <header class="posts-header">
+    <h2>Places</h2>
+  </header>
+
+  <div class="posts-grid">
+
+    <a class="post-card" href="posts/liguria.html">
+      <figure class="post-card-image">
+        <img src="images/46__Portofino.jpg" alt="">
+      </figure>
+      <p class="post-card-meta">Liguria · Italy</p>
+      <h3 class="post-card-title">La Dolce Vita</h3>
+      <p class="post-card-excerpt">Ten days on the Italian Riviera — Portofino, the Cinque Terre, and a slower way of moving through the world.</p>
+    </a>
+
+    <a class="post-card" href="posts/sicily.html">
+      <figure class="post-card-image">
+        <img src="images/32__Cala_Capreria.jpg" alt="">
+      </figure>
+      <p class="post-card-meta">Sicily · Italy</p>
+      <h3 class="post-card-title">Il Dolce Far Niente</h3>
+      <p class="post-card-excerpt">The sweetness of doing nothing — a week on Sicily's northwest coast, anchored in a fishing village called Scopello.</p>
+    </a>
+
+    <a class="post-card" href="posts/sardinia.html">
+      <figure class="post-card-image">
+        <img src="images/8__Cala_Goloritze_.jpg" alt="">
+      </figure>
+      <p class="post-card-meta">Sardinia · Italy</p>
+      <h3 class="post-card-title">Sea and Sardinia</h3>
+      <p class="post-card-excerpt">Lawrence came here a century ago and left with a book. We came for the east coast, and stayed in Santa Maria Navarrese.</p>
+    </a>
+
+    <a class="post-card" href="posts/elba.html">
+      <figure class="post-card-image">
+        <img src="images/75__Spiaggia_La_Sorgente.jpg" alt="">
+      </figure>
+      <p class="post-card-meta">Elba · Italy</p>
+      <h3 class="post-card-title">Napoleon's Island</h3>
+      <p class="post-card-excerpt">Exile, as it turns out, has a beach. A week from Capoliveri among the quiet coves of the island where an emperor waited.</p>
+    </a>
+
+    <a class="post-card" href="posts/lucca.html">
+      <figure class="post-card-image">
+        <img src="images/44__Lucca.jpg" alt="">
+      </figure>
+      <p class="post-card-meta">Lucca · Italy</p>
+      <h3 class="post-card-title">Inside the Walls</h3>
+      <p class="post-card-excerpt">A week in Puccini's quiet city — the Renaissance walls, the piazzas, the slow pedal through shaded avenues.</p>
+    </a>
+
+    <a class="post-card" href="posts/kefalonia.html">
+      <figure class="post-card-image">
+        <img src="images/24__Myrtos_view.jpg" alt="">
+      </figure>
+      <p class="post-card-meta">Kefalonia · Greece</p>
+      <h3 class="post-card-title">An Olive Tree, A Grapevine, A Boat</h3>
+      <p class="post-card-excerpt">What remains of Greece, when you take the rest away. Based out of Divarata, on the road above Myrtos.</p>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  The Long Afternoon · Written from Gothenburg
+</footer>
+
+<script>
+(function(){
+  const nav = document.querySelector('.site-nav-wrap');
+  if (!nav) return;
+  const update = () => nav.classList.toggle('scrolled', window.scrollY > 10);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+})();
+(function(){
+  const toggle = document.querySelector('.nav-toggle');
+  const links  = document.getElementById('primary-nav');
+  if (!toggle || !links) return;
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Il Dolce Far Niente — The Long Afternoon</title>
+
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --text-strong: #2b3320;
+    --text-body:   #3a4430;
+    --text-muted:  #8a9572;
+    --text-sub:    #a8b59c;
+    --surface:     #fbf9f3;
+    --rule:        #ebe7db;
+    --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  figure { margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--text-body);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    font-feature-settings: "kern", "liga", "onum";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+
+  /* --- Site navigation --- */
+  .site-nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251, 249, 243, 0.85);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .site-nav-wrap.scrolled { border-bottom-color: var(--rule); }
+  .site-nav-wrap.scrolled .site-nav { padding-top: 1rem; padding-bottom: 0.85rem; }
+  .site-nav-wrap.scrolled .site-logo { font-size: 1.2rem; }
+  .site-nav-wrap .site-nav, .site-nav-wrap .site-logo {
+    transition: padding 0.2s, font-size 0.2s;
+  }
+  .site-nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .site-logo {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    color: var(--text-strong);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .site-nav-links {
+    display: flex; gap: 2.25rem;
+    list-style: none; margin: 0; padding: 0;
+    align-items: center;
+  }
+  .site-nav-links > li { position: relative; }
+  .site-nav-links a, .site-nav-links button {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0;
+    transition: color 0.15s;
+  }
+  .site-nav-links a:hover, .site-nav-links button:hover { color: var(--text-strong); }
+  .site-nav-links .has-dropdown > button::after {
+    content: ""; display: inline-block;
+    width: 0; height: 0;
+    margin-left: 0.4em;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 4px solid currentColor;
+    vertical-align: middle;
+    opacity: 0.55;
+  }
+  .nav-dropdown {
+    position: absolute;
+    top: 100%; right: -0.75rem;
+    margin-top: 0.5rem; padding: 0.6rem 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
+    min-width: 190px;
+    list-style: none;
+    opacity: 0; visibility: hidden; transform: translateY(-4px);
+    transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+    z-index: 50;
+  }
+  .has-dropdown:hover .nav-dropdown,
+  .has-dropdown:focus-within .nav-dropdown {
+    opacity: 1; visibility: visible; transform: translateY(0);
+  }
+  .nav-dropdown li { padding: 0; }
+  .nav-dropdown a {
+    display: block;
+    padding: 0.45rem 1.25rem;
+    letter-spacing: 1.5px;
+  }
+  .nav-toggle {
+    display: none;
+    background: none; border: none;
+    cursor: pointer; padding: 0.5rem;
+    color: var(--text-strong);
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px; height: 1.5px;
+    background: currentColor;
+    margin: 5px 0;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  @media (max-width: 720px) {
+    .nav-toggle { display: block; }
+    .site-nav-links {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      background: var(--surface);
+      border-bottom: 1px solid var(--rule);
+      padding: 0.5rem 1.5rem 1.5rem;
+      gap: 0.2rem;
+      z-index: 40;
+    }
+    .site-nav-links.open { display: flex; }
+    .site-nav-links a, .site-nav-links button {
+      padding: 0.75rem 0;
+      text-align: left;
+      width: 100%;
+    }
+    .nav-dropdown {
+      position: static;
+      margin: 0;
+      padding: 0 0 0.5rem 1rem;
+      border: none;
+      box-shadow: none;
+      opacity: 1; visibility: visible; transform: none;
+      background: transparent;
+      min-width: 0;
+    }
+    .nav-dropdown a { padding: 0.4rem 0; }
+  }
+
+  /* --- Masthead --- */
+  .masthead {
+    max-width: 760px;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+  }
+  .hero-title {
+    margin: 0 0 0.5em;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text-strong);
+  }
+  .hero-subtitle {
+    margin: 0 auto;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    line-height: 1.4;
+    color: var(--text-strong);
+    max-width: 42ch;
+  }
+  .hero-meta {
+    margin: 1.75rem auto 0;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* --- Hero image --- */
+  .hero {
+    margin: 0 0 3rem;
+  }
+  .hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* --- Epigraph --- */
+  .epigraph {
+    max-width: 620px;
+    margin: 0 auto 4rem;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-body);
+  }
+  .epigraph p {
+    margin: 0 0 0.9em;
+  }
+  .epigraph cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .column { max-width: 760px; margin: 0 auto; }
+
+  /* --- Essay body --- */
+  .essay { margin-bottom: 4rem; }
+  .essay p {
+    margin: 0 0 1.15em;
+    color: var(--text-body);
+  }
+  .essay em { font-style: italic; }
+
+  /* --- Inline essay figures --- */
+  /* Slightly wider than the 760px text column, but narrower than hero.
+     Uses negative margins to extend beyond the .column bounds. */
+  .essay-figure {
+    margin: 2.5rem auto;
+    max-width: 900px;
+    /* Break out to the left/right of the 760px column */
+    margin-left: calc((900px - 100%) / -2);
+    margin-right: calc((900px - 100%) / -2);
+  }
+  @media (max-width: 900px) {
+    .essay-figure {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+  .essay-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .essay-figure figcaption {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    text-align: center;
+  }
+
+  /* --- Gallery header (above photos) --- */
+  .gallery-intro {
+    text-align: center;
+    margin: 5rem auto 2.5rem;
+    max-width: 760px;
+    padding: 0 1.5rem;
+  }
+  .gallery-intro h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1rem;
+    letter-spacing: 0.01em;
+  }
+  .gallery-intro .places {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* --- Practical notes (end-of-post section) --- */
+  .practical-notes {
+    max-width: 760px;
+    margin: 6rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .practical-notes h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1.5rem;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+  .practical-notes p {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin: 0;
+  }
+
+  /* --- Photo gallery: tight spacing --- */
+  .photos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 4rem;
+  }
+  .photo-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+  .photo-pair-portrait {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair-portrait img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+
+  /* Fade-in on scroll. */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .photo-pair { grid-template-columns: 1fr; }
+    .photo-pair-portrait { grid-template-columns: 1fr; }
+  }
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 12, 8, 0.92);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 92vw;
+    max-height: 78vh;
+    display: block;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    position: absolute;
+    background: none;
+    border: none;
+    color: #fbf9f3;
+    font-size: 2.4rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+    font-family: var(--serif);
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+    opacity: 1;
+  }
+  .lightbox-close { top: 1.5rem; right: 1.5rem; }
+  .lightbox-prev  { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-next  { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.6);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+  }
+  .lightbox-caption {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.92);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    text-align: center;
+    max-width: 80vw;
+  }
+  @media (max-width: 600px) {
+    .lightbox-prev  { left: 0.5rem; }
+    .lightbox-next  { right: 0.5rem; }
+    .lightbox-close { top: 0.75rem; right: 0.75rem; }
+  }
+
+  /* True 3-line drop cap. */
+  .essay > p:first-child::first-letter {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--text-strong);
+    float: left;
+    font-size: 6em;
+    line-height: 0.82;
+    margin: 0.06em 0.09em -0.08em -0.02em;
+    padding: 0;
+  }
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .essay > p:first-child::first-letter {
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+      font-size: inherit;
+      line-height: inherit;
+      float: none;
+      margin: 0 0.08em 0 0;
+    }
+  }
+
+  /* --- Map --- */
+  .map-wrap {
+    max-width: 900px;
+    margin: 3rem auto 4rem;
+    padding: 0 1rem;
+  }
+  .map-wrap svg { display: block; width: 100%; height: auto; }
+
+  /* --- Coming soon placeholder --- */
+  .coming-soon {
+    max-width: 640px;
+    margin: 6rem auto 0;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-sub);
+  }
+  .coming-soon::before,
+  .coming-soon::after {
+    content: "·";
+    display: inline-block;
+    margin: 0 1rem;
+    opacity: 0.5;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    letter-spacing: 0.5px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="site-nav-wrap">
+<nav class="site-nav" aria-label="Main">
+  <a href="../index.html" class="site-logo">The Long Afternoon</a>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="site-nav-links" id="primary-nav">
+    <li><a href="../index.html">Home</a></li>
+    <li class="has-dropdown">
+      <button type="button" aria-haspopup="true" aria-expanded="false">Places</button>
+      <ul class="nav-dropdown">
+        <li><a href="liguria.html">Liguria</a></li>
+        <li><a href="sicily.html">Sicily</a></li>
+        <li><a href="sardinia.html">Sardinia</a></li>
+        <li><a href="elba.html">Elba</a></li>
+        <li><a href="lucca.html">Lucca</a></li>
+        <li><a href="kefalonia.html">Kefalonia</a></li>
+      </ul>
+    </li>
+    <li><a href="../about.html">About</a></li>
+  </ul>
+</nav>
+</div>
+
+<div class="page">
+
+  <header class="masthead">
+    <h1 class="hero-title">Il Dolce Far Niente</h1>
+    <p class="hero-subtitle">The sweet art of doing nothing, in a Sicilian fishing village</p>
+  <p class="hero-meta">Scopello, Sicily · 6–13 July 2022</p>
+  </header>
+
+  <figure class="hero">
+    <img src="../images/32__Cala_Capreria.jpg" alt="" data-caption="Cala Capreria" data-gallery>
+  </figure>
+
+  <blockquote class="epigraph">
+    <p>“<span style="font-style: normal;">Bel far niente</span> has always been a cherished Italian ideal. The beauty of doing nothing is the goal of all your work, the final accomplishment for which you are most highly congratulated. You don’t necessarily need to be rich to experience this.”</p>
+    <cite>Elizabeth Gilbert · Eat, Pray, Love</cite>
+  </blockquote>
+
+  <article class="column essay">
+    <p>Thirty-five degrees, and we are taking the shortcut up to Baglio Real Sito Borbonico, the fortified courtyard above Scopello — a dirt path that climbs the hillside without apology. The choice, as far as we can tell, is to keep moving and sweat, or to stop and sweat. We keep moving. When we reach the top, we take the shade beneath the old walls and the Tyrrhenian is far below us, still bright, still glittering, as if the sea has nothing else to do all day. We carry gelato limone out to the table. This, I think, is all the planning the week has required: the climb, the shade, the gelato. Life does not need to be much more than this.</p>
+
+    <p>Mornings begin on the terrace. Hanna practices yoga on the tiled floor, already warm in the early sun. Hannes draws in a notebook, or drifts between the hammock and the table. I have my moka — the small stovetop coffee that has nothing to do with the bars in town but everything to do with being at home somewhere. Below us, the bay begins to turn blue.</p>
+
+    <p>After breakfast we take the stairs down to Cala Mosca, the small cove below. Hannes looks for geckos on the way down. The water is warm, nearly empty; only a few other swimmers on the rocks. Hanna falls into conversation, in her uneven Italian, with an older woman from Milan, though Hanna seems to be laughing more than speaking. The woman tells us she comes back to Sicily every summer. To swim, to rest, to gather her strength for the year.</p>
+
+    <p>On the second morning I wake before the others with a fever — aching muscles, a sore throat. It is July of 2022, our first trip since the pandemic; I had picked up something on the plane, most likely. I take paracetamol and stand for a long time under the outdoor shower on the terrace, the same view of the bay below me, the warm water easing my muscles. Later we walk down to Cala Mosca together. The cove is only a few minutes away. I swim anyway. Whatever I have caught, the sea does not seem to mind.</p>
+  </article>
+
+  <!-- Map as transition into the gallery. Data: © ISTAT (CC BY 3.0 IT) -->
+  <div class="map-wrap">
+    <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>Map of Sicily</title>
+      <desc>Light olive map of Sicily with six coastal cities labeled. Scopello is highlighted.</desc>
+      <style>
+        .mtitle      { font-family: "Source Serif 4", Georgia, serif; font-size: 28px; font-weight: 400; fill: #4a5838; letter-spacing: 0.3px; }
+        .mtitle-sub  { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2.5px; }
+        .mstat-num   { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; font-weight: 400; fill: #4a5838; }
+        .mstat-label { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2px; }
+        .mcity-label { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 500; fill: #4a5838; }
+        .mcity-label-highlight { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 600; fill: #b85a38; }
+        .msea-label  { font-family: "Source Serif 4", Georgia, serif; font-size: 11px; font-style: italic; fill: #a8b59c; letter-spacing: 1px; }
+      </style>
+
+      <text x="40" y="60"  class="mtitle">Sicily</text>
+      <text x="40" y="78"  class="mtitle-sub">SOUTHERN ITALY</text>
+
+      <text x="40" y="150" class="mstat-num">4.8M</text>
+      <text x="40" y="166" class="mstat-label">POPULATION</text>
+      <text x="40" y="215" class="mstat-num">Palermo</text>
+      <text x="40" y="231" class="mstat-label">CAPITAL</text>
+      <text x="40" y="280" class="mstat-num">25,711 km²</text>
+      <text x="40" y="296" class="mstat-label">AREA</text>
+
+      <path d="M576.6 108.4L574.4 108.9L569.3 113.1L567.9 113.9L562.4 116.2L557.8 117.3L555.1 117.2L553.8 116.4L554.7 113.6L554.5 113.0L553.5 111.3L552.5 111.3L552.5 111.5L552.8 111.4L553.3 111.7L553.4 113.4L553.7 113.8L552.6 117.5L551.6 119.3L548.7 122.4L542.8 125.5L541.7 125.5L540.1 124.7L539.8 124.3L539.9 123.5L539.2 122.8L538.5 122.6L536.4 122.8L533.7 122.5L532.7 121.7L531.2 119.9L530.3 119.4L529.9 118.9L529.3 118.7L527.4 120.6L526.2 121.0L525.3 120.9L520.3 122.4L519.5 122.5L517.7 122.0L516.8 121.2L511.6 127.5L508.4 130.0L508.0 130.2L507.3 130.1L507.3 129.7L504.6 131.3L502.4 131.2L500.7 132.6L499.9 133.0L496.0 133.8L494.3 133.7L493.8 133.1L492.7 133.1L490.7 134.6L488.7 135.4L487.5 135.5L487.1 135.2L486.4 135.1L484.1 136.1L482.4 136.2L481.3 135.8L479.7 136.1L475.9 135.5L474.3 135.0L473.7 135.1L471.7 134.4L470.6 135.2L469.0 135.5L467.1 135.0L465.6 135.2L463.7 133.8L463.2 133.1L462.5 133.0L462.1 133.4L461.2 133.8L459.4 134.1L458.6 133.7L458.0 134.1L456.7 134.2L453.0 136.5L448.4 138.5L445.6 139.3L441.7 139.7L440.9 139.3L438.9 138.9L438.6 137.9L439.0 137.8L440.0 138.3L438.9 137.7L435.7 137.5L434.6 137.0L433.4 136.1L432.2 135.7L431.9 135.2L431.1 134.7L428.1 133.1L426.3 131.3L426.1 130.7L426.0 130.3L426.5 129.5L426.1 128.9L426.3 128.0L425.9 127.4L426.0 126.8L425.8 126.3L423.9 125.6L423.6 126.7L421.2 127.6L419.0 127.9L416.2 127.4L414.6 126.6L413.0 124.6L413.0 124.2L413.5 124.1L413.9 124.7L413.5 123.2L414.0 122.5L413.3 120.8L413.2 119.6L412.5 118.8L411.8 118.8L410.5 118.0L410.2 117.4L410.4 116.9L409.6 115.7L408.0 116.3L406.4 118.1L405.8 117.9L404.0 117.9L404.1 118.7L403.3 119.6L401.8 120.4L400.2 120.9L398.1 120.7L397.8 119.3L396.7 119.4L395.0 118.8L393.7 118.9L391.7 120.4L392.2 121.6L391.1 122.9L391.3 123.5L390.8 123.3L389.8 123.9L390.8 125.2L391.2 126.3L391.6 128.1L391.5 128.7L389.8 130.0L388.7 130.1L388.0 131.0L383.8 133.3L381.3 134.1L378.6 134.6L377.8 134.6L376.4 133.6L376.0 132.1L375.2 132.3L372.9 130.6L371.4 128.8L370.1 126.3L370.2 124.1L369.3 122.7L368.7 122.7L368.5 122.3L368.4 121.3L368.7 120.9L368.5 119.9L366.3 120.3L365.7 119.8L366.0 119.1L365.7 119.0L364.7 119.8L364.6 120.5L366.2 123.7L365.3 124.6L365.4 125.1L364.1 126.6L363.4 126.9L362.5 126.9L361.7 126.1L360.4 126.3L360.1 126.7L360.6 128.0L359.5 128.8L359.2 129.5L357.8 130.2L355.9 130.8L354.2 130.2L353.6 130.4L352.9 130.8L352.3 132.2L349.9 134.7L349.1 135.3L348.4 135.2L347.8 135.4L348.2 135.6L349.9 135.6L349.9 136.0L349.2 136.0L348.9 137.5L348.0 138.4L347.9 139.0L348.3 140.2L347.9 141.4L345.3 145.6L346.0 146.6L345.9 147.2L346.4 147.8L347.1 148.1L347.3 148.9L346.2 151.1L345.7 151.4L346.0 153.1L345.5 154.2L344.0 154.9L344.0 154.4L342.8 155.7L343.2 156.5L344.1 157.0L346.1 160.9L346.3 161.7L346.1 163.4L346.3 163.9L346.2 164.9L346.6 165.4L347.6 166.3L348.3 167.4L349.5 168.5L349.8 169.0L351.3 169.2L352.2 168.8L352.8 168.8L353.5 169.1L354.3 170.1L354.9 170.1L356.2 170.8L356.9 171.5L357.8 174.2L359.6 176.9L361.4 178.6L362.2 178.6L367.9 176.9L369.5 176.6L375.0 176.4L378.9 177.2L379.7 177.0L381.8 177.5L383.0 178.3L385.3 180.8L386.8 183.3L387.0 183.7L386.8 184.3L387.3 184.7L388.7 184.7L389.9 183.9L391.6 183.7L393.2 184.1L395.6 185.0L397.0 184.5L398.5 185.0L399.8 186.2L400.5 187.6L401.5 187.7L402.3 188.3L403.5 190.2L405.0 191.6L406.2 194.4L407.7 194.6L409.0 195.7L409.9 197.2L412.1 197.7L413.9 198.8L414.9 199.9L416.0 200.1L417.5 201.9L418.0 202.8L418.6 203.0L419.4 203.6L420.7 203.7L421.7 204.4L423.8 204.0L425.7 204.7L426.8 204.5L427.5 204.6L429.0 206.2L429.1 206.9L430.5 207.3L432.5 209.4L432.9 209.4L433.7 209.9L435.0 211.6L435.4 213.0L437.1 213.8L439.1 215.3L439.8 215.3L440.4 215.6L442.1 217.5L443.8 217.9L444.9 217.7L447.6 217.9L449.0 218.9L450.7 221.3L452.8 222.3L453.4 222.5L454.9 222.3L455.8 222.6L459.4 221.3L463.2 221.5L465.8 221.1L466.6 221.2L472.3 222.6L475.7 224.0L477.8 225.4L478.3 225.3L480.1 226.1L480.9 226.7L480.5 227.3L481.0 226.9L483.0 228.1L483.9 229.0L487.9 233.7L489.4 235.8L492.3 240.5L492.6 241.8L493.4 242.5L495.0 246.8L495.3 249.1L495.7 249.2L497.7 251.8L499.4 251.8L500.7 252.4L502.3 252.2L504.5 252.7L506.2 253.6L507.8 253.9L508.6 254.3L509.4 255.2L511.1 256.1L512.5 258.1L513.8 258.4L515.2 258.0L516.7 258.1L517.4 258.6L517.5 259.1L519.0 259.0L519.4 259.4L519.3 259.7L520.6 259.4L521.9 258.4L522.6 258.6L523.0 259.1L523.1 258.4L524.3 257.5L526.5 257.1L527.8 257.3L529.0 257.7L532.4 260.6L533.7 260.7L535.0 260.2L535.4 259.9L537.0 259.9L539.0 261.2L539.5 262.0L540.0 263.7L540.9 264.0L541.7 265.0L543.4 263.6L544.2 262.5L544.8 262.5L545.3 263.2L545.6 263.1L545.8 262.7L546.0 261.3L544.9 259.8L544.7 257.0L544.4 255.9L543.9 255.5L543.4 254.6L542.8 252.8L542.8 251.0L543.1 250.3L543.3 250.4L543.6 250.0L543.8 248.7L543.6 247.3L544.1 245.8L545.2 244.4L545.9 244.3L546.2 242.1L547.2 239.7L547.6 239.2L548.6 238.8L549.1 237.4L549.6 236.8L550.4 236.2L551.1 236.0L551.1 235.5L551.7 235.1L552.1 235.2L553.6 234.3L555.3 234.1L554.9 233.5L555.3 233.4L555.8 232.9L555.5 231.9L555.7 231.4L556.3 231.0L556.9 231.1L558.3 230.2L559.3 231.3L560.8 231.5L560.9 231.0L560.4 230.1L559.8 229.5L559.3 228.3L558.4 227.6L558.0 227.7L557.3 228.5L556.8 228.5L556.3 227.9L555.9 226.5L556.2 225.7L556.7 225.4L557.5 225.9L557.7 226.5L557.9 226.1L557.9 225.4L557.4 225.3L558.2 224.1L558.2 222.8L557.8 221.5L556.8 221.2L556.4 221.4L555.2 221.5L555.1 221.2L553.7 220.7L552.3 219.5L552.2 218.1L552.5 217.4L552.9 217.2L553.5 217.7L554.0 217.8L553.2 216.6L552.6 216.6L552.7 217.1L552.2 217.4L551.5 217.4L551.1 217.1L550.6 216.0L550.8 214.7L550.6 214.2L550.1 214.1L549.7 213.6L549.5 212.7L549.3 212.0L549.5 211.1L550.1 210.7L550.3 210.2L549.6 209.2L550.5 209.3L551.1 208.4L551.6 208.3L552.0 209.3L551.9 210.4L552.6 211.3L553.1 212.8L552.6 211.2L552.4 209.0L553.0 208.6L554.2 209.7L554.7 209.3L554.8 208.8L554.0 208.1L553.7 207.0L552.5 206.0L551.1 203.8L550.5 204.0L550.3 204.9L549.8 204.9L549.5 204.3L548.5 203.9L547.8 204.2L545.8 202.3L543.6 202.3L543.2 201.6L542.5 198.2L542.1 186.0L542.9 184.1L543.1 184.2L543.2 185.8L543.1 184.2L543.7 182.9L544.5 182.0L544.3 181.4L546.4 180.1L546.8 179.1L547.6 178.6L548.1 177.5L548.4 177.2L548.9 177.0L548.6 173.8L548.8 171.7L550.6 169.7L550.4 168.9L550.6 167.5L552.0 164.5L552.0 163.8L551.0 161.8L551.7 160.0L553.9 156.4L556.0 154.1L556.2 153.5L555.8 153.0L556.1 152.5L557.1 151.3L557.6 151.4L558.3 150.9L557.9 149.9L558.6 148.5L561.2 145.5L561.8 144.2L568.7 135.0L568.8 134.5L571.3 131.9L571.7 130.9L572.7 129.8L575.6 123.1L577.9 119.5L578.7 118.6L578.5 118.2L577.8 118.3L578.3 118.3L578.3 118.5L577.9 119.1L577.6 119.1L577.4 118.9L577.5 118.2L578.2 115.6L579.3 113.7L581.5 112.6L584.5 111.8L584.5 111.4L584.2 111.2L581.3 110.9L579.0 110.0L577.3 108.7L576.6 108.4Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M532.7 87.3L531.6 87.7L530.6 87.6L530.1 87.4L529.1 87.8L528.5 88.5L528.4 89.6L528.2 90.3L528.1 90.9L528.2 91.6L529.2 92.9L529.5 93.1L530.8 93.4L531.3 94.3L531.4 95.0L532.2 95.3L532.6 95.0L532.8 94.2L532.8 93.9L532.6 93.8L532.4 93.4L532.3 92.2L532.3 92.0L532.5 91.7L532.8 91.6L532.9 91.7L534.1 91.5L534.2 91.1L533.9 90.9L533.5 91.0L533.3 90.9L532.9 90.4L532.8 89.7L532.9 89.3L532.8 88.3L532.9 87.5L532.7 87.3Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M334.0 141.1L333.1 142.0L332.6 142.3L332.4 142.3L332.3 142.1L332.0 142.0L331.8 142.1L331.4 142.9L331.4 143.0L331.9 143.6L331.9 144.1L332.0 144.5L332.5 144.9L334.1 144.5L335.0 144.6L335.0 144.7L335.3 144.5L336.2 144.5L337.2 145.7L338.3 145.8L338.7 144.6L338.6 144.3L338.4 144.1L338.0 144.2L337.6 144.0L337.1 143.4L337.1 143.1L336.7 142.9L335.6 143.2L335.4 143.4L335.1 143.4L334.7 143.0L334.2 141.7L334.0 141.4L334.0 141.1Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M307.5 246.8L306.8 247.1L306.6 247.6L306.1 247.5L306.1 247.4L305.6 248.2L305.5 250.4L306.6 251.3L307.3 252.1L307.6 252.8L307.6 253.2L308.1 253.6L308.6 253.7L308.8 254.0L309.6 255.8L310.2 256.2L310.4 256.5L311.7 256.8L312.0 256.7L312.7 256.8L313.0 256.7L314.5 255.3L315.1 254.1L315.0 252.4L314.9 251.5L314.6 250.8L314.4 250.4L313.7 250.2L311.9 248.2L311.8 248.1L311.4 248.2L311.2 248.5L310.1 248.4L309.4 248.1L309.2 247.5L308.9 247.3L307.5 246.8Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M502.2 81.4L501.5 81.5L501.2 82.2L501.3 82.7L502.2 83.8L502.7 84.1L503.3 84.0L504.0 84.1L504.7 84.5L505.2 84.3L505.2 83.9L504.7 84.0L504.2 83.6L504.2 83.2L504.3 82.7L504.0 81.9L502.8 81.5L502.2 81.4Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M525.7 81.7L524.9 81.8L524.1 82.0L523.3 81.7L521.3 81.7L520.9 82.3L520.4 83.7L521.2 84.5L522.3 85.0L522.8 85.1L524.4 86.1L524.8 86.3L525.7 86.1L526.0 85.9L525.8 84.6L526.3 83.7L526.1 82.9L526.1 82.0L525.7 81.7Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M532.7 96.0L532.2 96.3L532.2 96.7L532.4 97.2L531.6 97.4L531.1 97.9L531.1 98.8L531.7 99.8L531.8 100.2L532.4 100.7L533.3 101.3L534.0 102.0L534.4 102.1L535.1 102.2L535.9 101.7L536.1 101.5L536.1 101.3L535.5 99.4L534.2 98.1L533.0 97.9L532.9 97.1L533.2 96.9L533.3 96.6L533.0 96.2L532.7 96.0Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M315.7 137.5L315.5 137.8L313.8 137.6L313.2 137.6L313.0 137.8L313.1 138.1L313.4 137.9L313.5 138.0L314.1 139.7L314.3 140.7L314.7 141.1L315.0 141.4L316.6 141.7L317.2 142.1L317.8 141.9L317.8 141.7L317.3 141.7L317.0 141.5L316.8 140.5L315.8 138.9L315.5 138.0L315.8 137.7L315.8 137.6L315.7 137.5Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M487.9 84.4L486.8 84.5L486.3 85.0L486.2 85.9L486.4 86.3L486.6 86.5L487.4 86.6L487.8 86.5L488.0 86.0L488.2 84.8L487.9 84.4Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M345.0 145.9L344.2 146.6L343.7 146.7L343.2 146.7L343.1 146.8L343.2 147.3L343.7 148.2L344.4 151.7L344.7 151.3L344.8 150.8L344.5 149.6L344.8 148.9L344.5 147.8L344.5 146.8L345.0 146.4L345.0 145.9Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M552.3 60.0L551.6 60.1L550.6 61.2L549.9 61.5L549.7 62.0L549.9 62.5L550.2 62.9L551.2 63.5L551.9 63.7L552.7 63.3L553.0 62.2L553.8 61.2L553.9 60.9L553.9 60.7L553.6 60.5L552.3 60.0Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M541.1 75.7L540.8 75.6L540.2 75.9L539.8 77.3L539.9 77.7L540.4 77.7L541.2 77.3L541.3 77.1L541.5 76.7L541.5 76.2L541.4 75.9L541.1 75.7Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M399.4 68.6L398.8 68.9L398.1 69.3L397.3 70.7L397.4 71.2L397.9 71.4L398.5 71.5L398.9 71.4L400.1 70.5L400.8 69.8L400.9 69.6L400.7 69.3L399.8 69.0L399.4 68.6Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M336.1 135.0L335.9 135.0L335.6 136.1L335.3 136.1L335.1 136.2L334.9 136.8L335.5 138.0L335.7 138.2L336.3 138.4L337.3 138.0L337.3 137.6L337.3 137.4L336.6 136.5L336.1 135.0Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M346.2 149.2L345.7 149.3L345.8 149.8L346.0 149.8L346.3 149.6L346.2 149.2Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+
+      <text x="620" y="295" class="msea-label" text-anchor="end">Mediterranean Sea</text>
+
+      <circle cx="412.9" cy="126.0" r="3.5" fill="#4a5838"/>
+      <text x="418" y="123" class="mcity-label">Palermo</text>
+
+      <circle cx="577.1" cy="118.6" r="3" fill="#4a5838"/>
+      <text x="573" y="115" class="mcity-label" text-anchor="end">Messina</text>
+
+      <circle cx="541.9" cy="183.5" r="3" fill="#4a5838"/>
+      <text x="547" y="187" class="mcity-label">Catania</text>
+
+      <circle cx="557.2" cy="224.5" r="3" fill="#4a5838"/>
+      <text x="562" y="228" class="mcity-label">Syracuse</text>
+
+      <circle cx="349.5" cy="135.2" r="3" fill="#4a5838"/>
+      <text x="345" y="132" class="mcity-label" text-anchor="end">Trapani</text>
+
+      <circle cx="372.7" cy="130.6" r="3.5" fill="#b85a38"/>
+      <text x="372.7" y="120" class="mcity-label-highlight" text-anchor="middle">Scopello</text>
+    </svg>
+  </div>
+
+  <section class="gallery-intro">
+    <h2>Scenes from Scopello</h2>
+    <p class="places">Cala Mosca · Cala Capreria, Riserva dello Zingaro · Tonnara di Scopello</p>
+  </section>
+
+  <!-- Photo gallery -->
+  <div class="photos">
+    <figure class="photo-full">
+      <img src="../images/5__view.jpg" alt="" data-caption="The view from the terrace" data-gallery>
+    </figure>
+
+    <div class="photo-pair-portrait">
+      <figure><img src="../images/6__Hannes.jpg" alt="" data-caption="Hannes drawing" data-gallery></figure>
+      <figure><img src="../images/61__pebbles.jpg" alt="" data-caption="Stacking pebbles" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/39__Scopello_street.jpg" alt="" data-caption="Scopello" data-gallery>
+    </figure>
+
+    <div class="photo-pair-portrait">
+      <figure><img src="../images/35__Baglio_di_Scopello.jpg" alt="" data-caption="Baglio Real Sito Borbonico, Scopello" data-gallery></figure>
+      <figure><img src="../images/56__swimming.jpg" alt="" data-caption="Tonnara di Scopello" data-gallery></figure>
+    </div>
+
+    <div class="photo-pair">
+      <figure><img src="../images/15__Cala_Baialuce.jpg" alt="" data-caption="On the way back to Cala Mosca" data-gallery></figure>
+      <figure><img src="../images/25__Cala_dell_Ovo.jpg" alt="" data-caption="Cala dell’Ovo" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/33__Cala_Capreria.jpg" alt="" data-caption="Cala Capreria" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/54__Tonnara.jpg" alt="" data-caption="Tonnara di Scopello" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/52__Tonnara.jpg" alt="" data-caption="Tonnara di Scopello" data-gallery>
+    </figure>
+  </div>
+
+  <section class="practical-notes">
+    <h2>Practical notes</h2>
+    <p>We stayed in a house just outside Scopello, a ten-minute walk down to Cala Mosca. There’s a small alimentari in the baglio up the hill for the basics. For groceries and a wider selection, the drive to Castellammare del Golfo takes twenty minutes. The Tonnara di Scopello charges a small entrance fee but is worth it. The walk to Cala Capreria in the Riserva dello Zingaro takes about twenty minutes; the sun is unrelenting and there is no shade, but the cove rewards the effort. Bring plenty of water and something to eat.</p>
+  </section>
+
+  <footer>
+    Map data © ISTAT (CC BY 3.0 IT)
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const nav = document.querySelector('.site-nav-wrap');
+  if (!nav) return;
+  const update = () => nav.classList.toggle('scrolled', window.scrollY > 10);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+})();
+(function(){
+  const toggle = document.querySelector('.nav-toggle');
+  const links  = document.getElementById('primary-nav');
+  if (!toggle || !links) return;
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+  <button class="lightbox-prev"  aria-label="Previous image">‹</button>
+  <img src="" alt="">
+  <button class="lightbox-next"  aria-label="Next image">›</button>
+  <button class="lightbox-close" aria-label="Close">✕</button>
+  <div class="lightbox-caption"></div>
+  <div class="lightbox-counter"></div>
+</div>
+
+<script>
+// Fade-in effect for gallery images
+(function(){
+  const galleryImages = document.querySelectorAll('.photos figure img');
+  galleryImages.forEach(img => img.classList.add('fade-in'));
+
+  if (!('IntersectionObserver' in window)) {
+    galleryImages.forEach(img => img.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -80px 0px',
+    threshold: 0.05
+  });
+
+  galleryImages.forEach(img => observer.observe(img));
+})();
+</script>
+
+<script>
+// Lightbox
+(function(){
+  const imgs = Array.from(document.querySelectorAll('img[data-gallery]'));
+  const lb      = document.getElementById('lightbox');
+  if (!lb) return;
+  const lbImg   = lb.querySelector('img');
+  const lbPrev  = lb.querySelector('.lightbox-prev');
+  const lbNext  = lb.querySelector('.lightbox-next');
+  const lbClose = lb.querySelector('.lightbox-close');
+  const lbCaption = lb.querySelector('.lightbox-caption');
+  const lbCount = lb.querySelector('.lightbox-counter');
+  let current = 0;
+
+  function show(i) {
+    current = (i + imgs.length) % imgs.length;
+    lbImg.src = imgs[current].src;
+    lbImg.alt = imgs[current].alt || '';
+    lbCaption.textContent = imgs[current].dataset.caption || '';
+    lbCount.textContent = (current + 1) + ' / ' + imgs.length;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  imgs.forEach((img, i) => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => show(i));
+  });
+  lbPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
+  lbNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
+  lbClose.addEventListener('click', (e) => { e.stopPropagation(); hide(); });
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) hide();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     hide();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+})();
+</script>
+
+</body>
+</html>

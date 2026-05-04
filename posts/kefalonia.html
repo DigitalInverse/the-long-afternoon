@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An Olive Tree, A Grapevine, A Boat — The Long Afternoon</title>
+
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --text-strong: #2b3320;
+    --text-body:   #3a4430;
+    --text-muted:  #8a9572;
+    --text-sub:    #a8b59c;
+    --surface:     #fbf9f3;
+    --rule:        #ebe7db;
+    --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  figure { margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--text-body);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    font-feature-settings: "kern", "liga", "onum";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+
+  /* --- Site navigation --- */
+  .site-nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251, 249, 243, 0.85);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .site-nav-wrap.scrolled { border-bottom-color: var(--rule); }
+  .site-nav-wrap.scrolled .site-nav { padding-top: 1rem; padding-bottom: 0.85rem; }
+  .site-nav-wrap.scrolled .site-logo { font-size: 1.2rem; }
+  .site-nav-wrap .site-nav, .site-nav-wrap .site-logo {
+    transition: padding 0.2s, font-size 0.2s;
+  }
+  .site-nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .site-logo {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    color: var(--text-strong);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .site-nav-links {
+    display: flex; gap: 2.25rem;
+    list-style: none; margin: 0; padding: 0;
+    align-items: center;
+  }
+  .site-nav-links > li { position: relative; }
+  .site-nav-links a, .site-nav-links button {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0;
+    transition: color 0.15s;
+  }
+  .site-nav-links a:hover, .site-nav-links button:hover { color: var(--text-strong); }
+  .site-nav-links .has-dropdown > button::after {
+    content: ""; display: inline-block;
+    width: 0; height: 0;
+    margin-left: 0.4em;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 4px solid currentColor;
+    vertical-align: middle;
+    opacity: 0.55;
+  }
+  .nav-dropdown {
+    position: absolute;
+    top: 100%; right: -0.75rem;
+    margin-top: 0.5rem; padding: 0.6rem 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
+    min-width: 190px;
+    list-style: none;
+    opacity: 0; visibility: hidden; transform: translateY(-4px);
+    transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+    z-index: 50;
+  }
+  .has-dropdown:hover .nav-dropdown,
+  .has-dropdown:focus-within .nav-dropdown {
+    opacity: 1; visibility: visible; transform: translateY(0);
+  }
+  .nav-dropdown li { padding: 0; }
+  .nav-dropdown a {
+    display: block;
+    padding: 0.45rem 1.25rem;
+    letter-spacing: 1.5px;
+  }
+  .nav-toggle {
+    display: none;
+    background: none; border: none;
+    cursor: pointer; padding: 0.5rem;
+    color: var(--text-strong);
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px; height: 1.5px;
+    background: currentColor;
+    margin: 5px 0;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  @media (max-width: 720px) {
+    .nav-toggle { display: block; }
+    .site-nav-links {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      background: var(--surface);
+      border-bottom: 1px solid var(--rule);
+      padding: 0.5rem 1.5rem 1.5rem;
+      gap: 0.2rem;
+      z-index: 40;
+    }
+    .site-nav-links.open { display: flex; }
+    .site-nav-links a, .site-nav-links button {
+      padding: 0.75rem 0;
+      text-align: left;
+      width: 100%;
+    }
+    .nav-dropdown {
+      position: static;
+      margin: 0;
+      padding: 0 0 0.5rem 1rem;
+      border: none;
+      box-shadow: none;
+      opacity: 1; visibility: visible; transform: none;
+      background: transparent;
+      min-width: 0;
+    }
+    .nav-dropdown a { padding: 0.4rem 0; }
+  }
+
+  /* --- Masthead --- */
+  .masthead {
+    max-width: 760px;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+  }
+  .hero-title {
+    margin: 0 0 0.5em;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text-strong);
+  }
+  .hero-subtitle {
+    margin: 0 auto;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    line-height: 1.4;
+    color: var(--text-strong);
+    max-width: 42ch;
+  }
+  .hero-meta {
+    margin: 1.75rem auto 0;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* --- Hero image --- */
+  .hero {
+    margin: 0 0 3rem;
+  }
+  .hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* --- Epigraph --- */
+  .epigraph {
+    max-width: 620px;
+    margin: 0 auto 4rem;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-body);
+  }
+  .epigraph p {
+    margin: 0 0 0.9em;
+  }
+  .epigraph cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* --- Coming soon placeholder --- */
+  /* --- Map --- */
+  .map-wrap {
+    max-width: 900px;
+    margin: 3rem auto 4rem;
+    padding: 0 1rem;
+  }
+  .map-wrap svg { display: block; width: 100%; height: auto; }
+
+  .coming-soon {
+    max-width: 640px;
+    margin: 6rem auto 0;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-sub);
+  }
+  .coming-soon::before,
+  .coming-soon::after {
+    content: "·";
+    display: inline-block;
+    margin: 0 1rem;
+    opacity: 0.5;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    letter-spacing: 0.5px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="site-nav-wrap">
+<nav class="site-nav" aria-label="Main">
+  <a href="../index.html" class="site-logo">The Long Afternoon</a>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="site-nav-links" id="primary-nav">
+    <li><a href="../index.html">Home</a></li>
+    <li class="has-dropdown">
+      <button type="button" aria-haspopup="true" aria-expanded="false">Places</button>
+      <ul class="nav-dropdown">
+        <li><a href="liguria.html">Liguria</a></li>
+        <li><a href="sicily.html">Sicily</a></li>
+        <li><a href="sardinia.html">Sardinia</a></li>
+        <li><a href="elba.html">Elba</a></li>
+        <li><a href="lucca.html">Lucca</a></li>
+        <li><a href="kefalonia.html">Kefalonia</a></li>
+      </ul>
+    </li>
+    <li><a href="../about.html">About</a></li>
+  </ul>
+</nav>
+</div>
+
+<div class="page">
+
+  <header class="masthead">
+    <h1 class="hero-title">An Olive Tree, A Grapevine, A Boat</h1>
+    <p class="hero-subtitle">What remains of Greece, when you take the rest away</p>
+  <p class="hero-meta">Divarata, Kefalonia · 27 June – 4 July 2025</p>
+  </header>
+
+  <figure class="hero">
+    <img src="../images/24__Myrtos_view.jpg" alt="">
+  </figure>
+
+  <blockquote class="epigraph">
+    <p>“If you deconstruct Greece, you will in the end see an olive tree, a grapevine, and a boat remain. That is, with as much, you reconstruct her.”</p>
+    <cite>Odysseas Elytis</cite>
+  </blockquote>
+
+  <!-- Map as section transition. Data: © OpenStreetMap contributors (ODbL) -->
+  <div class="map-wrap">
+    <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>Map of Kefalonia</title>
+      <desc>Light olive map of the island of Kefalonia with seven towns labeled. Divarata is highlighted.</desc>
+      <style>
+        .mtitle      { font-family: "Source Serif 4", Georgia, serif; font-size: 28px; font-weight: 400; fill: #4a5838; letter-spacing: 0.3px; }
+        .mtitle-sub  { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2.5px; }
+        .mstat-num   { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; font-weight: 400; fill: #4a5838; }
+        .mstat-label { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2px; }
+        .mcity-label { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 500; fill: #4a5838; }
+        .mcity-label-highlight { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 600; fill: #b85a38; }
+        .msea-label  { font-family: "Source Serif 4", Georgia, serif; font-size: 11px; font-style: italic; fill: #a8b59c; letter-spacing: 1px; }
+      </style>
+
+      <text x="40" y="60"  class="mtitle">Kefalonia</text>
+      <text x="40" y="78"  class="mtitle-sub">IONIAN SEA</text>
+
+      <text x="40" y="150" class="mstat-num">35,800</text>
+      <text x="40" y="166" class="mstat-label">POPULATION</text>
+      <text x="40" y="215" class="mstat-num">Argostoli</text>
+      <text x="40" y="231" class="mstat-label">CAPITAL</text>
+      <text x="40" y="280" class="mstat-num">781 km²</text>
+      <text x="40" y="296" class="mstat-label">AREA</text>
+
+      <path d="M370.1 160.1L369.0 159.8L368.9 161.8L368.1 162.5L369.0 164.3L367.5 165.7L364.9 165.3L364.6 164.1L364.1 165.2L361.0 164.8L361.1 167.0L359.6 170.8L361.2 175.7L360.8 184.1L360.2 186.3L358.6 187.8L358.2 192.6L355.8 193.3L354.8 194.5L353.1 194.7L354.7 195.2L355.9 196.8L353.2 200.2L353.8 202.3L354.6 202.4L353.9 205.1L355.1 205.7L354.8 206.5L356.2 207.9L358.3 206.2L359.0 207.5L362.7 208.4L361.7 209.8L362.3 210.7L363.8 209.5L364.9 209.6L366.2 210.4L366.0 211.6L368.3 212.2L368.8 213.2L368.2 214.0L369.2 215.6L368.9 217.9L370.6 219.8L373.2 220.1L372.5 217.9L374.8 216.5L378.0 216.3L379.7 217.2L380.3 215.3L381.8 214.4L392.9 213.8L392.6 197.7L394.2 195.0L394.0 194.3L393.9 195.7L392.7 195.8L392.6 194.1L393.7 194.0L392.6 194.1L393.0 193.0L392.4 193.5L392.6 182.0L389.1 174.5L388.7 171.8L389.7 167.9L386.6 163.9L385.7 161.3L386.8 158.3L389.1 156.0L392.0 154.9L394.4 155.4L395.1 156.6L396.9 156.6L397.1 163.6L399.6 166.0L400.7 173.2L402.6 177.7L404.7 179.6L405.8 185.2L406.8 185.1L407.5 187.2L408.2 192.5L411.3 193.7L415.0 201.3L413.9 205.2L417.6 206.7L419.6 209.9L418.3 212.1L416.4 211.8L412.1 206.3L411.3 202.7L409.2 201.0L407.5 198.4L406.0 197.6L405.6 198.6L403.4 199.1L404.4 199.5L404.3 201.0L405.8 202.4L406.4 205.3L408.7 208.7L407.6 210.8L407.9 214.0L406.7 214.9L405.9 214.4L405.7 215.1L406.5 216.6L409.7 218.2L409.9 219.7L412.0 222.2L414.2 226.7L413.6 228.5L412.3 229.1L412.7 231.3L410.9 233.6L415.9 236.6L417.4 238.8L419.4 238.9L420.8 243.6L422.1 242.9L421.2 242.9L421.4 242.1L423.1 243.4L425.1 241.9L426.2 242.8L427.1 241.9L428.5 242.0L430.6 242.7L436.4 247.9L438.1 247.7L441.7 249.2L441.1 247.7L442.3 246.5L441.8 244.4L443.2 243.1L444.8 243.0L445.2 241.7L449.1 241.5L449.2 240.4L450.3 240.4L451.7 238.3L453.5 237.9L454.2 236.0L455.9 236.4L457.2 234.9L461.5 235.3L466.4 236.9L470.5 239.3L470.8 241.6L474.6 244.0L476.0 246.1L477.1 245.5L477.7 246.4L479.8 246.5L482.8 248.4L488.9 253.1L491.8 257.6L494.0 259.1L504.1 261.0L509.4 262.9L510.9 262.5L513.3 260.0L518.4 259.0L522.8 261.2L524.9 263.0L525.8 265.0L530.0 260.8L531.5 256.9L532.6 248.1L533.4 247.3L533.3 246.1L534.5 245.4L534.7 242.9L535.8 242.3L536.7 240.2L536.9 236.3L536.1 234.7L534.3 234.6L531.1 229.1L529.7 229.6L528.6 228.9L525.9 222.9L526.1 219.3L525.0 220.1L524.3 219.4L524.6 220.4L523.6 221.2L523.1 220.4L523.7 220.4L522.7 220.1L521.8 218.1L519.6 216.4L518.0 211.8L518.1 209.3L516.0 207.9L514.0 205.2L513.6 203.1L509.2 197.3L507.0 195.7L506.8 194.3L505.5 193.5L504.2 190.4L500.9 187.3L499.6 183.8L498.2 183.8L496.7 181.9L495.9 177.6L497.6 175.6L494.1 173.9L494.2 172.1L493.3 172.2L492.3 169.4L491.2 169.3L491.6 167.0L492.6 166.0L491.0 165.4L491.3 163.9L489.2 164.2L489.1 162.8L488.1 162.4L486.3 162.8L485.1 164.8L483.3 165.4L482.2 164.8L482.1 162.7L483.7 161.3L482.7 160.6L484.3 159.3L485.3 157.1L484.1 155.6L482.7 155.1L479.5 157.8L478.6 161.3L479.0 162.1L475.8 165.3L475.1 167.2L472.5 168.2L473.3 168.5L471.8 169.4L467.2 169.4L464.2 166.2L462.9 161.5L460.3 158.3L458.5 152.8L458.9 151.1L458.2 149.4L454.8 146.0L453.4 145.4L453.5 144.5L455.2 144.3L456.9 142.1L462.4 140.0L462.4 138.9L463.6 138.9L464.7 137.4L464.2 134.9L465.2 133.6L463.4 126.8L463.7 123.2L462.6 122.8L463.5 121.7L462.3 119.4L462.5 117.5L461.8 115.0L460.2 114.2L461.1 113.5L460.9 111.1L459.3 111.1L458.9 110.2L460.2 109.7L460.9 107.9L460.4 106.4L459.6 106.8L459.8 104.9L458.9 103.1L459.5 102.7L457.8 101.9L459.2 99.9L457.8 99.3L458.7 98.5L458.1 97.6L458.5 96.1L456.9 95.3L454.5 96.3L454.3 95.4L452.4 94.8L454.3 92.0L452.3 91.3L453.5 89.6L452.5 88.6L453.0 87.3L451.9 86.3L451.8 84.8L450.5 84.7L450.5 84.0L449.0 83.3L450.1 82.0L449.5 81.4L450.4 81.1L450.3 79.8L446.6 77.2L448.9 77.2L448.7 76.1L447.5 75.8L449.1 74.3L447.6 71.9L445.3 71.3L447.0 70.3L445.9 69.5L446.3 68.4L444.8 66.6L447.2 67.5L447.8 66.8L447.5 65.5L445.7 63.8L444.0 64.5L444.3 61.9L442.6 62.8L441.0 61.6L439.9 61.9L440.5 60.7L439.6 60.0L437.2 62.0L434.6 62.0L434.5 60.8L431.7 60.9L429.9 63.1L431.5 66.0L432.4 71.0L432.1 76.0L430.4 76.9L429.7 77.0L429.6 76.2L429.3 77.0L429.9 79.4L429.3 81.9L430.4 81.9L432.1 85.2L433.4 85.1L432.2 88.1L433.7 89.9L431.4 89.9L430.8 91.2L432.7 93.6L431.6 93.8L431.4 95.0L433.8 99.8L433.2 100.7L433.8 102.7L434.7 103.6L434.2 106.2L432.6 106.9L431.2 106.5L430.5 108.1L429.9 103.6L428.8 103.9L427.4 103.2L426.4 103.8L426.1 102.7L425.7 103.0L426.4 104.9L425.7 106.2L427.3 107.5L431.0 108.3L432.5 109.4L433.1 110.5L433.1 113.8L434.3 115.4L432.6 119.9L428.3 120.1L430.5 122.8L429.3 125.2L427.7 125.9L425.2 124.9L425.4 126.1L424.5 126.1L425.2 127.0L424.9 128.3L418.9 133.0L418.4 134.9L416.9 135.8L414.3 135.9L412.3 140.3L407.2 141.4L406.2 140.8L405.6 138.4L404.3 137.2L404.8 134.6L403.9 133.0L403.0 134.3L401.7 134.0L399.6 135.4L396.3 133.5L395.1 131.9L393.8 128.9L394.2 125.8L392.9 120.4L393.7 118.0L392.5 117.7L389.5 118.5L385.8 120.6L384.1 122.2L383.6 126.4L382.1 125.8L381.5 128.4L380.3 126.5L381.0 125.1L380.2 121.6L377.9 117.6L376.3 120.5L377.4 124.1L376.8 128.2L377.4 128.8L377.7 130.8L377.0 131.8L377.6 132.1L376.6 133.3L377.3 133.2L376.1 135.2L376.5 136.1L375.5 139.0L374.1 140.0L374.8 143.1L372.1 147.3L372.2 153.9L373.1 156.2L372.6 158.6L371.6 159.8L370.1 160.1Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+
+      <text x="280" y="80" class="msea-label">Ionian Sea</text>
+
+      <circle cx="410.6" cy="206.9" r="3.5" fill="#4a5838"/>
+      <text x="415" y="211" class="mcity-label">Argostoli</text>
+
+      <circle cx="391.9" cy="194.2" r="3" fill="#4a5838"/>
+      <text x="387" y="198" class="mcity-label" text-anchor="end">Lixouri</text>
+
+      <circle cx="474.2" cy="168.4" r="3" fill="#4a5838"/>
+      <text x="479" y="172" class="mcity-label">Sami</text>
+
+      <circle cx="444.8" cy="66.3" r="3" fill="#4a5838"/>
+      <text x="449" y="70" class="mcity-label">Fiskardo</text>
+
+      <circle cx="429.3" cy="106.7" r="3" fill="#4a5838"/>
+      <text x="425" y="110" class="mcity-label" text-anchor="end">Assos</text>
+
+      <circle cx="523.2" cy="230.7" r="3" fill="#4a5838"/>
+      <text x="528" y="234" class="mcity-label">Skala</text>
+
+      <circle cx="433.3" cy="118.6" r="3.5" fill="#b85a38"/>
+      <text x="438" y="122" class="mcity-label-highlight">Divarata</text>
+    </svg>
+  </div>
+
+  <p class="coming-soon">Coming soon</p>
+
+  <footer>
+    Map data © OpenStreetMap contributors (ODbL)
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const nav = document.querySelector('.site-nav-wrap');
+  if (!nav) return;
+  const update = () => nav.classList.toggle('scrolled', window.scrollY > 10);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+})();
+(function(){
+  const toggle = document.querySelector('.nav-toggle');
+  const links  = document.getElementById('primary-nav');
+  if (!toggle || !links) return;
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+</body>
+</html>
