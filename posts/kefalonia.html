@@ -41,6 +41,15 @@
 
   .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
 
+  .column { max-width: 760px;  margin: 0 auto; }
+
+  .essay { margin-bottom: 4rem; }
+  .essay p {
+    margin: 0 0 1.15em;
+    color: var(--text-body);
+  }
+  .essay em { font-style: italic; }
+
   /* --- Site navigation --- */
   .site-nav-wrap {
     position: sticky;
@@ -257,23 +266,220 @@
   }
   .map-wrap svg { display: block; width: 100%; height: auto; }
 
-  .coming-soon {
-    max-width: 640px;
-    margin: 6rem auto 0;
-    text-align: center;
-    font-family: var(--sans);
-    font-size: 0.8rem;
+  /* True 3-line drop cap.
+     Body is 17px * 1.6 line-height ≈ 27.2px per line.
+     The cap's font-size needs to exceed 3 × line-height because a large
+     portion of the font's em-box is ascender/descender space rather than
+     visible cap-height — in practice ~6em gets the visible glyph to
+     span three lines. line-height is crushed to lift the top toward the
+     first-line baseline. */
+  .essay > p:first-child::first-letter {
+    font-family: var(--serif);
     font-weight: 500;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--text-sub);
+    color: var(--text-strong);
+    float: left;
+    font-size: 6em;
+    line-height: 0.82;
+    margin: 0.06em 0.09em -0.08em -0.02em;
+    padding: 0;
   }
-  .coming-soon::before,
-  .coming-soon::after {
-    content: "·";
-    display: inline-block;
-    margin: 0 1rem;
-    opacity: 0.5;
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .essay > p:first-child::first-letter {
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+      font-size: inherit;
+      line-height: inherit;
+      float: none;
+      margin: 0 0.08em 0 0;
+    }
+  }
+
+  /* --- Gallery header (above photos) --- */
+  .gallery-intro {
+    text-align: center;
+    margin: 5rem auto 2.5rem;
+    max-width: 760px;
+    padding: 0 1.5rem;
+  }
+  .gallery-intro h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1rem;
+    letter-spacing: 0.01em;
+  }
+  .gallery-intro .places {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* --- Practical notes (end-of-post section) --- */
+  .practical-notes {
+    max-width: 760px;
+    margin: 6rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .practical-notes h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1.5rem;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+  .practical-notes p {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin: 0;
+  }
+
+  /* --- Photo gallery: tight spacing --- */
+  .photos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .photo-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+  .photo-portrait {
+    display: flex;
+    justify-content: center;
+  }
+  .photo-portrait img {
+    max-width: 65%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+
+  /* Fade-in on scroll.
+     Images start invisible and slightly translated down,
+     then ease in when they intersect the viewport. */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    body { font-size: 18px; }
+    .page { padding: 2.5rem 1.1rem 4rem; }
+    .photo-pair { grid-template-columns: 1fr; }
+    .photo-portrait img { max-width: 100%; }
+  }
+
+  /* --- Lightbox --- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 24, 14, 0.94);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: zoom-out;
+    padding: 2rem;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    position: absolute;
+    color: #faf4e4;
+    background: rgba(0,0,0,0.3);
+    border: none;
+    font-family: var(--sans);
+    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+    background: rgba(0,0,0,0.6);
+  }
+  .lightbox-close { top: 1.5rem; right: 1.5rem; }
+  .lightbox-prev  { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-next  { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #a8b59c;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+  .lightbox-caption {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.92);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    text-align: center;
+    max-width: 80vw;
+  }
+  @media (max-width: 700px) {
+    .lightbox-prev  { left: 0.5rem; }
+    .lightbox-next  { right: 0.5rem; }
+    .lightbox-close { top: 0.75rem; right: 0.75rem; }
   }
 
   footer {
@@ -326,13 +532,26 @@
   </header>
 
   <figure class="hero">
-    <img src="../images/kefalonia/24__Myrtos_view.jpg" alt="">
+    <img src="../images/kefalonia/24__Myrtos_view.jpg" alt="" data-caption="Myrtos Beach Viewpoint" data-gallery>
   </figure>
 
   <blockquote class="epigraph">
     <p>“If you deconstruct Greece, you will in the end see an olive tree, a grapevine, and a boat remain. That is, with as much, you reconstruct her.”</p>
     <cite>Odysseas Elytis</cite>
   </blockquote>
+
+  <!-- Essay -->
+  <article class="column essay">
+    <p>We had spent earlier summers in Italy — in Liguria, Sicily, Sardinia, Elba. Italy is wonderful, but something usually goes wrong: a parking ticket, the rental car, a closed museum, a restaurant that takes lunch off when we are hungriest. On Kefalonia, nothing went wrong. The car worked. You could park almost anywhere along the road. The restaurants stayed open through the afternoon. After the first few days I stopped waiting for the small disaster.</p>
+
+    <p>We rented a house above the bay where Myrtos lies, on a slope a few minutes’ drive from a village called Divarata — small enough that its four good restaurants felt extravagant, and over the week we worked our way through the classics: gemista, moussaka, souvlaki. The balcony looked west. The sunsets were the kind people fly to Santorini for, except there were no other people — only the sound of sheep bells in the hills below, faint and unhurried, the way you imagine sheep bells must once have sounded everywhere. The skies caught fire. I had lived in northern New Mexico for five winters and thought I knew what evening light could do; Kefalonia did the same trick, only over water.</p>
+
+    <p>Days followed a pattern. We drove down to Lithovatis Beach, a small bay with a handful of locals and the occasional other family, and snorkelled in clear water until lunch. Then we walked the few minutes up to Sea Rock and ate outside — souvlaki for Hannes, and a salad I keep thinking about. After lunch we went back down.</p>
+
+    <p>Fiskardo, on the northern tip, is the village the guidebooks photograph: pastel houses with shutters in pale greens and blues, a harbour full of small boats, bougainvillea hanging over café awnings. The Venetian centuries left their fingerprints on the architecture, and we noticed, sitting at a café, that most of the tourists around us seemed to be Italian. They had crossed a sea to find a quieter version of their own coast. We had ice cream there once and watched the boats. But the place we kept returning to was Lithovatis, in Agia Effimia — quieter, less photographed, the essence of the island as we found it.</p>
+
+    <p>What stays with me, though, is not any one beach. It is the strangers. Every waiter, every shopkeeper, every person who handed us a key or pointed us down a road did so with a kind of warmth that has become rare in places that see many tourists. They were not performing service; they were just being people, and we happened to be the people in front of them. We left the island lighter than we arrived.</p>
+  </article>
 
   <!-- Map as section transition. Data: © OpenStreetMap contributors (ODbL) -->
   <div class="map-wrap">
@@ -386,12 +605,70 @@
     </svg>
   </div>
 
-  <p class="coming-soon">Coming soon</p>
+  <section class="gallery-intro">
+    <h2>Scenes from Kefalonia</h2>
+    <p class="places">Myrtos · Lithovatis · Fteri · Fiskardo · Petani</p>
+  </section>
+
+  <div class="photos">
+    <figure class="photo-full">
+      <img src="../images/kefalonia/23__Kefalonia_view.jpg" alt="" data-caption="The east coast" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/kefalonia/2__Myrtos_view.jpg" alt="" data-caption="Sunset from the house" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/kefalonia/34__Sheep.jpg" alt="" data-caption="Sheep below Divarata" data-gallery>
+    </figure>
+
+    <div class="photo-pair">
+      <figure><img src="../images/kefalonia/62__Myrtos_Beach.jpg" alt="" data-caption="Myrtos Beach" data-gallery></figure>
+      <figure><img src="../images/kefalonia/59__Myrtos_sunset.jpg" alt="" data-caption="Myrtos Beach" data-gallery></figure>
+    </div>
+
+    <div class="photo-pair">
+      <figure><img src="../images/kefalonia/15__Lithovatis_Beach.jpg" alt="" data-caption="Lithovatis Beach, Agia Effimia" data-gallery></figure>
+      <figure><img src="../images/kefalonia/18__Lithovatis_Beach.jpg" alt="" data-caption="Lithovatis Beach, Agia Effimia" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/kefalonia/31__Fteri_Beach.jpg" alt="" data-caption="Fteri Beach" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/kefalonia/46__Cat_Square_Fiskardo.jpg" alt="" data-caption="Fiskardo" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/kefalonia/49__Fiskardo.jpg" alt="" data-caption="Fiskardo harbour" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/kefalonia/58__Lithovatis_Beach.jpg" alt="" data-caption="Under a fig tree, Lithovatis" data-gallery>
+    </figure>
+  </div>
+
+  <section class="practical-notes">
+    <h2>Practical notes</h2>
+    <p>The hike down to Fteri Beach takes about an hour from the small parking area above. It is steep but well-trodden, ending in a short scramble down a dry riverbed; most other visitors arrive by water taxi. Sea Rock, on the road above Lithovatis Beach in Agia Effimia, serves a salad of rocket and other leafy greens with grilled peaches and grilled talagani.</p>
+  </section>
 
   <footer>
     Map data © OpenStreetMap contributors (ODbL)
   </footer>
 
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+  <button class="lightbox-prev"  aria-label="Previous image">‹</button>
+  <img src="" alt="">
+  <button class="lightbox-next"  aria-label="Next image">›</button>
+  <button class="lightbox-close" aria-label="Close">✕</button>
+  <div class="lightbox-caption"></div>
+  <div class="lightbox-counter"></div>
 </div>
 
 <script>
@@ -409,6 +686,83 @@
   toggle.addEventListener('click', () => {
     const open = links.classList.toggle('open');
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+<script>
+// Fade-in effect for gallery images (skips hero, which is already visible)
+(function(){
+  const galleryImages = document.querySelectorAll('.photos figure img');
+  galleryImages.forEach(img => img.classList.add('fade-in'));
+
+  if (!('IntersectionObserver' in window)) {
+    // Older browsers: just show everything
+    galleryImages.forEach(img => img.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // only fade once
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -80px 0px', // trigger slightly before fully in view
+    threshold: 0.05
+  });
+
+  galleryImages.forEach(img => observer.observe(img));
+})();
+</script>
+
+<script>
+(function(){
+  // Build ordered list of gallery images (hero + rest) in DOM order
+  const imgs = Array.from(document.querySelectorAll('img[data-gallery]'));
+  const lb      = document.getElementById('lightbox');
+  const lbImg   = lb.querySelector('img');
+  const lbPrev  = lb.querySelector('.lightbox-prev');
+  const lbNext  = lb.querySelector('.lightbox-next');
+  const lbClose = lb.querySelector('.lightbox-close');
+  const lbCaption = lb.querySelector('.lightbox-caption');
+  const lbCount = lb.querySelector('.lightbox-counter');
+  let current = 0;
+
+  function show(i) {
+    current = (i + imgs.length) % imgs.length;
+    lbImg.src = imgs[current].src;
+    lbImg.alt = imgs[current].alt || '';
+    lbCaption.textContent = imgs[current].dataset.caption || '';
+    lbCount.textContent = (current + 1) + ' / ' + imgs.length;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  imgs.forEach((img, i) => {
+    img.addEventListener('click', () => show(i));
+  });
+  lbPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
+  lbNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
+  lbClose.addEventListener('click', (e) => { e.stopPropagation(); hide(); });
+  // Click on backdrop (but not the image itself) closes
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) hide();
+  });
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     hide();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
   });
 })();
 </script>
