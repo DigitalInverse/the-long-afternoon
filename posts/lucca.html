@@ -216,6 +216,31 @@
   }
 
   /* --- Map --- */
+  /* --- Epigraph (quote between hero and map) --- */
+  .epigraph {
+    max-width: 620px;
+    margin: 0 auto 4rem;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-body);
+  }
+  .epigraph p {
+    margin: 0 0 0.9em;
+  }
+  .epigraph cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
   .map-wrap {
     max-width: 900px;
     margin: 3rem auto 4rem;
@@ -298,6 +323,11 @@
   <figure class="hero">
     <img src="../images/lucca/44__Lucca.jpg" alt="">
   </figure>
+
+  <blockquote class="epigraph">
+    <p>“What is the fatal charm of Italy? What do we find there that can be found nowhere else? I believe it is a certain permission to be human, which other places, other countries, lost long ago.”</p>
+    <cite>Erica Jong · What Do Women Want?</cite>
+  </blockquote>
 
   <!-- Map as section transition. Data: © ISTAT (CC BY 3.0 IT) -->
   <div class="map-wrap">
