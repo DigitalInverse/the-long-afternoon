@@ -292,6 +292,42 @@
     text-transform: uppercase;
   }
 
+  /* --- Essay body --- */
+  .essay { margin-bottom: 4rem; }
+  .essay p {
+    margin: 0 0 1.15em;
+    color: var(--text-body);
+  }
+  .essay em { font-style: italic; }
+
+  /* True 3-line drop cap.
+     Body is 17px * 1.6 line-height ≈ 27.2px per line.
+     The cap's font-size needs to exceed 3 × line-height because a large
+     portion of the font's em-box is ascender/descender space rather than
+     visible cap-height — in practice ~6em gets the visible glyph to
+     span three lines. line-height is crushed to lift the top toward the
+     first-line baseline. */
+  .essay > p:first-child::first-letter {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--text-strong);
+    float: left;
+    font-size: 6em;
+    line-height: 0.82;
+    margin: 0.06em 0.09em -0.08em -0.02em;
+    padding: 0;
+  }
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .essay > p:first-child::first-letter {
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+      font-size: inherit;
+      line-height: inherit;
+      float: none;
+      margin: 0 0.08em 0 0;
+    }
+  }
+
   /* --- Coming soon --- */
   .coming-soon {
     max-width: 640px;
@@ -428,7 +464,17 @@
     </svg>
   </div>
 
-  <p class="coming-soon">Coming soon</p>
+  <article class="essay column">
+    <p>Sydney was love at first sight. Melbourne took its time. The first evening was Woolworths and grime. A fluorescent supermarket near our flat in the CBD, the wet streets at rush hour, a city that did not seem to be making any particular effort to charm us. We had come from a week of intense sunlight in Western Australia, and Melbourne, in the rain, looked like any large city anywhere.</p>
+
+    <p>It reminded me, oddly, of Gotham — not of any actual city in the American Northeast, where Gotham is supposedly set, but of the comic-book version: tall and damp and full of laneways. I could not work out why the resemblance felt so strong.</p>
+
+    <p>Then the city began to open. The Royal Botanic Gardens on a morning when the sun came through. A flat white in Fitzroy. The free tram zone in the centre, which felt like a small civic gift to anyone walking. The realisation, gradually, that the laneways were full of light if you came back at the right hour. We learned the rhythm of the place the way one learns a piece of music — not by trying, but by hearing it again.</p>
+
+    <p>Hannes took his first steps in our flat in the CBD. He kept using the pram afterwards, but something had changed all the same.</p>
+
+    <p>We drove south to Apollo Bay. The Great Ocean Road in the rain at first, with Bells Beach grey and windblown and no surfers in sight; then Teddy's Lookout, with the road snaking below like something drawn by a child. Kenneth River had koalas asleep high in the eucalypts and king parrots that would land on your hand for seed, to Hannes' great delight. Near Cape Otway, the road turns inland through temperate rainforest, no sea visible for an hour. Eventually we reached the Twelve Apostles, the Southern Ocean grinding against the limestone in long even pulses, the wind in our faces, and the strange feeling that the next land south was Antarctica.</p>
+  </article>
 
   <footer>
     Map data © OpenStreetMap contributors (ODbL)
