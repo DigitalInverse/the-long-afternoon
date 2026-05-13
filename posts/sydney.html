@@ -292,6 +292,42 @@
     text-transform: uppercase;
   }
 
+  /* --- Essay body --- */
+  .essay { margin-bottom: 4rem; }
+  .essay p {
+    margin: 0 0 1.15em;
+    color: var(--text-body);
+  }
+  .essay em { font-style: italic; }
+
+  /* True 3-line drop cap.
+     Body is 17px * 1.6 line-height ≈ 27.2px per line.
+     The cap's font-size needs to exceed 3 × line-height because a large
+     portion of the font's em-box is ascender/descender space rather than
+     visible cap-height — in practice ~6em gets the visible glyph to
+     span three lines. line-height is crushed to lift the top toward the
+     first-line baseline. */
+  .essay > p:first-child::first-letter {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--text-strong);
+    float: left;
+    font-size: 6em;
+    line-height: 0.82;
+    margin: 0.06em 0.09em -0.08em -0.02em;
+    padding: 0;
+  }
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .essay > p:first-child::first-letter {
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+      font-size: inherit;
+      line-height: inherit;
+      float: none;
+      margin: 0 0.08em 0 0;
+    }
+  }
+
   /* --- Coming soon --- */
   .coming-soon {
     max-width: 640px;
@@ -379,6 +415,18 @@
     <cite>Bill Bryson · Down Under</cite>
   </blockquote>
 
+  <article class="essay column">
+    <p>We stayed near Bronte Beach, and what I remember from the first morning is the noise of rainbow lorikeets in a Norfolk Island hibiscus at the top of Pacific Street, on the road down to the sea.</p>
+
+    <p>Sydney is not really about beauty in the European sense. It is about the sea. The beaches are held in coves between sandstone headlands — not the long open beaches of Southern California, but contained, each with its own character. We walked the six kilometres from Coogee to Bondi along the coast, which involved more stone staircases than I had expected; Hannes was in the pram, and at several points I had to carry both him and the pram down the steps. Bondi itself was too crowded for us, but Tamarama, halfway along, was the right size.</p>
+
+    <p>Sydney lives by the sea even when it cannot see it. At a crossing in Bondi Junction, a good half-hour's walk from the water, people were waiting for the lights in board shorts and flip-flops, as if the beach were just around the corner — which, in their minds, it probably was.</p>
+
+    <p>We did the harbour, of course. But the Sydney we remember was on the other side of the headlands.</p>
+
+    <p>Then it turned out our flat had cockroaches. Our host did not seem unduly bothered and pointed cheerfully to a can of insect spray under the sink. I killed three over the course of the week, and we kept the bedroom door shut at night, and it remained unpleasant.</p>
+  </article>
+
   <div class="map-wrap">
     <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
       <title>Map of New South Wales</title>
@@ -426,8 +474,6 @@
       <text x="475" y="231" class="mcity-label">Canberra</text>
     </svg>
   </div>
-
-  <p class="coming-soon">Coming soon</p>
 
   <footer>
     Map data © OpenStreetMap contributors (ODbL)
