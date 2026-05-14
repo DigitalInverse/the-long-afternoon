@@ -42,6 +42,8 @@
 
   .column { max-width: 760px;  margin: 0 auto; }
 
+  figure { margin: 0; padding: 0; }
+
   /* --- Site navigation --- */
   .site-nav-wrap {
     position: sticky;
@@ -271,6 +273,42 @@
     color: var(--text-muted);
   }
 
+  /* --- Essay --- */
+  .essay { margin-bottom: 4rem; }
+  .essay p {
+    margin: 0 0 1.15em;
+    color: var(--text-body);
+  }
+  .essay em { font-style: italic; }
+
+  /* True 3-line drop cap.
+     Body is 17px * 1.6 line-height ≈ 27.2px per line.
+     The cap's font-size needs to exceed 3 × line-height because a large
+     portion of the font's em-box is ascender/descender space rather than
+     visible cap-height — in practice ~6em gets the visible glyph to
+     span three lines. line-height is crushed to lift the top toward the
+     first-line baseline. */
+  .essay > p:first-child::first-letter {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--text-strong);
+    float: left;
+    font-size: 6em;
+    line-height: 0.82;
+    margin: 0.06em 0.09em -0.08em -0.02em;
+    padding: 0;
+  }
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .essay > p:first-child::first-letter {
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+      font-size: inherit;
+      line-height: inherit;
+      float: none;
+      margin: 0 0.08em 0 0;
+    }
+  }
+
   /* --- Map --- */
   .map-wrap {
     max-width: 760px;
@@ -292,6 +330,30 @@
     text-transform: uppercase;
   }
 
+  /* --- Practical notes (end-of-post section) --- */
+  .practical-notes {
+    max-width: 760px;
+    margin: 6rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .practical-notes h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1.5rem;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+  .practical-notes p {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin: 0;
+  }
+
   /* --- Coming soon --- */
   .coming-soon {
     max-width: 640px;
@@ -310,6 +372,179 @@
     display: inline-block;
     margin: 0 1rem;
     opacity: 0.5;
+  }
+
+  /* --- Gallery header (above photos) --- */
+  .gallery-intro {
+    text-align: center;
+    margin: 5rem auto 2.5rem;
+    max-width: 760px;
+    padding: 0 1.5rem;
+  }
+  .gallery-intro h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1rem;
+    letter-spacing: 0.01em;
+  }
+  .gallery-intro .places {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* --- Photo gallery: tight spacing --- */
+  .photos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 4rem;
+  }
+  .photo-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-portrait {
+    display: flex;
+    justify-content: center;
+  }
+  .photo-portrait img {
+    max-width: 65%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+  .photo-pair-portrait {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair-portrait img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+  @media (max-width: 700px) {
+    .photo-portrait img { max-width: 100%; }
+    .photo-pair { grid-template-columns: 1fr; }
+    .photo-pair-portrait { grid-template-columns: 1fr; }
+  }
+
+  /* Fade-in on scroll for gallery images */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* --- Lightbox --- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 24, 14, 0.94);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: zoom-out;
+    padding: 2rem;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    position: absolute;
+    color: #faf4e4;
+    background: rgba(0,0,0,0.3);
+    border: none;
+    font-family: var(--sans);
+    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+    background: rgba(0,0,0,0.6);
+  }
+  .lightbox-close { top: 1.5rem; right: 1.5rem; }
+  .lightbox-prev  { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-next  { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #a8b59c;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+  .lightbox-caption {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.92);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    text-align: center;
+    max-width: 80vw;
+  }
+  @media (max-width: 700px) {
+    .lightbox-prev  { left: 0.5rem; }
+    .lightbox-next  { right: 0.5rem; }
+    .lightbox-close { top: 0.75rem; right: 0.75rem; }
   }
 
   footer {
@@ -371,13 +606,22 @@
   </header>
 
   <figure class="hero">
-    <img src="../images/perth/1__Rottnest_Island.jpg" alt="">
+    <img src="../images/perth/1__Rottnest_Island.jpg" alt="" data-caption="Rottnest Island" data-gallery>
   </figure>
 
   <blockquote class="epigraph">
     <p>“You can stand on a beach in Western Australia and feel that nothing has happened yet.”</p>
     <cite>Tim Winton · Land's Edge</cite>
   </blockquote>
+
+  <article class="essay column">
+    <p>We arrived in Fremantle in the evening, after twenty hours of flying with a one-year-old. The next morning the light was the first thing we noticed. It was bright in a way that felt physical — closer to the light I remembered from northern New Mexico, where I had lived for five years, than to anything in Europe. A crew of men in hi-vis vests and hard hats were working on a stretch of road near our place. One of them said something to us as we walked past with the pram, something apologetic and Australian that I have since forgotten. Even road work looked a little easier in that light.</p>
+    <p>We took it slowly that first day. Fremantle is small enough to walk, and we did, stopping at the Japingka Gallery to look at Aboriginal paintings — concentric dots and ochre lines, country mapped from above — and at a shop full of didgeridoos, where a man let us listen as he played one.</p>
+    <p>The next day we took the ferry out to Rottnest Island. We walked from the settlement past Bathurst Lighthouse and along Pinky Beach to The Basin, a sheltered cove between rocks where the water was clear to the bottom. I had Hannes in a front-carrier and a backpack behind, a sun tent strapped to one side, and I asked Hanna to swim so I could take a few photographs. The water was colder than it looked. Quokkas appeared on the path back — small marsupials with what looks like a permanent smile, which is mostly an accident of jaw structure. They came surprisingly close, as if they had decided long ago that humans were not the main thing to worry about. The Dutch, arriving in 1696, had thought they were rats; the island is named for the mistake.</p>
+    <p>On our last day before flying east we drove up to Cottesloe Beach in Perth. There was a playground set right next to the sand, the kind with a soft surface underfoot. Rock music was playing from somewhere we couldn't see. We pushed Hannes on the swing and looked out at the Indian Ocean, which from Cottesloe stretches uninterrupted to Madagascar. A yellow sign on the dune fence said CAUTION: BEWARE OF SNAKES.</p>
+    <p>Two weeks later we came back through Perth on our way home, and stayed two nights in East Perth. The boom had built it: ore from the Pilbara, the long mining rush of Western Australia, paid for the new apartments along the river. We walked over to Victoria Gardens, where lawns ran down to Claisebrook Cove and people sat with takeaway coffees on the grass. Houses overlooked the water. The thought arrived unbidden: it would not be a bad place to live.</p>
+    <p>Hanna went into the city library to use the bathroom. I waited in the foyer, looking up at the wood and glass and white ceilings. When she came out she said, “Even the toilets are nice here.” I could only agree.</p>
+  </article>
 
   <div class="map-wrap">
     <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
@@ -425,12 +669,62 @@
     </svg>
   </div>
 
-  <p class="coming-soon">Coming soon</p>
+  <section class="gallery-intro">
+    <h2>Scenes from Fremantle, Rottnest and Perth</h2>
+    <p class="places">Fremantle · Rottnest Island · Cottesloe · Perth · East Perth</p>
+  </section>
+
+  <div class="photos">
+    <div class="photo-pair-portrait">
+      <figure><img src="../images/perth/8__Moore_And_Moore.jpg" alt="" data-caption="Moore & Moore Cafe, Fremantle" data-gallery></figure>
+      <figure><img src="../images/perth/26__Quokka.jpg" alt="" data-caption="Quokka, Rottnest Island" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/perth/17__Pinky_Beach.jpg" alt="" data-caption="Pinky Beach, Rottnest Island" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/perth/20__The_Basin.jpg" alt="" data-caption="The Basin, Rottnest Island" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/perth/32__Cottesloe.jpg" alt="" data-caption="Cottesloe Beach" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/perth/132__Balcony_View.jpg" alt="" data-caption="View from our balcony, East Perth" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/perth/134__Bell_Tower.jpg" alt="" data-caption="The Bell Tower, Perth" data-gallery>
+    </figure>
+
+    <div class="photo-pair-portrait">
+      <figure><img src="../images/perth/135__Percy_Button.jpg" alt="" data-caption="Percy Buttons' Aspiration, Hay Street Mall" data-gallery></figure>
+      <figure><img src="../images/perth/138__Spotted_Gum.jpg" alt="" data-caption="Spotted gum, East Perth" data-gallery></figure>
+    </div>
+  </div>
+
+  <section class="practical-notes">
+    <h2>Practical notes</h2>
+    <p>Moore & Moore Cafe in Fremantle has a courtyard where you can eat outside. The ferry from Fremantle to Rottnest takes about twenty-five minutes. Bicycles can be hired on the island; we didn't, but probably should have.</p>
+  </section>
 
   <footer>
     Map data © OpenStreetMap contributors (ODbL)
   </footer>
 
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+  <button class="lightbox-prev"  aria-label="Previous image">‹</button>
+  <img src="" alt="">
+  <button class="lightbox-next"  aria-label="Next image">›</button>
+  <button class="lightbox-close" aria-label="Close">✕</button>
+  <div class="lightbox-caption"></div>
+  <div class="lightbox-counter"></div>
 </div>
 
 <script>
@@ -453,6 +747,79 @@
   toggle.addEventListener('click', () => {
     const open = links.classList.toggle('open');
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+<script>
+// Fade-in effect for gallery images (skips hero, which is already visible)
+(function(){
+  const galleryImages = document.querySelectorAll('.photos figure img');
+  galleryImages.forEach(img => img.classList.add('fade-in'));
+
+  if (!('IntersectionObserver' in window)) {
+    galleryImages.forEach(img => img.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -80px 0px',
+    threshold: 0.05
+  });
+
+  galleryImages.forEach(img => observer.observe(img));
+})();
+</script>
+
+<script>
+(function(){
+  const imgs = Array.from(document.querySelectorAll('img[data-gallery]'));
+  const lb      = document.getElementById('lightbox');
+  const lbImg   = lb.querySelector('img');
+  const lbPrev  = lb.querySelector('.lightbox-prev');
+  const lbNext  = lb.querySelector('.lightbox-next');
+  const lbClose = lb.querySelector('.lightbox-close');
+  const lbCaption = lb.querySelector('.lightbox-caption');
+  const lbCount = lb.querySelector('.lightbox-counter');
+  let current = 0;
+
+  function show(i) {
+    current = (i + imgs.length) % imgs.length;
+    lbImg.src = imgs[current].src;
+    lbImg.alt = imgs[current].alt || '';
+    lbCaption.textContent = imgs[current].dataset.caption || '';
+    lbCount.textContent = (current + 1) + ' / ' + imgs.length;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  imgs.forEach((img, i) => {
+    img.addEventListener('click', () => show(i));
+  });
+  lbPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
+  lbNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
+  lbClose.addEventListener('click', (e) => { e.stopPropagation(); hide(); });
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) hide();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     hide();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
   });
 })();
 </script>
