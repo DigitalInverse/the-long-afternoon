@@ -323,6 +323,30 @@
     text-transform: uppercase;
   }
 
+  /* --- Practical notes (end-of-post section) --- */
+  .practical-notes {
+    max-width: 760px;
+    margin: 6rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .practical-notes h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1.5rem;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+  .practical-notes p {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin: 0;
+  }
+
   /* --- Coming soon --- */
   .coming-soon {
     max-width: 640px;
@@ -341,6 +365,179 @@
     display: inline-block;
     margin: 0 1rem;
     opacity: 0.5;
+  }
+
+  /* --- Gallery header (above photos) --- */
+  .gallery-intro {
+    text-align: center;
+    margin: 5rem auto 2.5rem;
+    max-width: 760px;
+    padding: 0 1.5rem;
+  }
+  .gallery-intro h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1rem;
+    letter-spacing: 0.01em;
+  }
+  .gallery-intro .places {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* --- Photo gallery: tight spacing --- */
+  .photos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 4rem;
+  }
+  .photo-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-portrait {
+    display: flex;
+    justify-content: center;
+  }
+  .photo-portrait img {
+    max-width: 65%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+  .photo-pair-portrait {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair-portrait img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+  @media (max-width: 700px) {
+    .photo-portrait img { max-width: 100%; }
+    .photo-pair { grid-template-columns: 1fr; }
+    .photo-pair-portrait { grid-template-columns: 1fr; }
+  }
+
+  /* Fade-in on scroll for gallery images */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* --- Lightbox --- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 24, 14, 0.94);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: zoom-out;
+    padding: 2rem;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    position: absolute;
+    color: #faf4e4;
+    background: rgba(0,0,0,0.3);
+    border: none;
+    font-family: var(--sans);
+    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+    background: rgba(0,0,0,0.6);
+  }
+  .lightbox-close { top: 1.5rem; right: 1.5rem; }
+  .lightbox-prev  { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-next  { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #a8b59c;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+  .lightbox-caption {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.92);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    text-align: center;
+    max-width: 80vw;
+  }
+  @media (max-width: 700px) {
+    .lightbox-prev  { left: 0.5rem; }
+    .lightbox-next  { right: 0.5rem; }
+    .lightbox-close { top: 0.75rem; right: 0.75rem; }
   }
 
   footer {
@@ -402,7 +599,7 @@
   </header>
 
   <figure class="hero">
-    <img src="../images/lisbon/1__Lisbon_tram.jpg" alt="">
+    <img src="../images/lisbon/1__Lisbon_tram.jpg" alt="" data-caption="Tram 28, Lisbon" data-gallery>
   </figure>
 
   <blockquote class="epigraph">
@@ -415,8 +612,8 @@
     <p>We rented a loft flat in Chiado with a small terrace, up three flights of a staircase so narrow that the pram had to be lifted, folded. Hannes was six months old. It was his first time abroad.</p>
     <p>We stopped at the miradouros and looked out over the rooftops, and ate ridiculously good salads scattered with berries at Mercado da Ribeira. We took a bus out to Praia do Guincho one day — a beach for brave surfers in wetsuits, not really for small children — where the wind off the Atlantic was strong and the water cold.</p>
     <p>From Cais do Sodré the train follows the river out to Belém. We ate pastéis de nata at the bakery near the monastery, the custard still warm. The Padrão dos Descobrimentos rises from the riverbank — Henry the Navigator at the prow, the explorers behind him in stone — pointed at an empire that has been gone for a long time.</p>
-    <p>There is a Portuguese word, saudade, that is usually translated as longing — but it is more specific than that. It is the ache of missing something while knowing you cannot have it back. Saudade in its full sense belongs to the Portuguese — to fado, to the long sailings, to centuries of return. What I felt in Lisbon was smaller. We would come back, of course. But the next time we came back, Hannes would walk. He would not fit in the carrier. The pram would not need to be lifted, folded, up a narrow staircase. The trip we were on would have already happened.</p>
-    <p>I remember the wheels of the pram clattering across the polished stones, and the old trams rattling past every few minutes, and worrying mostly about whether it was all too much for Hannes, facing forward in the carrier.</p>
+    <p>There is a Portuguese word, saudade, that is usually translated as longing — but it is more specific than that. It is the ache of missing something while knowing you cannot have it back. Saudade in its full sense belongs to the Portuguese — to fado, to the long sailings, to centuries of return. What I felt in Lisbon was smaller. We would come back, of course. But the next time we came back, Hannes would walk. The pram would not need to be lifted, folded, up a narrow staircase. The trip we were on would have already happened.</p>
+    <p>I remember the wheels of the pram clattering across the polished stones, and the old trams rattling past every few minutes, and worrying mostly about whether it was all too much for Hannes, facing forward.</p>
   </article>
 
   <div class="map-wrap">
@@ -467,12 +664,73 @@
     </svg>
   </div>
 
-  <p class="coming-soon">Coming soon</p>
+  <section class="gallery-intro">
+    <h2>Scenes from Lisbon</h2>
+    <p class="places">Chiado · Alfama · Belém · Praia do Guincho</p>
+  </section>
+
+  <div class="photos">
+    <figure class="photo-portrait">
+      <img src="../images/lisbon/969__Hanna_Terrace.jpg" alt="" data-caption="On our terrace, Chiado" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/lisbon/952__Alfama.jpg" alt="" data-caption="Alfama rooftops" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/lisbon/854__Rooftop.jpg" alt="" data-caption="A rooftop in Bairro Alto" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/lisbon/796__Sardines.jpg" alt="" data-caption="Tinned sardines" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/lisbon/960__Santa_Luzia.jpg" alt="" data-caption="Miradouro de Santa Luzia" data-gallery>
+    </figure>
+
+    <div class="photo-pair-portrait">
+      <figure><img src="../images/lisbon/950__Praca_do_Comercio.jpg" alt="" data-caption="Praça do Comércio" data-gallery></figure>
+      <figure><img src="../images/lisbon/907__Santa_Justa.jpg" alt="" data-caption="Elevador de Santa Justa" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/lisbon/928__Guincho.jpg" alt="" data-caption="Praia do Guincho" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/lisbon/884__Padrao.jpg" alt="" data-caption="Padrão dos Descobrimentos, Belém" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/lisbon/759__View.jpg" alt="" data-caption="Looking out toward the Tagus" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/lisbon/730__Night_Tram.jpg" alt="" data-caption="Tram at night" data-gallery>
+    </figure>
+  </div>
+
+  <section class="practical-notes">
+    <h2>Practical notes</h2>
+    <p>Lisbon has a lot of stairs, especially up to the miradouros, and a carrier is more practical than a pram if you bring small children. Mercado da Ribeira, where we ate good salads, is now also known as Time Out Market. Pastel de bacalhau and sardines in oil are worth seeking out; Hannes ate the sardines with surprising appetite.</p>
+  </section>
 
   <footer>
     Map data © OpenStreetMap contributors (ODbL)
   </footer>
 
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+  <button class="lightbox-prev"  aria-label="Previous image">‹</button>
+  <img src="" alt="">
+  <button class="lightbox-next"  aria-label="Next image">›</button>
+  <button class="lightbox-close" aria-label="Close">✕</button>
+  <div class="lightbox-caption"></div>
+  <div class="lightbox-counter"></div>
 </div>
 
 <script>
@@ -495,6 +753,79 @@
   toggle.addEventListener('click', () => {
     const open = links.classList.toggle('open');
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+<script>
+// Fade-in effect for gallery images (skips hero, which is already visible)
+(function(){
+  const galleryImages = document.querySelectorAll('.photos figure img');
+  galleryImages.forEach(img => img.classList.add('fade-in'));
+
+  if (!('IntersectionObserver' in window)) {
+    galleryImages.forEach(img => img.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -80px 0px',
+    threshold: 0.05
+  });
+
+  galleryImages.forEach(img => observer.observe(img));
+})();
+</script>
+
+<script>
+(function(){
+  const imgs = Array.from(document.querySelectorAll('img[data-gallery]'));
+  const lb      = document.getElementById('lightbox');
+  const lbImg   = lb.querySelector('img');
+  const lbPrev  = lb.querySelector('.lightbox-prev');
+  const lbNext  = lb.querySelector('.lightbox-next');
+  const lbClose = lb.querySelector('.lightbox-close');
+  const lbCaption = lb.querySelector('.lightbox-caption');
+  const lbCount = lb.querySelector('.lightbox-counter');
+  let current = 0;
+
+  function show(i) {
+    current = (i + imgs.length) % imgs.length;
+    lbImg.src = imgs[current].src;
+    lbImg.alt = imgs[current].alt || '';
+    lbCaption.textContent = imgs[current].dataset.caption || '';
+    lbCount.textContent = (current + 1) + ' / ' + imgs.length;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  imgs.forEach((img, i) => {
+    img.addEventListener('click', () => show(i));
+  });
+  lbPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
+  lbNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
+  lbClose.addEventListener('click', (e) => { e.stopPropagation(); hide(); });
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) hide();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     hide();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
   });
 })();
 </script>
