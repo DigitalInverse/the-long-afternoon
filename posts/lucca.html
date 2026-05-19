@@ -41,6 +41,8 @@
 
   .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
 
+  .column { max-width: 760px;  margin: 0 auto; }
+
   /* --- Site navigation --- */
   .site-nav-wrap {
     position: sticky;
@@ -248,6 +250,35 @@
   }
   .map-wrap svg { display: block; width: 100%; height: auto; }
 
+  /* --- Essay --- */
+  .essay { margin-bottom: 4rem; }
+  .essay p {
+    margin: 0 0 1.15em;
+    color: var(--text-body);
+  }
+  .essay em { font-style: italic; }
+
+  .essay > p:first-child::first-letter {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--text-strong);
+    float: left;
+    font-size: 6em;
+    line-height: 0.82;
+    margin: 0.06em 0.09em -0.08em -0.02em;
+    padding: 0;
+  }
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .essay > p:first-child::first-letter {
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+      font-size: inherit;
+      line-height: inherit;
+      float: none;
+      margin: 0 0.08em 0 0;
+    }
+  }
+
   .coming-soon {
     max-width: 640px;
     margin: 6rem auto 0;
@@ -331,6 +362,20 @@
     <cite>Erica Jong · What Do Women Want?</cite>
   </blockquote>
 
+  <article class="essay column">
+    <p>The bus from Pisa airport stopped outside the walls. It was twenty-two on the forecast and felt like twenty-eight in the Tuscan sun. The cobblestones inside the gate were uneven under the wheels of the pushchair. Hannes was three and a half. We rolled him slowly to the apartment on Via San Giorgio. The owner came by at some point. The house had been in his family for four hundred years. In Italy this is unremarkable, which is quintessentially Italian.</p>
+
+    <p>I had passed through once on the train from Florence to Pisa, and the town stayed in my mind. With a three-year-old we wanted a city without the must-sees, without the queues at the Uffizi, without anything in particular to do. Lucca had nothing we had to do and nowhere we had to be. That is what the Italians are best at, and what we had come for.</p>
+
+    <p>The historic centre of Lucca is closed to non-resident cars. You leave the car outside the Renaissance walls and walk in, and once inside, the streets belong to the people on them. It changes how a city feels. You can let go of a child's hand at a crossing. The walls themselves are intact — four kilometres of broad rampart, planted with plane trees and chestnuts, running the whole way round. We wandered, mostly: the oval of the Piazza dell'Anfiteatro, built into the foundations of the old Roman arena; the Torre Guinigi with its oak trees growing out of the top; the bust of Puccini outside the music school where he had been a pupil.</p>
+
+    <p>There is a playground on top of the wall. We took Hannes there one afternoon and he played with the child of an English watchmaker who had just moved his family from Switzerland because he thought Lucca was a better place to raise children. He may well have been right. The boys ran in circles between the trees while we talked, and Hanna sat on a bench and watched.</p>
+
+    <p>We saw no sushi in Lucca. No Indian, no Thai, no burgers. Inside the walls you eat what you eat in Tuscany — pizza, pasta, the wine that comes from the hills above the town.</p>
+
+    <p>It was a week without events, and exactly what we needed.</p>
+  </article>
+
   <!-- Map as section transition. Data: © ISTAT (CC BY 3.0 IT) -->
   <div class="map-wrap">
     <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
@@ -387,8 +432,6 @@
       <text x="506" y="156" class="mcity-label">Arezzo</text>
     </svg>
   </div>
-
-  <p class="coming-soon">Coming soon</p>
 
   <footer>
     Map data © ISTAT (CC BY 3.0 IT)
