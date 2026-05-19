@@ -171,7 +171,13 @@
       gap: 0.2rem;
       z-index: 40;
     }
-    .site-nav-links.open { display: flex; }
+    .site-nav-links.open {
+      display: flex;
+      max-height: calc(100vh - 5rem);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
     .site-nav-links a, .site-nav-links button {
       padding: 0.75rem 0;
       text-align: left;

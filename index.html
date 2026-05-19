@@ -377,7 +377,13 @@
       box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
       display: none;
     }
-    .site-nav-links.open { display: flex; }
+    .site-nav-links.open {
+      display: flex;
+      max-height: calc(100vh - 5rem);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
     .nav-dropdown {
       position: static;
       opacity: 1;
