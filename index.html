@@ -379,7 +379,8 @@
     }
     .site-nav-links.open {
       display: flex;
-      max-height: calc(100vh - 5rem);
+      max-height: calc(100vh - 5rem);   /* fallback */
+      max-height: calc(100dvh - 5rem);  /* iOS Safari, modern browsers */
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
