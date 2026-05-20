@@ -52,8 +52,11 @@
     border-bottom: 1px solid transparent;
     transition: border-color 0.2s, background 0.2s;
   }
-  .site-nav-wrap.scrolled {
-    border-bottom-color: var(--rule);
+  .site-nav-wrap.scrolled { border-bottom-color: var(--rule); }
+  .site-nav-wrap.scrolled .site-nav { padding-top: 1rem; padding-bottom: 0.85rem; }
+  .site-nav-wrap.scrolled .site-logo { font-size: 1.2rem; }
+  .site-nav-wrap .site-nav, .site-nav-wrap .site-logo {
+    transition: padding 0.2s, font-size 0.2s;
   }
   .site-nav {
     max-width: 1100px;
@@ -62,16 +65,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-  .site-nav-wrap.scrolled .site-nav {
-    padding-top: 1rem;
-    padding-bottom: 0.85rem;
-  }
-  .site-nav-wrap.scrolled .site-logo {
-    font-size: 1.2rem;
-  }
-  .site-nav, .site-logo {
-    transition: padding 0.2s, font-size 0.2s;
+    position: relative;
   }
   .site-logo {
     font-family: var(--serif);
@@ -84,11 +78,8 @@
     line-height: 1;
   }
   .site-nav-links {
-    display: flex;
-    gap: 2.25rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    display: flex; gap: 2.25rem;
+    list-style: none; margin: 0; padding: 0;
     align-items: center;
   }
   .site-nav-links > li { position: relative; }
@@ -106,15 +97,10 @@
     padding: 0.3rem 0;
     transition: color 0.15s;
   }
-  .site-nav-links a:hover,
-  .site-nav-links button:hover {
-    color: var(--text-strong);
-  }
+  .site-nav-links a:hover, .site-nav-links button:hover { color: var(--text-strong); }
   .site-nav-links .has-dropdown > button::after {
-    content: "";
-    display: inline-block;
-    width: 0;
-    height: 0;
+    content: ""; display: inline-block;
+    width: 0; height: 0;
     margin-left: 0.4em;
     border-left: 3px solid transparent;
     border-right: 3px solid transparent;
@@ -124,27 +110,21 @@
   }
   .nav-dropdown {
     position: absolute;
-    top: 100%;
-    right: -0.75rem;
-    margin-top: 0.5rem;
-    padding: 0.6rem 0;
+    top: 100%; right: -0.75rem;
+    margin-top: 0.5rem; padding: 0.6rem 0;
     background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 4px;
     box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
     min-width: 190px;
     list-style: none;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-4px);
+    opacity: 0; visibility: hidden; transform: translateY(-4px);
     transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
     z-index: 50;
   }
   .has-dropdown:hover .nav-dropdown,
   .has-dropdown:focus-within .nav-dropdown {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+    opacity: 1; visibility: visible; transform: translateY(0);
   }
   .nav-dropdown li { padding: 0; }
   .nav-dropdown a {
@@ -154,18 +134,16 @@
   }
   .nav-toggle {
     display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
+    background: none; border: none;
+    cursor: pointer; padding: 0.5rem;
+    color: var(--text-strong);
   }
   .nav-toggle span {
     display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--text-strong);
-    margin: 4px 0;
-    border-radius: 2px;
+    width: 22px; height: 1.5px;
+    background: currentColor;
+    margin: 5px 0;
+    transition: transform 0.2s, opacity 0.2s;
   }
 
   /* --- About hero --- */
@@ -334,23 +312,19 @@
     text-transform: uppercase;
   }
 
-  /* --- Mobile nav --- */
   @media (max-width: 720px) {
     .nav-toggle { display: block; }
     .site-nav-links {
-      position: absolute;
-      top: 100%;
-      right: 1.5rem;
-      margin-top: 0.5rem;
-      background: var(--surface);
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.75rem;
-      padding: 1rem 1.25rem;
-      border: 1px solid var(--rule);
-      border-radius: 4px;
-      box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
       display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      background: var(--surface);
+      border-bottom: 1px solid var(--rule);
+      padding: 0.5rem 1.5rem 1.5rem;
+      gap: 0.2rem;
+      z-index: 40;
     }
     .site-nav-links.open {
       display: flex;
@@ -360,16 +334,135 @@
       -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
     }
+    .site-nav-links a, .site-nav-links button {
+      padding: 0.75rem 0;
+      text-align: left;
+      width: 100%;
+    }
     .nav-dropdown {
+      position: static;
+      margin: 0;
+      padding: 0 0 0.5rem 1rem;
+      border: none;
+      box-shadow: none;
+      opacity: 1; visibility: visible; transform: none;
+      background: transparent;
+      min-width: 0;
+    }
+    .nav-dropdown a { padding: 0.4rem 0; }
+  }
+
+  /* --- Places dropdown: country groups --- */
+  .places-menu .country-group {
+    padding: 0;
+    position: relative;
+  }
+  .places-menu .country-label {
+    display: block;
+    padding: 0.45rem 1.25rem;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .places-menu a.country-label:hover { color: var(--text-strong); }
+  .places-menu .country-group.multi > .country-label {
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .places-menu .country-group.multi > .country-label::after {
+    content: "\25B8";
+    margin-left: 0.75rem;
+    font-size: 0.85em;
+    opacity: 0.55;
+  }
+  .places-menu .country-group.multi:hover > .country-label,
+  .places-menu .country-group.multi:focus-within > .country-label {
+    color: var(--text-strong);
+  }
+  .places-menu .country-submenu {
+    position: absolute;
+    top: -0.6rem;
+    right: 100%;
+    margin-right: 0.35rem;
+    padding: 0.6rem 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(40, 50, 30, 0.08);
+    min-width: 170px;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(4px);
+    transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+    z-index: 60;
+  }
+  .places-menu .country-group.multi:hover > .country-submenu,
+  .places-menu .country-group.multi:focus-within > .country-submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+  .places-menu .country-submenu li { padding: 0; }
+  .places-menu .country-submenu a {
+    display: block;
+    padding: 0.45rem 1.25rem;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .places-menu .country-submenu a:hover { color: var(--text-strong); }
+  .places-menu .country-group.single > .country-submenu { display: none; }
+  @media (max-width: 720px) {
+    .places-menu .country-submenu,
+    .places-menu .country-group.single > .country-submenu {
+      display: block;
       position: static;
       opacity: 1;
       visibility: visible;
       transform: none;
       box-shadow: none;
       border: none;
-      padding: 0.25rem 0 0.25rem 1rem;
-      margin-top: 0.25rem;
+      padding: 0;
+      margin: 0;
       background: transparent;
+      min-width: 0;
+    }
+    .places-menu .country-group.multi > .country-label::after { display: none; }
+    .places-menu .country-label,
+    .places-menu .country-group.multi > .country-label {
+      display: block;
+      padding: 0.6rem 0 0.2rem;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      cursor: default;
+      pointer-events: none;
+    }
+    .places-menu .country-submenu a {
+      padding: 0.35rem 0 0.35rem 0.75rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      text-transform: none;
+      color: var(--text-muted);
     }
   }
 </style>
@@ -386,19 +479,49 @@
     <li><a href="index.html">Home</a></li>
     <li class="has-dropdown">
       <button type="button" aria-haspopup="true" aria-expanded="false">Places</button>
-      <ul class="nav-dropdown">
-        <li><a href="posts/kefalonia.html">Kefalonia</a></li>
-        <li><a href="posts/liguria.html">Liguria</a></li>
-        <li><a href="posts/sardinia.html">Sardinia</a></li>
-        <li><a href="posts/sicily.html">Sicily</a></li>
-        <li><a href="posts/elba.html">Elba</a></li>
-        <li><a href="posts/lucca.html">Lucca</a></li>
-        <li><a href="posts/perth.html">Perth</a></li>
-        <li><a href="posts/sydney.html">Sydney</a></li>
-        <li><a href="posts/melbourne.html">Melbourne</a></li>
-        <li><a href="posts/lisbon.html">Lisbon</a></li>
-        <li><a href="posts/seychelles.html">Seychelles</a></li>
-        <li><a href="posts/paris.html">Paris</a></li>
+      <ul class="nav-dropdown places-menu">
+        <li class="country-group multi">
+          <span class="country-label">Australia</span>
+          <ul class="country-submenu">
+            <li><a href="posts/perth.html">Perth</a></li>
+            <li><a href="posts/sydney.html">Sydney</a></li>
+            <li><a href="posts/melbourne.html">Melbourne</a></li>
+          </ul>
+        </li>
+        <li class="country-group single">
+          <a href="posts/paris.html" class="country-label">France</a>
+          <ul class="country-submenu">
+            <li><a href="posts/paris.html">Paris</a></li>
+          </ul>
+        </li>
+        <li class="country-group single">
+          <a href="posts/kefalonia.html" class="country-label">Greece</a>
+          <ul class="country-submenu">
+            <li><a href="posts/kefalonia.html">Kefalonia</a></li>
+          </ul>
+        </li>
+        <li class="country-group multi">
+          <span class="country-label">Italy</span>
+          <ul class="country-submenu">
+            <li><a href="posts/liguria.html">Liguria</a></li>
+            <li><a href="posts/sardinia.html">Sardinia</a></li>
+            <li><a href="posts/sicily.html">Sicily</a></li>
+            <li><a href="posts/elba.html">Elba</a></li>
+            <li><a href="posts/lucca.html">Lucca</a></li>
+          </ul>
+        </li>
+        <li class="country-group single">
+          <a href="posts/lisbon.html" class="country-label">Portugal</a>
+          <ul class="country-submenu">
+            <li><a href="posts/lisbon.html">Lisbon</a></li>
+          </ul>
+        </li>
+        <li class="country-group single">
+          <a href="posts/seychelles.html" class="country-label">Seychelles</a>
+          <ul class="country-submenu">
+            <li><a href="posts/seychelles.html">Seychelles</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="about.html">About</a></li>
