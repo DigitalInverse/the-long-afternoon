@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>About — The Long Afternoon</title>
+<title>{{TITLE}} — The Long Afternoon</title>
 
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,8 +21,6 @@
     --text-sub:    #a8b59c;
     --surface:     #fbf9f3;
     --rule:        #ebe7db;
-    --accent:      #b85a38;
-
     --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
     --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   }
@@ -40,6 +38,10 @@
     font-feature-settings: "kern", "liga", "onum";
     -webkit-font-smoothing: antialiased;
   }
+
+  .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+
+  .column { max-width: 760px;  margin: 0 auto; }
 
   /* --- Site navigation --- */
   .site-nav-wrap {
@@ -145,173 +147,6 @@
     margin: 5px 0;
     transition: transform 0.2s, opacity 0.2s;
   }
-
-  /* --- About hero --- */
-  .about-hero {
-    position: relative;
-    width: 100%;
-    height: 65vh;
-    min-height: 420px;
-    max-height: 640px;
-    overflow: hidden;
-    margin-bottom: 6rem;
-  }
-  .about-hero img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 75%;
-    display: block;
-  }
-
-  /* --- Intro text --- */
-  .about-intro {
-    max-width: 640px;
-    margin: 0 auto 6rem;
-    padding: 0 1.5rem;
-    text-align: center;
-  }
-  .about-intro .rule {
-    width: 40px;
-    height: 1px;
-    background: var(--text-sub);
-    margin: 0 auto 2rem;
-    opacity: 0.7;
-  }
-  .about-intro h1 {
-    font-family: var(--serif);
-    font-weight: 400;
-    font-style: italic;
-    font-size: 2.25rem;
-    letter-spacing: 0.01em;
-    color: var(--text-strong);
-    margin: 0 0 1.5rem;
-    line-height: 1.2;
-  }
-  .about-intro p {
-    font-family: var(--serif);
-    font-size: 1.1rem;
-    line-height: 1.65;
-    color: var(--text-body);
-    margin: 0;
-  }
-  .about-intro p + p {
-    margin-top: 1.1em;
-  }
-
-  /* --- Family trio --- */
-  .page { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 6rem; }
-
-  .family-header {
-    text-align: center;
-    margin-bottom: 3.5rem;
-  }
-  .family-header h2 {
-    font-family: var(--serif);
-    font-weight: 400;
-    font-style: italic;
-    font-size: 1.75rem;
-    color: var(--text-strong);
-    margin: 0;
-    letter-spacing: 0.01em;
-  }
-
-  .family-trio {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3rem 3rem;
-    max-width: 680px;
-    margin: 0 auto;
-  }
-  @media (max-width: 720px) {
-    .family-trio {
-      grid-template-columns: 1fr;
-      gap: 3.5rem;
-      max-width: 420px;
-    }
-  }
-
-  .person {
-    text-align: center;
-  }
-  .person-image {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-    background: var(--rule);
-    position: relative;
-  }
-  .person-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .person-image.placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #efeadb;
-    color: var(--text-sub);
-    font-family: var(--sans);
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-  }
-  .person-image.placeholder::before {
-    content: "Portrait";
-  }
-  .person-name {
-    font-family: var(--serif);
-    font-weight: 400;
-    font-size: 1.45rem;
-    color: var(--text-strong);
-    margin: 0 0 0.4rem;
-    letter-spacing: 0.005em;
-  }
-  .person-role {
-    font-family: var(--sans);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin: 0 0 1rem;
-  }
-  .person-bio {
-    font-family: var(--serif);
-    font-size: 0.98rem;
-    line-height: 1.55;
-    color: var(--text-body);
-    margin: 0;
-    font-style: italic;
-    max-width: 30ch;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .person-bio.placeholder {
-    color: var(--text-sub);
-    font-style: normal;
-    font-size: 0.8rem;
-    letter-spacing: 0.02em;
-  }
-
-  /* --- Footer --- */
-  footer {
-    text-align: center;
-    margin-top: 4rem;
-    padding: 2.5rem 1.5rem;
-    border-top: 1px solid var(--rule);
-    font-family: var(--sans);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 2px;
-    color: var(--text-sub);
-    text-transform: uppercase;
-  }
-
   @media (max-width: 720px) {
     .nav-toggle { display: block; }
     .site-nav-links {
@@ -350,6 +185,115 @@
       min-width: 0;
     }
     .nav-dropdown a { padding: 0.4rem 0; }
+  }
+
+  /* --- Masthead --- */
+  .masthead {
+    max-width: 760px;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+  }
+  .hero-title {
+    margin: 0 0 0.5em;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text-strong);
+  }
+  .hero-subtitle {
+    margin: 0 auto 0.75em;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    line-height: 1.4;
+    color: var(--text-strong);
+    max-width: 42ch;
+  }
+  .hero-meta {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* --- Hero image --- */
+  .hero { margin: 0 0 3rem; }
+  .hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* --- Epigraph --- */
+  .epigraph {
+    max-width: 620px;
+    margin: 0 auto 4rem;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-body);
+  }
+  .epigraph p { margin: 0 0 0.9em; }
+  .epigraph cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* --- Essay --- */
+  .essay { margin-bottom: 4rem; }
+  .essay p {
+    margin: 0 0 1.15em;
+    color: var(--text-body);
+  }
+  .essay em { font-style: italic; }
+
+  .essay > p:first-child::first-letter {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--text-strong);
+    float: left;
+    font-size: 6em;
+    line-height: 0.82;
+    margin: 0.06em 0.09em -0.08em -0.02em;
+    padding: 0;
+  }
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .essay > p:first-child::first-letter {
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+      font-size: inherit;
+      line-height: inherit;
+      float: none;
+      margin: 0 0.08em 0 0;
+    }
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    letter-spacing: 0.5px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   /* --- Places dropdown: country groups --- */
@@ -472,107 +416,52 @@
 <!-- NAV:START -->
 <div class="site-nav-wrap">
 <nav class="site-nav" aria-label="Main">
-  <a href="index.html" class="site-logo">The Long Afternoon</a>
+  <a href="../index.html" class="site-logo">The Long Afternoon</a>
   <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav">
     <span></span><span></span><span></span>
   </button>
   <ul class="site-nav-links" id="primary-nav">
-    <li><a href="index.html">Home</a></li>
+    <li><a href="../index.html">Home</a></li>
     <li class="has-dropdown">
       <button type="button" aria-haspopup="true" aria-expanded="false">Places</button>
       <ul class="nav-dropdown places-menu">
-        <li class="country-group multi">
-          <span class="country-label">Australia</span>
-          <ul class="country-submenu">
-            <li><a href="posts/perth.html">Perth</a></li>
-            <li><a href="posts/sydney.html">Sydney</a></li>
-            <li><a href="posts/melbourne.html">Melbourne</a></li>
-          </ul>
-        </li>
-        <li class="country-group single">
-          <a href="posts/paris.html" class="country-label">France</a>
-          <ul class="country-submenu">
-            <li><a href="posts/paris.html">Paris</a></li>
-          </ul>
-        </li>
-        <li class="country-group single">
-          <a href="posts/kefalonia.html" class="country-label">Greece</a>
-          <ul class="country-submenu">
-            <li><a href="posts/kefalonia.html">Kefalonia</a></li>
-          </ul>
-        </li>
-        <li class="country-group multi">
-          <span class="country-label">Italy</span>
-          <ul class="country-submenu">
-            <li><a href="posts/liguria.html">Liguria</a></li>
-            <li><a href="posts/sardinia.html">Sardinia</a></li>
-            <li><a href="posts/sicily.html">Sicily</a></li>
-            <li><a href="posts/elba.html">Elba</a></li>
-            <li><a href="posts/lucca.html">Lucca</a></li>
-            <li><a href="posts/rome.html">Rome</a></li>
-          </ul>
-        </li>
-        <li class="country-group single">
-          <a href="posts/lisbon.html" class="country-label">Portugal</a>
-          <ul class="country-submenu">
-            <li><a href="posts/lisbon.html">Lisbon</a></li>
-          </ul>
-        </li>
-        <li class="country-group single">
-          <a href="posts/seychelles.html" class="country-label">Seychelles</a>
-          <ul class="country-submenu">
-            <li><a href="posts/seychelles.html">Seychelles</a></li>
-          </ul>
-        </li>
+        <!-- regenerated by tools/regenerate_nav.py -->
       </ul>
     </li>
-    <li><a href="about.html">About</a></li>
+    <li><a href="../about.html">About</a></li>
   </ul>
 </nav>
 </div>
 <!-- NAV:END -->
 
-<section class="about-hero">
-  <img src="images/site/74__Lithovatis_Beach.jpg" alt="Reading Oliver Burkeman under a fig tree on the Ionian coast">
-</section>
+<div class="page">
 
-<section class="about-intro">
-  <div class="rule"></div>
-  <h1>About</h1>
-  <p>I’m Anders. I grew up in rural Småland and stayed in school longer than was strictly necessary. I have worked on microlithography in Stockholm, frozen my toes on Kibo, and done research in Los&nbsp;Angeles and Los&nbsp;Alamos.</p>
-  <p>I travel with Hanna and Hannes — a family of three who move slowly, write things down, and keep the photographs we meant to throw away.</p>
-  <p>This is where we gather what we see.</p>
-</section>
-
-<main class="page">
-  <header class="family-header">
-    <h2>The other two</h2>
+  <header class="masthead">
+    <h1 class="hero-title">{{TITLE}}</h1>
+    <p class="hero-subtitle">{{SUBTITLE}}</p>
+    <p class="hero-meta">{{LOCATION}} · {{TRIP_DATES}}</p>
   </header>
 
-  <div class="family-trio">
+  <figure class="hero">
+    <img src="../images/{{SLUG}}/hero.jpg" alt="">
+  </figure>
 
-    <article class="person">
-      <figure class="person-image">
-        <img src="images/site/19__Terrasse.jpg" alt="Hanna in golden evening light">
-      </figure>
-      <h3 class="person-name">Hanna</h3>
-      <p class="person-bio">A sporty Gothenburger with a past in football and bandy. Has played berimbau in Bahia, tended bar in Barcelona, flipped burgers on Mallorca, rented skis in Andorra, taken a year off in Santiago, studied Italian in Terracina, and owned a house in Bollebygd.</p>
-    </article>
+  <blockquote class="epigraph">
+    <p>“TODO: epigraph quote.”</p>
+    <cite>Author · Source</cite>
+  </blockquote>
 
-    <article class="person">
-      <figure class="person-image">
-        <img src="images/site/12__Tellaro.jpg" alt="Hannes in profile">
-      </figure>
-      <h3 class="person-name">Hannes</h3>
-      <p class="person-bio">A born conversationalist. Energy in bursts. Trains capoeira, studies Portuguese.</p>
-    </article>
+  <article class="essay column" data-trip-end="{{TRIP_END}}" data-country="{{COUNTRY}}">
+    <p>Write your essay here. The first letter of the first paragraph will be styled as a drop cap, so start with a real sentence.</p>
 
-  </div>
-</main>
+    <p>Subsequent paragraphs flow normally.</p>
+  </article>
 
-<footer>
-  The Long Afternoon · Written from Gothenburg
-</footer>
+  <footer>
+    <!-- TODO: map credit or other footer text -->
+  </footer>
+
+</div>
 
 <script>
 (function(){
