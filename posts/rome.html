@@ -282,6 +282,188 @@
     }
   }
 
+  /* --- Map --- */
+  .map-wrap {
+    max-width: 760px;
+    margin: 3rem auto 4rem;
+    padding: 0 1rem;
+  }
+  .map-wrap svg { display: block; width: 100%; height: auto; }
+
+  /* --- Gallery header (above photos) --- */
+  .gallery-intro {
+    text-align: center;
+    margin: 5rem auto 2.5rem;
+    max-width: 760px;
+    padding: 0 1.5rem;
+  }
+  .gallery-intro h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1rem;
+    letter-spacing: 0.01em;
+  }
+  .gallery-intro .places {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* --- Photo gallery: tight spacing --- */
+  .photos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 4rem;
+  }
+  .photo-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-portrait {
+    display: flex;
+    justify-content: center;
+  }
+  .photo-portrait img {
+    max-width: 65%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+  .photo-pair-portrait {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair-portrait img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+  @media (max-width: 700px) {
+    .photo-portrait img { max-width: 100%; }
+    .photo-pair { grid-template-columns: 1fr; }
+    .photo-pair-portrait { grid-template-columns: 1fr; }
+  }
+
+  /* Fade-in on scroll for gallery images */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* --- Lightbox --- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 24, 14, 0.94);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: zoom-out;
+    padding: 2rem;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    position: absolute;
+    color: #faf4e4;
+    background: rgba(0,0,0,0.3);
+    border: none;
+    font-family: var(--sans);
+    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+    background: rgba(0,0,0,0.6);
+  }
+  .lightbox-close { top: 1.5rem; right: 1.5rem; }
+  .lightbox-prev  { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-next  { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #a8b59c;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+  .lightbox-caption {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.92);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    text-align: center;
+    max-width: 80vw;
+  }
+  @media (max-width: 700px) {
+    .lightbox-prev  { left: 0.5rem; }
+    .lightbox-next  { right: 0.5rem; }
+    .lightbox-close { top: 0.75rem; right: 0.75rem; }
+  }
+
+
   footer {
     text-align: center;
     margin-top: 5rem;
@@ -489,18 +671,109 @@
   </figure>
 
   <blockquote class="epigraph">
-    <p>“TODO: epigraph quote.”</p>
-    <cite>Author · Source</cite>
+    <p>“In Rome one had simply to sit still and feel.”</p>
+    <cite>E. M. Forster · Where Angels Fear to Tread</cite>
   </blockquote>
 
   <article class="essay column" data-trip-end="2014-09-15" data-country="Italy">
-    <p>Write your essay here. The first letter of the first paragraph will be styled as a drop cap, so start with a real sentence.</p>
+    <p>We had both been to Rome before, and that changed everything. There was no list, no schedule, no morning that began with a museum. We had read in a travel magazine that Trastevere was a genuine quarter of the city, kept by the Romans for themselves, and we booked the Grand Hotel on the Gianicolo hill. The hotel had a pool and a garden and a view over the city.</p>
 
-    <p>Subsequent paragraphs flow normally.</p>
+    <p>The trip had a practical purpose, too. Hanna had lived in Terracina the year before, from August until April, and had left clothes and shoes there when she came back to Sweden. A friend brought them up to Rome for us. That was Wednesday.</p>
+
+    <p>So we did very little. We swam in the morning, in water that was always cold, and read by the pool through the afternoon, when the September sun warmed us back. In the evenings we crossed the river and walked, sometimes for hours, in the long warmth of a southern summer that had not yet noticed it was nearly autumn. We passed the Vatican but did not go in. I had been once, years before; Hanna never has. It was enough to see the dome of St Peter's at dusk, lit from below.</p>
+
+    <p>There is a <em>gelateria artigianale</em> a few steps from the Pantheon. It was nine in the evening. We had dark chocolate, possibly the best ice cream we have eaten anywhere. The piazza was full — Romans and tourists in the same warmth, the rotunda lit, the night holding. People have leaned against those same columns since the Pantheon was built in 126 AD. Standing there with our gelatos, we felt it.</p>
+
+    <p>On another evening we ordered a <em>quattro stagioni</em> at a place in Trastevere and the artichoke was missing from the artichoke quarter. They had run out. The waiter shrugged. So we ate the other three. That, too, is Italy.</p>
+
+    <p>The city is twenty-eight centuries old. The cobblestones are uneven, polished smooth by centuries of feet. The buildings lean a little, the way old buildings do. None of this matters once you have spent a few days inside it. We said we would be back. We have not, yet. One day with Hannes.</p>
   </article>
 
+  <!-- Map as section transition. Data: © ISTAT (CC BY 3.0 IT) -->
+  <div class="map-wrap">
+    <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>Map of Lazio</title>
+      <desc>Light olive map of Lazio with five cities labeled. Rome is highlighted.</desc>
+      <style>
+        .mtitle      { font-family: "Source Serif 4", Georgia, serif; font-size: 28px; font-weight: 400; fill: #4a5838; letter-spacing: 0.3px; }
+        .mtitle-sub  { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2.5px; }
+        .mstat-num   { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; font-weight: 400; fill: #4a5838; }
+        .mstat-label { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2px; }
+        .mcity-label { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 500; fill: #4a5838; }
+        .mcity-label-highlight { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 600; fill: #b85a38; }
+        .msea-label  { font-family: "Source Serif 4", Georgia, serif; font-size: 11px; font-style: italic; fill: #a8b59c; letter-spacing: 1px; }
+      </style>
+
+      <text x="40" y="60"  class="mtitle">Lazio</text>
+      <text x="40" y="78"  class="mtitle-sub">CENTRAL ITALY</text>
+
+      <text x="40" y="150" class="mstat-num">5.71M</text>
+      <text x="40" y="166" class="mstat-label">POPULATION</text>
+      <text x="40" y="215" class="mstat-num">Rome</text>
+      <text x="40" y="231" class="mstat-label">CAPITAL</text>
+      <text x="40" y="280" class="mstat-num">17,242 km²</text>
+      <text x="40" y="296" class="mstat-label">AREA</text>
+
+      <path d="M318.6 20.1L317.7 20.0L316.3 21.3L314.4 22.0L314.2 25.0L313.7 25.6L313.3 25.2L313.4 24.8L311.8 22.9L310.7 22.2L310.0 22.3L310.0 22.9L308.5 24.7L307.8 26.8L308.4 27.3L309.1 27.3L309.4 27.6L310.8 29.3L311.1 29.9L311.0 30.5L313.9 31.1L314.8 32.1L314.8 32.5L313.9 34.3L313.2 37.2L311.2 37.1L311.1 37.4L311.6 39.8L311.6 41.8L313.0 42.3L313.9 43.5L314.0 44.3L313.5 45.3L311.1 46.7L308.1 46.0L308.3 47.9L307.0 49.5L306.8 50.4L305.9 50.4L305.8 49.8L304.3 49.9L303.3 51.1L301.3 51.9L301.9 53.3L301.5 53.6L300.2 54.3L299.2 54.3L297.7 55.6L297.1 55.8L296.4 55.3L295.9 55.3L294.8 56.9L293.9 55.5L292.4 55.0L291.4 55.5L291.7 57.6L292.2 58.4L292.1 58.9L291.3 59.1L290.5 59.9L289.6 62.2L290.1 62.9L291.9 63.5L292.2 63.9L292.0 64.3L292.7 65.0L294.3 65.4L295.0 65.9L295.4 67.5L295.0 68.8L295.3 72.2L295.2 72.8L289.0 72.5L288.0 72.0L285.3 73.1L282.6 72.4L281.8 73.1L281.9 74.8L281.4 75.7L278.8 78.2L279.1 79.5L278.7 80.5L283.5 82.6L289.8 86.1L296.7 91.4L299.7 94.8L301.3 97.6L302.9 99.6L305.3 105.3L307.1 107.7L306.6 109.6L307.5 110.5L307.5 111.4L308.6 113.6L309.5 114.1L309.6 114.6L309.1 115.1L309.2 115.5L309.5 115.4L310.6 116.8L310.9 116.6L311.6 117.7L311.9 117.6L312.1 118.0L312.0 118.4L311.7 118.3L310.2 116.7L311.0 117.9L312.9 118.8L313.7 119.7L314.4 121.9L314.3 122.3L316.1 125.1L316.4 126.3L320.1 125.7L320.1 125.4L320.7 125.2L323.6 124.8L324.3 125.0L329.1 128.3L330.0 130.0L330.6 130.6L332.7 131.1L334.8 132.3L336.1 133.7L337.7 136.0L340.0 137.0L342.0 138.8L344.2 139.4L345.5 140.4L346.7 141.6L348.7 144.4L352.2 151.5L354.6 158.7L354.3 160.6L355.1 162.9L354.9 163.6L354.7 163.8L354.2 162.9L354.5 163.8L355.3 164.3L356.3 164.0L355.6 164.3L355.8 164.5L356.4 164.4L357.4 164.8L364.1 168.2L369.8 172.2L375.8 177.7L379.9 182.6L386.5 190.9L391.9 199.6L392.9 201.6L393.2 203.0L393.6 203.3L394.5 203.2L395.3 202.3L396.6 201.8L397.8 201.7L399.7 202.1L402.6 203.7L407.5 207.7L408.4 207.0L409.4 206.7L411.8 207.3L414.6 207.1L415.8 207.4L419.0 208.9L423.9 212.4L427.8 216.2L430.6 220.4L433.0 225.5L434.2 229.1L434.1 230.1L435.1 231.8L437.8 232.4L439.9 232.1L441.1 229.9L442.0 229.1L445.3 226.7L447.5 225.5L451.3 224.4L455.9 224.5L456.8 223.0L459.2 222.6L462.8 223.2L467.9 224.9L474.2 228.4L476.1 230.1L478.3 230.5L480.1 232.1L480.0 232.6L481.5 232.1L484.2 234.2L485.6 234.0L486.6 234.4L486.6 234.8L487.1 234.8L488.5 234.1L486.7 233.0L486.6 231.1L486.9 230.1L488.1 229.1L489.9 228.5L491.3 227.5L492.7 227.5L494.5 227.9L497.5 229.6L499.9 228.3L503.0 230.4L505.4 232.4L506.2 230.5L507.0 229.7L508.0 229.9L509.6 229.2L510.6 229.5L512.4 228.2L512.6 227.5L512.9 227.6L513.0 227.2L512.4 226.6L512.1 226.7L511.9 226.2L511.9 225.3L512.4 224.7L514.1 223.6L517.2 223.4L517.9 222.6L518.4 220.7L516.3 217.6L516.3 217.2L516.6 217.1L516.1 213.7L516.4 212.2L517.4 211.3L516.5 209.6L517.5 209.1L516.9 208.7L516.1 208.6L515.4 207.9L515.1 206.8L516.6 205.6L519.3 205.7L520.0 204.9L522.0 203.7L524.9 200.7L526.6 200.9L527.1 199.4L527.9 198.4L526.3 197.0L526.3 196.4L526.6 195.8L527.7 195.1L528.2 194.2L529.8 194.0L530.9 193.0L531.0 192.4L529.6 191.4L529.2 190.8L530.8 190.4L531.3 188.7L531.1 187.9L529.1 187.2L528.7 186.2L528.5 185.4L529.7 183.8L529.7 182.3L529.6 181.5L528.4 179.6L528.0 177.3L527.1 175.1L525.6 173.2L523.7 172.1L522.1 170.5L520.8 167.3L519.4 167.2L518.8 165.7L517.9 165.3L516.9 165.9L514.6 165.5L513.5 164.6L511.8 164.5L511.4 164.3L510.3 162.5L508.1 164.0L505.9 163.2L504.2 161.7L503.9 159.8L503.5 159.0L502.6 158.4L502.0 156.8L501.0 156.8L499.9 158.1L498.6 157.6L497.5 155.9L495.5 155.0L494.3 155.0L493.3 155.9L493.2 156.1L493.7 157.5L492.6 158.8L489.7 160.5L488.1 160.9L487.2 162.4L486.7 162.5L485.7 161.5L484.1 161.4L482.5 160.4L481.7 159.6L480.2 156.3L476.9 155.7L475.0 153.5L471.6 151.9L470.6 151.5L469.5 152.0L469.0 153.9L467.9 154.2L466.7 151.9L466.7 148.1L465.9 147.4L467.7 144.5L468.3 142.8L466.4 140.1L465.6 139.9L465.1 140.5L464.6 140.4L463.9 140.0L463.4 138.9L462.4 137.6L460.7 136.1L460.0 136.2L459.7 136.9L458.8 136.8L456.7 134.5L454.4 133.9L452.9 132.3L451.7 131.8L450.3 132.0L447.3 130.5L445.1 128.6L441.0 126.8L440.3 126.7L440.2 127.3L440.6 129.1L438.3 128.9L436.0 128.0L435.5 127.0L435.2 125.5L433.3 123.6L433.2 121.9L432.8 121.3L432.5 120.2L433.1 117.6L433.8 116.2L433.7 114.1L434.5 114.7L436.3 114.0L437.7 112.9L439.2 110.7L439.9 109.2L439.8 108.0L439.2 107.4L439.3 106.7L442.4 106.9L447.3 110.3L448.2 110.0L448.7 109.3L449.8 109.4L450.9 110.6L452.6 111.3L454.0 113.2L455.1 113.4L457.1 112.1L457.9 112.1L458.6 112.5L460.6 112.0L461.0 110.8L461.8 110.0L462.3 110.1L462.9 109.8L462.3 109.0L462.8 108.6L463.4 108.3L464.5 108.5L465.4 108.2L464.3 106.9L467.9 106.4L467.9 106.0L467.3 105.5L465.2 105.0L464.2 104.1L463.2 102.8L463.9 101.8L463.3 100.9L462.1 100.0L459.8 99.8L458.4 99.0L457.6 98.1L457.1 96.6L455.9 95.4L454.1 94.5L453.3 92.6L452.9 88.2L452.3 88.2L450.1 86.6L449.4 86.5L447.5 84.3L445.7 83.2L447.3 81.5L449.3 80.0L449.7 79.0L449.2 77.5L448.9 77.0L447.3 76.6L445.9 75.7L444.3 73.4L442.1 71.8L444.4 69.3L445.8 69.4L448.2 67.1L447.5 66.4L448.1 62.7L447.0 62.4L446.4 61.3L446.1 60.8L446.3 59.1L447.0 59.1L447.7 58.4L447.9 57.5L447.8 55.5L449.5 54.2L449.4 52.9L452.8 53.5L453.6 54.5L454.8 54.8L455.5 53.7L458.1 53.5L458.6 53.7L459.4 55.3L462.2 54.1L464.5 54.4L468.1 53.8L468.9 52.8L468.8 51.0L469.4 48.7L470.4 47.5L470.8 46.0L470.1 45.3L468.2 44.7L467.2 44.8L465.6 42.7L464.9 42.2L465.1 40.0L465.8 38.9L464.2 37.9L461.9 35.0L461.0 34.4L459.6 34.1L458.9 33.0L458.5 32.9L456.6 32.8L456.1 34.5L455.6 35.3L454.1 34.7L449.9 33.6L449.2 33.7L449.4 36.7L447.7 39.8L447.9 40.3L448.3 40.3L447.8 42.3L447.2 43.2L445.1 45.1L443.5 43.6L442.3 43.7L441.4 45.7L436.4 48.3L434.4 47.7L433.7 46.3L433.1 46.1L432.1 47.4L432.2 48.5L431.8 49.0L430.6 49.3L426.0 48.8L424.6 49.2L423.8 50.9L422.7 50.5L420.6 49.1L419.9 49.5L419.0 50.0L418.8 51.1L420.3 54.2L420.2 56.0L418.0 56.4L415.8 57.5L414.4 58.9L413.1 59.7L408.5 60.3L408.2 61.1L408.5 61.8L408.5 62.7L404.0 63.2L402.4 64.4L403.3 66.3L405.4 68.3L403.7 69.6L402.8 69.7L402.3 69.2L401.6 69.6L401.1 70.4L400.4 71.1L397.9 72.2L396.3 71.9L396.4 71.3L395.6 70.5L395.5 68.6L393.7 68.5L392.9 69.0L393.3 69.5L393.4 70.7L392.6 73.0L392.9 74.7L392.8 75.8L392.1 76.7L389.0 79.2L385.7 80.6L384.7 82.2L384.3 82.3L383.5 81.8L383.1 80.5L383.0 78.5L383.5 77.9L382.8 77.1L380.8 77.8L379.7 77.0L378.5 77.9L376.9 78.0L376.3 77.7L377.6 76.7L377.8 75.4L378.5 74.9L378.1 73.7L374.1 74.7L373.2 74.2L373.8 72.8L373.6 72.2L373.2 72.0L373.2 70.3L373.6 69.9L374.9 69.9L374.6 69.0L373.1 68.7L373.2 67.2L373.9 66.7L374.5 66.0L373.9 65.0L371.1 64.6L370.5 64.9L370.4 65.8L368.3 67.4L367.1 67.9L366.1 66.1L364.6 65.1L363.5 66.0L362.0 66.0L361.1 65.5L361.0 65.1L361.7 65.1L362.4 65.6L362.8 64.8L361.8 63.6L361.1 63.2L360.0 63.6L359.6 63.2L359.7 62.3L360.5 62.1L360.4 61.4L359.6 61.2L358.8 59.7L359.5 59.4L359.9 58.8L360.0 57.9L359.6 56.5L357.0 55.5L356.1 54.8L355.9 53.7L356.7 51.7L356.9 51.7L356.8 50.9L356.2 50.3L355.1 49.8L356.4 47.4L354.9 46.5L354.9 45.5L352.7 43.3L350.9 42.5L349.6 41.6L348.4 41.2L347.3 42.7L347.1 43.5L346.5 43.8L345.8 43.6L345.6 43.1L344.8 44.8L344.1 44.6L343.1 42.8L341.5 43.9L339.6 44.1L336.0 45.3L333.4 43.1L330.5 41.3L326.9 40.3L327.6 38.6L325.4 37.6L325.8 36.4L326.7 35.7L327.7 34.5L328.8 34.4L330.9 31.1L330.6 29.7L329.6 29.4L327.7 28.1L326.1 27.8L325.5 27.5L324.2 23.7L323.7 22.8L323.2 20.7L322.4 20.4L318.6 20.1Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M429.2 270.2L427.4 271.1L427.4 271.8L425.6 272.4L425.1 274.9L426.2 275.5L425.6 276.6L426.0 277.7L427.7 275.6L426.8 275.1L427.6 271.9L430.3 270.6L429.2 270.2Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M436.1 265.1L435.2 266.1L436.8 266.2L436.1 265.1Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M473.0 287.6L470.6 289.9L472.7 289.3L473.4 288.4L473.0 287.6Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M431.1 270.2L430.4 270.4L431.1 270.2Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M475.4 289.1L474.9 289.1L474.9 289.6L475.6 289.5L475.4 289.1Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+      <path d="M416.4 268.3L416.3 271.4L417.1 271.0L417.0 268.7L416.4 268.3Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+
+      <text x="280" y="265" class="msea-label">Tyrrhenian Sea</text>
+
+      <circle cx="381.3" cy="143.0" r="3.5" fill="#b85a38"/>
+      <text x="381.3" y="132" class="mcity-label-highlight" text-anchor="middle">Rome</text>
+
+      <circle cx="455.2" cy="220.5" r="3" fill="#4a5838"/>
+      <text x="460" y="224" class="mcity-label">Terracina</text>
+
+      <circle cx="465.0" cy="177.6" r="3" fill="#4a5838"/>
+      <text x="470" y="181" class="mcity-label">Frosinone</text>
+
+      <circle cx="342.9" cy="75.2" r="3" fill="#4a5838"/>
+      <text x="337" y="72" class="mcity-label" text-anchor="end">Viterbo</text>
+
+      <circle cx="416.7" cy="77.0" r="3" fill="#4a5838"/>
+      <text x="421" y="74" class="mcity-label">Rieti</text>
+
+    </svg>
+  </div>
+
+  <section class="gallery-intro">
+    <h2>Scenes from Rome</h2>
+    <p class="places">Trastevere · St Peter's · the Pantheon</p>
+  </section>
+
+  <div class="photos">
+
+    <figure class="photo-full">
+      <img src="../images/rome/2__View_from_breakfast_terrace.jpg" alt="" data-caption="View from the breakfast terrace" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/rome/3__Gianicolo_wall.jpg" alt="" data-caption="The Gianicolo wall" data-gallery>
+    </figure>
+
+    <div class="photo-pair">
+      <figure><img src="../images/rome/4__pool.jpg" alt="" data-caption="The pool at the Grand Hotel del Gianicolo" data-gallery></figure>
+      <figure><img src="../images/rome/5__Hanna.jpg" alt="" data-caption="Hanna" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/rome/6__St_Peters_at_night.jpg" alt="" data-caption="St Peter's at night" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/rome/7__Pantheon.jpg" alt="" data-caption="The Pantheon, nine in the evening" data-gallery>
+    </figure>
+
+  </div>
+
   <footer>
-    <!-- TODO: map credit or other footer text -->
+    Map data © ISTAT (CC BY 3.0 IT)
   </footer>
 
 </div>
@@ -520,6 +793,89 @@
   toggle.addEventListener('click', () => {
     const open = links.classList.toggle('open');
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+  <button class="lightbox-prev"  aria-label="Previous image">‹</button>
+  <img src="" alt="">
+  <button class="lightbox-next"  aria-label="Next image">›</button>
+  <button class="lightbox-close" aria-label="Close">✕</button>
+  <div class="lightbox-caption"></div>
+  <div class="lightbox-counter"></div>
+</div>
+
+<script>
+// Fade-in effect for gallery images (skips hero, which is already visible)
+(function(){
+  const galleryImages = document.querySelectorAll('.photos figure img');
+  galleryImages.forEach(img => img.classList.add('fade-in'));
+
+  if (!('IntersectionObserver' in window)) {
+    galleryImages.forEach(img => img.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -80px 0px',
+    threshold: 0.05
+  });
+
+  galleryImages.forEach(img => observer.observe(img));
+})();
+</script>
+
+<script>
+(function(){
+  const imgs = Array.from(document.querySelectorAll('img[data-gallery]'));
+  const lb      = document.getElementById('lightbox');
+  const lbImg   = lb.querySelector('img');
+  const lbPrev  = lb.querySelector('.lightbox-prev');
+  const lbNext  = lb.querySelector('.lightbox-next');
+  const lbClose = lb.querySelector('.lightbox-close');
+  const lbCaption = lb.querySelector('.lightbox-caption');
+  const lbCount = lb.querySelector('.lightbox-counter');
+  let current = 0;
+
+  function show(i) {
+    current = (i + imgs.length) % imgs.length;
+    lbImg.src = imgs[current].src;
+    lbImg.alt = imgs[current].alt || '';
+    lbCaption.textContent = imgs[current].dataset.caption || '';
+    lbCount.textContent = (current + 1) + ' / ' + imgs.length;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  imgs.forEach((img, i) => {
+    img.addEventListener('click', () => show(i));
+  });
+  lbPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
+  lbNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
+  lbClose.addEventListener('click', (e) => { e.stopPropagation(); hide(); });
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) hide();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     hide();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
   });
 })();
 </script>
