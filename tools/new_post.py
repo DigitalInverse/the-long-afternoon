@@ -19,13 +19,15 @@ SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 ISO_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 PROMPTS = [
-    ("slug",       "Slug (lowercase, hyphens, e.g. 'lucca' or 'san-francisco')"),
-    ("title",      "Title (e.g. 'Inside the Walls')"),
-    ("subtitle",   "Subtitle"),
-    ("location",   "Location string (e.g. 'Lucca, Tuscany')"),
-    ("trip_dates", "Trip dates (e.g. '25–30 April 2019')"),
-    ("trip_end",   "Trip end ISO date (YYYY-MM-DD)"),
-    ("country",    "Country (e.g. 'Italy')"),
+    ("slug",            "Slug (lowercase, hyphens, e.g. 'lucca' or 'san-francisco')"),
+    ("title",            "Title (e.g. 'Inside the Walls')"),
+    ("subtitle",         "Subtitle"),
+    ("subtitle_short",   "Short title essence for <title> tag (e.g. 'Saudade' or 'Napoleon's island')"),
+    ("meta_description", "Meta description (~100–150 chars, one sentence, same voice as the essay)"),
+    ("location",         "Location string (e.g. 'Lucca, Tuscany')"),
+    ("trip_dates",       "Trip dates (e.g. '25–30 April 2019')"),
+    ("trip_end",         "Trip end ISO date (YYYY-MM-DD)"),
+    ("country",          "Country (e.g. 'Italy')"),
 ]
 
 
