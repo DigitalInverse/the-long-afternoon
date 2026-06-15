@@ -500,8 +500,10 @@
   </figure>
 
   <blockquote class="epigraph">
-    <p>“TODO: epigraph quote.”</p>
-    <cite>Author · Source</cite>
+    <p>“On Pelion among the chestnut trees the Centaur’s shirt<br>
+    slipped through the leaves to fold around my body<br>
+    as I climbed the slope and the sea came after me.”</p>
+    <cite>George Seferis · In the Manner of G.S.</cite>
   </blockquote>
 
   <article class="essay column" data-trip-end="2026-07-08" data-country="Greece">
@@ -510,15 +512,55 @@
     <p>Subsequent paragraphs flow normally.</p>
   </article>
 
-  <!-- Optional: regional map between essay and footer.
-       Copy the <svg>…</svg> block from another post (e.g. rome.html or lucca.html) and adjust.
+  <!-- Map as transition into the gallery. Data: © OpenStreetMap contributors (ODbL) -->
   <div class="map-wrap">
-    <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">…</svg>
+    <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>Map of the Pelion peninsula</title>
+      <desc>Light olive map of the hook-shaped Pelion peninsula in Thessaly, Greece, enclosing the Pagasetic Gulf, with five places labeled. Ntamouchari is highlighted.</desc>
+      <style>
+        .mtitle      { font-family: "Source Serif 4", Georgia, serif; font-size: 28px; font-weight: 400; fill: #4a5838; letter-spacing: 0.3px; }
+        .mtitle-sub  { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2.5px; }
+        .mstat-num   { font-family: "Source Serif 4", Georgia, serif; font-size: 22px; font-weight: 400; fill: #4a5838; }
+        .mstat-label { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2px; }
+        .mcity-label { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 500; fill: #4a5838; }
+        .mcity-label-highlight { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 600; fill: #b85a38; }
+        .msea-label  { font-family: "Source Serif 4", Georgia, serif; font-size: 11px; font-style: italic; fill: #a8b59c; letter-spacing: 1px; }
+      </style>
+
+      <text x="40" y="60"  class="mtitle">Pelion</text>
+      <text x="40" y="78"  class="mtitle-sub">THESSALY · GREECE</text>
+
+      <text x="40" y="150" class="mstat-num">177,448</text>
+      <text x="40" y="166" class="mstat-label">POPULATION</text>
+      <text x="40" y="215" class="mstat-num">Volos</text>
+      <text x="40" y="231" class="mstat-label">CAPITAL</text>
+      <text x="40" y="280" class="mstat-num">2,367 km²</text>
+      <text x="40" y="296" class="mstat-label">AREA</text>
+
+      <path d="M419.8 271.7L421.3 270.5L419.8 268.9L421.0 268.2L422.2 264.3L424.0 262.8L424.8 263.7L426.9 260.6L426.9 258.0L428.8 257.9L426.9 254.8L427.6 251.1L429.3 250.5L428.0 248.8L428.8 244.0L432.0 242.2L435.2 238.0L436.0 240.3L438.4 238.2L440.8 238.2L441.0 241.1L442.1 241.4L447.8 232.4L447.2 230.8L449.4 229.6L449.2 232.0L447.5 233.3L448.4 235.9L451.7 235.4L448.8 240.3L449.5 241.7L450.9 239.5L450.8 241.1L451.5 241.1L450.3 245.1L452.7 244.0L453.4 246.9L456.5 245.6L453.1 248.5L453.7 250.0L452.4 251.4L449.7 252.4L449.7 254.6L451.8 254.1L449.9 257.1L446.1 258.2L444.2 260.1L445.1 262.1L442.4 264.6L443.1 268.0L441.6 271.5L442.2 272.0L447.2 268.9L450.2 269.3L451.4 266.8L455.7 264.9L458.7 261.1L461.0 262.1L461.7 259.5L462.8 259.5L466.4 255.1L473.5 256.6L474.2 255.2L469.3 249.9L470.9 248.0L473.1 249.1L475.1 252.1L477.0 251.9L477.5 250.6L479.5 253.0L483.8 252.0L485.1 250.3L482.4 246.2L485.2 242.3L482.6 237.5L483.7 233.5L485.8 232.7L487.1 229.7L488.0 230.9L486.6 233.0L487.5 234.5L491.4 229.4L492.6 229.5L492.0 232.6L490.0 233.6L491.8 234.3L491.3 236.8L492.9 235.7L492.7 237.0L493.6 237.2L493.9 236.4L496.3 240.2L497.6 239.7L498.0 241.2L499.2 240.9L498.9 239.2L501.4 237.1L502.5 238.4L504.5 234.7L501.9 232.6L501.9 231.5L506.0 224.7L505.3 224.6L507.4 219.0L506.0 216.4L507.7 215.9L505.4 213.1L506.1 212.6L504.9 209.3L502.6 209.3L498.9 206.6L494.0 202.3L494.1 199.9L490.9 198.1L491.3 196.8L489.2 191.3L489.3 188.2L486.9 185.3L484.6 184.8L485.7 182.8L485.0 180.7L485.7 179.9L484.1 178.7L487.1 173.0L486.7 170.3L485.1 169.8L484.2 166.8L483.4 166.9L483.8 165.8L482.1 162.8L479.3 162.6L477.9 155.6L475.1 154.1L473.6 151.1L471.0 151.3L466.9 143.9L461.9 142.6L457.1 138.8L455.8 134.1L451.9 132.4L450.3 133.0L448.8 131.1L445.8 131.1L443.6 133.0L441.6 130.0L434.8 129.5L432.0 127.5L423.7 130.2L418.6 127.6L404.2 126.7L401.4 124.7L401.1 119.4L400.0 117.9L400.9 114.1L400.4 112.3L399.6 111.3L395.7 111.2L393.9 109.3L393.3 106.6L390.4 103.8L387.1 103.8L387.2 105.0L387.0 103.8L385.4 103.9L380.1 106.1L373.0 103.9L371.4 100.9L366.3 98.3L364.8 99.6L365.5 98.0L364.4 96.7L363.2 97.5L363.9 100.3L363.0 100.7L362.5 98.6L361.7 98.9L361.9 101.8L359.7 98.9L360.3 102.0L357.3 102.6L358.5 105.1L360.1 105.3L360.1 105.7L358.2 106.3L360.4 107.1L363.4 105.4L365.5 108.5L357.3 120.6L356.0 124.5L357.6 127.1L361.7 127.9L362.5 129.5L361.4 131.1L364.7 133.7L363.9 135.2L365.8 135.1L366.9 137.8L365.8 137.5L361.3 141.0L348.4 141.4L347.6 143.0L345.4 141.0L344.7 142.9L345.5 143.6L343.9 143.1L341.3 145.8L340.3 145.8L339.8 143.8L338.7 146.2L338.3 144.6L335.7 145.7L335.4 143.5L333.7 145.2L333.9 143.5L331.7 142.1L330.7 144.3L329.1 143.5L326.6 146.4L324.1 146.3L324.0 145.1L322.7 144.9L322.7 32.0L454.0 32.0L457.9 37.8L461.0 38.7L462.0 39.7L461.4 40.4L464.5 45.3L472.6 52.1L473.0 55.2L476.5 58.1L475.7 57.9L476.2 59.8L478.9 61.9L481.1 66.5L483.4 67.4L486.6 66.8L487.0 67.5L485.7 68.1L487.1 68.2L486.7 69.6L488.6 69.9L490.8 73.7L492.4 73.4L491.6 74.9L492.6 74.8L492.6 78.1L493.8 78.0L492.8 81.1L494.2 83.5L496.7 82.1L497.3 83.4L496.9 86.2L498.7 88.7L498.0 92.2L499.4 92.5L500.2 95.3L502.9 94.7L502.7 95.8L503.6 96.0L502.8 97.2L506.7 100.2L507.0 103.7L513.2 107.1L512.7 110.0L518.2 111.7L518.6 113.0L521.6 112.7L521.3 114.1L524.3 113.8L523.9 115.2L526.6 116.7L526.3 118.8L527.6 119.4L527.7 121.0L531.5 123.0L531.0 125.3L532.9 124.6L532.3 126.2L535.1 128.4L534.5 131.3L535.8 133.3L534.4 136.8L534.6 139.5L536.1 142.4L540.0 144.5L538.1 148.5L539.1 149.4L537.9 152.4L538.4 154.0L544.6 162.5L546.7 164.6L548.5 164.3L548.1 165.2L550.4 167.4L552.2 167.4L553.1 170.3L556.2 173.3L556.3 176.6L554.6 177.8L555.1 179.3L557.3 180.5L557.3 182.7L559.0 183.3L558.4 183.8L559.7 185.2L562.4 186.2L562.0 187.2L563.4 186.9L563.8 187.9L562.6 189.1L564.6 191.1L563.3 192.9L563.7 196.6L565.5 197.2L565.9 201.6L569.0 204.3L569.1 208.2L572.3 209.9L573.3 211.7L571.0 219.1L569.7 219.8L570.1 221.9L569.2 221.4L569.1 223.2L566.2 224.6L566.5 225.7L564.4 226.9L565.4 228.6L564.7 229.7L561.9 230.6L562.3 232.8L559.4 233.5L559.4 236.1L557.5 235.8L554.9 238.8L551.6 239.5L550.0 242.4L549.3 241.7L547.8 243.2L545.4 243.4L543.0 242.1L538.1 244.3L532.4 242.6L520.3 251.9L518.8 250.4L517.7 251.5L512.0 251.7L511.8 250.9L510.5 251.8L508.9 251.0L508.5 248.5L507.4 247.8L504.1 251.2L501.9 251.0L498.8 258.1L502.6 258.5L503.3 259.7L506.2 259.7L509.4 261.7L506.0 264.7L496.9 267.8L496.1 269.1L497.7 272.1L495.3 271.5L495.2 267.4L494.2 266.5L491.9 267.3L490.0 266.2L487.9 268.2L483.8 267.1L481.3 269.1L477.5 269.6L477.4 271.5L476.1 272.9L477.1 274.7L473.4 274.5L470.6 272.2L469.3 273.4L467.5 271.7L461.0 272.9L459.8 274.7L460.1 277.6L457.5 276.9L456.3 280.0L454.2 277.6L451.9 278.7L447.3 276.7L440.4 277.7L439.7 276.6L437.9 276.7L437.2 278.5L435.4 277.7L434.6 278.9L431.9 279.2L430.0 276.4L430.1 274.4L428.2 273.8L427.4 274.8L426.0 273.7L424.6 275.2L424.0 274.2L425.1 273.6L423.9 272.0L420.8 272.7L419.8 271.7Z" fill="#c8d4a0" stroke="#8a9665" stroke-width="0.8" stroke-linejoin="round"/>
+
+      <text x="588" y="112" class="msea-label">Aegean Sea</text>
+      <text x="392" y="214" class="msea-label" text-anchor="middle">Pagasetic Gulf</text>
+
+      <circle cx="363.9" cy="97.0" r="3.5" fill="#4a5838"/>
+      <text x="360" y="93" class="mcity-label" text-anchor="end">Volos</text>
+
+      <circle cx="446.8" cy="42.7" r="3" fill="#4a5838"/>
+      <text x="442" y="40" class="mcity-label" text-anchor="end">Zagora</text>
+
+      <circle cx="470.4" cy="118.8" r="3" fill="#4a5838"/>
+      <text x="466" y="116" class="mcity-label" text-anchor="end">Milies</text>
+
+      <circle cx="485.7" cy="68.1" r="3.5" fill="#b85a38"/>
+      <text x="491" y="72" class="mcity-label-highlight">Ntamouchari</text>
+
+      <circle cx="430.1" cy="274.4" r="3" fill="#4a5838"/>
+      <text x="426" y="272" class="mcity-label" text-anchor="end">Trikeri</text>
+    </svg>
   </div>
-  -->
 
   <footer>
-    <!-- TODO: map credit or other footer text -->
+    Map data © OpenStreetMap contributors (ODbL)
   </footer>
 
 </div>
