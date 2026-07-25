@@ -44,6 +44,219 @@
 
   .column { max-width: 760px;  margin: 0 auto; }
 
+  .essay { margin-bottom: 4rem; }
+  .essay p {
+    margin: 0 0 1.15em;
+    color: var(--text-body);
+  }
+  .essay em { font-style: italic; }
+
+  /* --- Practical notes (end-of-post section) --- */
+  .practical-notes {
+    max-width: 760px;
+    margin: 6rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .practical-notes h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1.5rem;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+  .practical-notes p {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin: 0;
+  }
+
+  /* --- Gallery header --- */
+  .gallery-intro {
+    text-align: center;
+    margin: 5rem auto 2.5rem;
+    max-width: 760px;
+    padding: 0 1.5rem;
+  }
+  .gallery-intro h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--text-strong);
+    margin: 0 0 1rem;
+    letter-spacing: 0.01em;
+  }
+  .gallery-intro .places {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* --- Photo gallery --- */
+  .photos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .photo-full img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+  .photo-portrait {
+    display: flex;
+    justify-content: center;
+  }
+  .photo-portrait img {
+    max-width: 65%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+  .photo-pair-portrait {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .photo-pair-portrait img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    cursor: zoom-in;
+  }
+
+  /* Fade-in on scroll */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* --- Lightbox --- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 24, 14, 0.94);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: zoom-out;
+    padding: 2rem;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .lightbox-close, .lightbox-prev, .lightbox-next {
+    position: absolute;
+    color: #faf4e4;
+    background: rgba(0,0,0,0.3);
+    border: none;
+    font-family: var(--sans);
+    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+    background: rgba(0,0,0,0.6);
+  }
+  .lightbox-close { top: 1.5rem; right: 1.5rem; }
+  .lightbox-prev  { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-next  { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox-counter {
+    position: absolute;
+    bottom: 0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #a8b59c;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+  .lightbox-caption {
+    position: absolute;
+    bottom: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(251, 249, 243, 0.92);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+    text-align: center;
+    max-width: 80vw;
+  }
+  @media (max-width: 700px) {
+    body { font-size: 18px; }
+    .page { padding: 2.5rem 1.1rem 4rem; }
+    .photo-pair { grid-template-columns: 1fr; }
+    .photo-pair-portrait { grid-template-columns: 1fr; }
+    .photo-portrait img { max-width: 100%; }
+    .lightbox-prev  { left: 0.5rem; }
+    .lightbox-next  { right: 0.5rem; }
+    .lightbox-close { top: 0.75rem; right: 0.75rem; }
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    letter-spacing: 0.5px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   /* --- Site navigation --- */
   .site-nav-wrap {
     position: sticky;
@@ -491,11 +704,11 @@
   <header class="masthead">
     <h1 class="hero-title">Land of the Centaurs</h1>
     <p class="hero-subtitle">A week on the Pelion peninsula</p>
-    <p class="hero-meta">Ntamouchari, Greece · 1-8 July 2026</p>
+    <p class="hero-meta">Damouchari, Greece · 1-8 July 2026</p>
   </header>
 
   <figure class="hero">
-    <img src="../images/pelion/hero.jpg" alt="" data-caption="TODO: hero caption" data-gallery>
+    <img src="../images/pelion/14__Fakistra_Beach.jpg" alt="Fakistra Beach seen from above, a small crescent of pale sand enclosed by tall layered cliffs and dense green forest, vivid turquoise water with scattered swimmers, a large dark rock rising from the sea in the foreground." data-caption="Fakistra Beach" data-gallery>
     <!-- TODO: fill in alt="" with a descriptive alt text after writing the essay -->
   </figure>
 
@@ -507,16 +720,28 @@
   </blockquote>
 
   <article class="essay column" data-trip-end="2026-07-08" data-country="Greece">
-    <p>Write your essay here. The first letter of the first paragraph will be styled as a drop cap, so start with a real sentence.</p>
+    <p>The flight left Gothenburg at six in the morning, which meant a three-thirty start. Hannes could not sleep from nerves, and after an hour of failed sleeping arrangements he ended up on a mattress on the floor of his own room, with me in his bed. I slept almost nothing. On the second leg, coming down over Thessaloniki, the pilot was already low above the runway when he pulled up hard and aborted the landing. Hannes, who has a mild fear of flying, was sure we were about to crash. A man across the aisle began to retch. The pilot said nothing for a long time, and then said only that we would try a different runway with less crosswind. It worked. I have a tendency toward motion sickness and by then I was greenish and hungry. In the terminal I felt slightly better. We collected a car, resisted the woman at the rental desk who wanted us in something larger, and began the four-hour drive south, with a stop for meze in Volos.</p>
 
-    <p>Subsequent paragraphs flow normally.</p>
+    <p>Pelion is a peninsula that hooks east and south from Thessaly, enclosing the Pagasetic Gulf. I had read a travel piece that praised it as unspoiled and inexpensive. In the car park at the taverna in Volos there were plates registered in Poland, Romania, Bulgaria, North Macedonia. Later we would talk to a couple from Israel. The Greeks came for the mountains; other people came the way we had, by rumour.</p>
+
+    <p>We had rented a house above Damouchari, a small fishing village on the eastern coast — one of three or four houses clustered together on a slope, a few minutes' walk down to the harbour. We saw a neighbour once. That first morning we walked the other way, down a path to a private cove the owner had mentioned. It turned out to be all rocks, and the swell was too high to swim, so we turned around and went down to Damouchari instead, where Hannes was in the water within minutes.</p>
+
+    <p>He is still, at ten, the same child he was at three on Elba, dipping his head under and coming up and dipping it again. He does not lie on a beach. He swims further out than you would like, alone, and turns somersaults, forward and back, so that one of us always has to be watching. Chilling, in the sense that most adults understand the word on a summer holiday, is not available to us as a pair. One of us watches; the other reads a paragraph. Then we swap.</p>
+
+    <p>Damouchari is where several scenes from <em>Mamma Mia!</em> were filmed, which we discovered by accident and then found harder to ignore. The village itself is small and mostly quiet. In the harbour stand the ruins of what most historians believe to be a Byzantine fort, later fortified by the Venetians during their long presence in the Aegean — a footnote nobody advertises, unlike the film. We ate at two different tavernas over the week and swam from the little pebble beach every day we were not somewhere else.</p>
+
+    <p>We were somewhere else quite often. The famous beaches of Pelion — Fakistra, Mylopotamos — are reached by roads that are roads only in name, steep and full of holes, and every trip felt like a small expedition. Both were as beautiful as promised. But the beach we came back to was Plaka. A long strand of tiny, brushable pebbles, backed by a wooded slope that gives more and more shade as the day moves, and water so warm and clear it felt like something artificial. At the far end a small restaurant sits behind a natural rock pool, sheltered by a low breakwater the sea seemed to have arranged for itself. It was twenty-six, twenty-eight degrees, with a breeze. It was possible to stay all day. On other Greek beaches the sun has often driven us away by early afternoon; here it did not.</p>
+
+    <p>The land itself is unlike the Greece most people carry in their heads. Pelion is green — genuinely green, with thick chestnut and beech forests that feel wild. There are waterfalls. One evening driving home we saw two foxes crossing the road; on our last day a tortoise made his slow way across in front of the car. One night it rained hard. Twice the power went out for an hour, both times in the middle of the day. In Tsagarada stands one of the oldest trees in Europe, a plane tree said to be a thousand years old, fourteen metres around. Standing beside it is like standing beside something that has agreed, for its own reasons, to keep going.</p>
+
+    <p>What stays with me from the week is Plaka. Not because it is the most photogenic beach we have been to — Fakistra is more dramatic — but because it is the rare place where the day arranges itself. You arrive, and the light and the trees and the water do the work. Hannes swam. We watched. Occasionally we swapped. The hours passed without asking anything of us. We came back the next day and it happened again.</p>
   </article>
 
   <!-- Map as transition into the gallery. Data: © OpenStreetMap contributors (ODbL) -->
   <div class="map-wrap">
     <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
       <title>Map of the Pelion peninsula</title>
-      <desc>Light olive map of the hook-shaped Pelion peninsula in Thessaly, Greece, enclosing the Pagasetic Gulf, with five places labeled. Ntamouchari is highlighted.</desc>
+      <desc>Light olive map of the hook-shaped Pelion peninsula in Thessaly, Greece, enclosing the Pagasetic Gulf, with five places labeled. Damouchari is highlighted.</desc>
       <style>
         .mtitle      { font-family: "Source Serif 4", Georgia, serif; font-size: 28px; font-weight: 400; fill: #4a5838; letter-spacing: 0.3px; }
         .mtitle-sub  { font-family: "Inter", sans-serif; font-size: 9px; font-weight: 500; fill: #8a9572; letter-spacing: 2.5px; }
@@ -552,17 +777,86 @@
       <text x="466" y="116" class="mcity-label" text-anchor="end">Milies</text>
 
       <circle cx="485.7" cy="68.1" r="3.5" fill="#b85a38"/>
-      <text x="491" y="72" class="mcity-label-highlight">Ntamouchari</text>
+      <text x="491" y="72" class="mcity-label-highlight">Damouchari</text>
 
       <circle cx="430.1" cy="274.4" r="3" fill="#4a5838"/>
       <text x="426" y="272" class="mcity-label" text-anchor="end">Trikeri</text>
     </svg>
   </div>
 
+  <section class="gallery-intro">
+    <h2>Scenes from Pelion</h2>
+    <p class="places">Fakistra · Mylopotamos · Plaka · Tsagarada · Damouchari</p>
+  </section>
+
+  <div class="photos">
+
+    <figure class="photo-full">
+      <img src="../images/pelion/27__Mylopotamos_Beach.jpg" alt="Mylopotamos Beach seen from the rocky approach, a curving arc of pale sand enclosed by tall wooded cliffs, vivid turquoise water with several swimmers, a large isolated rock rising from the sea to the right." data-caption="Mylopotamos Beach" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/pelion/89__Pelion.jpg" alt="A sun-dappled chestnut forest on the Pelion peninsula, tall straight trunks rising from a grassy understorey, light filtering through the dense summer canopy." data-caption="The chestnut forest" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/pelion/44__Old_Tree.jpg" alt="The ancient plane tree at Tsagarada, its vast gnarled trunk dividing into massive limbs above a long banquet table set with white linen and glassware, string lights threaded through the branches above." data-caption="The plane tree at Tsagarada" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/pelion/54__Plaka_Beach.jpg" alt="A woman swimming alone in a sheltered natural rock pool at Plaka Beach, the clear turquoise water showing every stone beneath, waves breaking on a low rock barrier in the background and a wooded headland to the left." data-caption="Plaka Beach" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/pelion/52__Plaka_Beach.jpg" alt="Plaka Beach with small turquoise waves breaking onto the shore, several large layered boulders in the foreground, a wooded hillside rising steeply behind the long pebble strand." data-caption="Plaka Beach" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/pelion/65__Plaka_Beach.jpg" alt="A boy with blue swimming goggles pushed up on his forehead emerging from a crashing wave at Plaka Beach, white foam surrounding him, his arm raised and a foot visible above the surf." data-caption="Plaka Beach" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/pelion/48__Plaka_Beach.jpg" alt="A boy carrying a red inflatable ring running into a breaking wave at Plaka Beach, a wooded hillside and other bathers visible along the shore behind him." data-caption="Plaka Beach" data-gallery>
+    </figure>
+
+    <div class="photo-pair">
+      <figure><img src="../images/pelion/42__Mylopotamos_Beach.jpg" alt="A close-up of the pebble surface at Mylopotamos Beach, a mosaic of small stones in green serpentine, white marble, grey slate, and amber, some wet and glinting, others dry and matte." data-caption="Mylopotamos stones" data-gallery></figure>
+      <figure><img src="../images/pelion/68__Plaka_Beach.jpg" alt="A hand holding four smooth beach pebbles — two blue-grey with pale banding, one cream with rust-coloured veining, one smaller translucent stone — against a blurred grey rock background." data-caption="Plaka stones" data-gallery></figure>
+    </div>
+
+    <figure class="photo-full">
+      <img src="../images/pelion/83__Agii_Saranta_Beach.jpg" alt="A boy in a yellow rash vest sitting on pale grey limestone rocks at Agii Saranta, arms resting on his knees, looking out to sea, wooded cliffs rising behind him." data-caption="Agii Saranta" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/pelion/69__Plaka_Beach.jpg" alt="A woman and a boy playing beach tennis at dusk on a dark sandy beach, silhouetted against a flat calm deep-blue sea, a green ball caught mid-air between them." data-caption="Plaka Beach, evening" data-gallery>
+    </figure>
+
+    <figure class="photo-full">
+      <img src="../images/pelion/10__Damouchari_Beach.jpg" alt="A Greek salad on a white plate at a taverna in Damouchari, thick slabs of feta drizzled with balsamic and olive oil, surrounded by ripe tomatoes, cucumber slices, Kalamata olives and parsley." data-caption="Damouchari" data-gallery>
+    </figure>
+
+  </div>
+
+  <section class="practical-notes">
+    <h2>Practical notes</h2>
+    <p>In Tsagarada, up in the mountains, To Kalyvi serves the traditional dish of Pelion — <em>kolokythoanthoi</em>, zucchini blossoms stuffed with rice, herbs, tomato, and olive oil. Also excellent <em>soutzoukakia</em>. Plaka Beach is reached by parking at Papa Nero, walking the length of Agios Ioannis Beach, and then scrambling over greenschist boulders on a small headland; the effort is worth it.</p>
+  </section>
+
   <footer>
     Map data © OpenStreetMap contributors (ODbL)
   </footer>
 
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+  <button class="lightbox-prev"  aria-label="Previous image">‹</button>
+  <img src="" alt="">
+  <button class="lightbox-next"  aria-label="Next image">›</button>
+  <button class="lightbox-close" aria-label="Close">✕</button>
+  <div class="lightbox-caption"></div>
+  <div class="lightbox-counter"></div>
 </div>
 
 <script>
@@ -583,6 +877,80 @@
   });
 })();
 </script>
+
+<script>
+// Fade-in effect for gallery images (skips hero, which is already visible)
+(function(){
+  const galleryImages = document.querySelectorAll('.photos figure img');
+  galleryImages.forEach(img => img.classList.add('fade-in'));
+
+  if (!('IntersectionObserver' in window)) {
+    galleryImages.forEach(img => img.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -80px 0px',
+    threshold: 0.05
+  });
+
+  galleryImages.forEach(img => observer.observe(img));
+})();
+</script>
+
+<script>
+(function(){
+  const imgs = Array.from(document.querySelectorAll('img[data-gallery]'));
+  const lb      = document.getElementById('lightbox');
+  const lbImg   = lb.querySelector('img');
+  const lbPrev  = lb.querySelector('.lightbox-prev');
+  const lbNext  = lb.querySelector('.lightbox-next');
+  const lbClose = lb.querySelector('.lightbox-close');
+  const lbCaption = lb.querySelector('.lightbox-caption');
+  const lbCount = lb.querySelector('.lightbox-counter');
+  let current = 0;
+
+  function show(i) {
+    current = (i + imgs.length) % imgs.length;
+    lbImg.src = imgs[current].src;
+    lbImg.alt = imgs[current].alt || '';
+    lbCaption.textContent = imgs[current].dataset.caption || '';
+    lbCount.textContent = (current + 1) + ' / ' + imgs.length;
+    lb.classList.add('open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    lb.classList.remove('open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  imgs.forEach((img, i) => {
+    img.addEventListener('click', () => show(i));
+  });
+  lbPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
+  lbNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
+  lbClose.addEventListener('click', (e) => { e.stopPropagation(); hide(); });
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) hide();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     hide();
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+})();
+</script>
+
 <script>
   (function() {
     if (location.hostname !== 'digitalinverse.github.io' &&
